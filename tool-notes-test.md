@@ -1,16 +1,16 @@
-<span id="anchor"></span>Pentesting Notes
+<span id="anchor"></span># Tools Notes
 
-<span id="anchor-1"></span>Enumeration
+<span id="anchor-1"></span>## Enumeration
 
-<span id="anchor-2"></span>Banner Grabs
+<span id="anchor-2"></span>### Banner Grabs
 
-<span id="anchor-3"></span>Using telnet
+<span id="anchor-3"></span>#### Using telnet
 
 ```
 telnet **&lt;target IP/FQDN&gt; &lt;target port&gt;**
 ```
 
-<span id="anchor-4"></span>Using nc
+<span id="anchor-4"></span>#### Using nc
 
 ```
 nc -v **&lt;target IP/FQDN&gt; &lt;target port&gt;**
@@ -1997,6 +1997,11 @@ certutil.exe -encode **&lt;inputfile&gt;** **&lt;outputfile&gt;**
 
 ```
 certutil.exe -decode **&lt;inputfile&gt;** **&lt;outputfile&gt;**
+```
+
+#### Generating Garbage Files
+```
+fsutil file createnew <file> <size in bytes>
 ```
 
 <span id="anchor-279"></span>Credential Commands
