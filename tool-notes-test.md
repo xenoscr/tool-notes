@@ -2598,6 +2598,7 @@ nm -S **&lt;ELF File&gt;**
 
 <span id="anchor-366"></span>Command Symbol Types
 
+|                 |                                         |
 |-----------------|-----------------------------------------|
 | **Symbol Type** | **Meaning**                             |
 | A               | Absolute Symbol                         |
