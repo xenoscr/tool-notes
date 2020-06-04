@@ -1,24 +1,24 @@
-<span id="anchor"></span># Tools Notes
+# <span id="anchor"></span>Tools Notes
 
-<span id="anchor-1"></span>## Enumeration
+## <span id="anchor-1"></span>Enumeration
 
-<span id="anchor-2"></span>### Banner Grabs
+### <span id="anchor-2"></span>Banner Grabs
 
-<span id="anchor-3"></span>#### Using telnet
+#### <span id="anchor-3"></span>Using telnet
 
 ```
 telnet **&lt;target IP/FQDN&gt; &lt;target port&gt;**
 ```
 
-<span id="anchor-4"></span>#### Using nc
+#### <span id="anchor-4"></span>Using nc
 
 ```
 nc -v **&lt;target IP/FQDN&gt; &lt;target port&gt;**
 ```
 
-<span id="anchor-5"></span>HTTP Style Enumeration
+### <span id="anchor-5"></span>HTTP Style Enumeration
 
-<span id="anchor-6"></span>Get Server Options (telnet, nc)
+#### <span id="anchor-6"></span>Get Server Options (telnet, nc)
 
 ```
 telnet <strong>&lt;target IP/FQDN&gt; &lt;target port&gt;</strong>
@@ -28,7 +28,7 @@ Host: <strong>&lt;target IP/FQDN&gt;</strong>
 User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)</p></td>
 ```
 
-<span id="anchor-7"></span>Get Headers (telnet, nc)
+#### <span id="anchor-7"></span>Get Headers (telnet, nc)
 
 ```
 telnet <strong>&lt;target IP/FQDN&gt; &lt;target port&gt;</strong>
